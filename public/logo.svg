@@ -1,0 +1,6 @@
+<svg width="256" height="72" viewBox="0 0 256 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="1" y="1" width="70" height="70" stroke="#2A2420" stroke-width="2"/>
+  <path d="M16 56V15H23V49H39V56H16Z" fill="#2A2420"/>
+  <path d="M47 56V15H54V56H47Z" fill="#2A2420"/>
+  <text x="90" y="45" fill="#2A2420" font-size="26" font-family="serif">janiczekfoto</text>
+</svg>
