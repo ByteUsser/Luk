@@ -24,14 +24,7 @@ type GalleryProps = {
 };
 
 const desktopHeights = ["h-[350px] md:h-[480px]", "h-[310px] md:h-[400px]", "h-[390px] md:h-[560px]"];
-const mobileShapes = [
-  "col-span-2 aspect-[16/10]",
-  "aspect-[4/5]",
-  "aspect-[3/4]",
-  "aspect-[4/5]",
-  "aspect-[3/4]",
-  "col-span-2 aspect-[16/11]"
-];
+const mobileHeights = ["aspect-[4/5]", "aspect-[16/10]", "aspect-[4/5]"];
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Gallery({ items }: GalleryProps) {
@@ -146,27 +139,28 @@ export function Gallery({ items }: GalleryProps) {
       item.fit === "contain"
         ? "object-contain bg-[#241a13] p-[6px] md:p-[8px]"
         : "object-cover object-center";
-    const hoverScaleClass = item.fit === "contain" ? "" : "group-hover:scale-[1.018]";
+    const isDesktop = variant === "desktop";
+    const hoverScaleClass = item.fit === "contain" ? "" : "md:group-hover:scale-[1.018]";
     const desktopClassName = `group relative min-w-[76vw] shrink-0 overflow-hidden text-left sm:min-w-[65vw] md:min-w-[380px] ${
       desktopHeights[index % desktopHeights.length]
     } ${index % 2 === 0 ? "md:min-w-[430px]" : ""} ${
       index % 3 === 1 ? "md:mt-8" : index % 3 === 2 ? "md:mt-2" : ""
     } ${item.cardClassName ?? ""}`;
-    const mobileClassName = `group relative col-span-1 overflow-hidden rounded-[1.15rem] text-left ${
-      mobileShapes[index % mobileShapes.length]
+    const mobileClassName = `group relative w-full overflow-hidden rounded-[1.15rem] text-left ${
+      mobileHeights[index % mobileHeights.length]
     }`;
-    const isMobileWideCard =
-      variant === "mobile" && mobileShapes[index % mobileShapes.length].startsWith("col-span-2");
     const labelClassName =
       variant === "mobile"
-        ? "inline-flex max-w-[97%] flex-col rounded-[1rem] border border-cream/35 bg-espresso/78 px-3 py-2 text-cream shadow-[0_10px_28px_rgba(28,21,16,0.35)] backdrop-blur-[1.4px]"
+        ? "inline-flex max-w-[97%] flex-col rounded-[1rem] border border-cream/35 bg-espresso/82 px-3 py-2 text-cream shadow-[0_8px_24px_rgba(28,21,16,0.28)]"
         : "inline-flex max-w-[95%] flex-col rounded-[1.1rem] border border-cream/35 bg-espresso/76 px-4 py-3 text-cream shadow-[0_10px_28px_rgba(28,21,16,0.35)] backdrop-blur-[1.6px] transition-[opacity,transform] duration-700 ease-[var(--ease-editorial)] md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100";
     const imageSizes =
       variant === "mobile"
-        ? isMobileWideCard
-          ? "100vw"
-          : "50vw"
+        ? "100vw"
         : "(max-width: 768px) 70vw, 420px";
+    const prioritizedMobileCard = variant === "mobile" && index < 2;
+    const imageClassName = isDesktop
+      ? `${fitClass} md:brightness-[0.9] md:saturate-[0.88] transition-[transform,filter] duration-[900ms] ease-[var(--ease-editorial)] ${hoverScaleClass} md:group-hover:brightness-100 md:group-hover:saturate-100`
+      : `${fitClass} transition-opacity duration-500`;
 
     return (
       <button
@@ -185,13 +179,20 @@ export function Gallery({ items }: GalleryProps) {
           src={image.src}
           alt={`${item.title} - ${item.category}`}
           fill
-          loading="lazy"
+          priority={prioritizedMobileCard}
+          loading={prioritizedMobileCard ? "eager" : "lazy"}
           sizes={imageSizes}
-          className={`${fitClass} brightness-[0.9] saturate-[0.88] transition-[transform,filter] duration-[900ms] ease-[var(--ease-editorial)] ${hoverScaleClass} group-hover:brightness-100 group-hover:saturate-100`}
-          placeholder="blur"
-          blurDataURL={image.blurDataURL}
+          className={imageClassName}
+          placeholder={variant === "mobile" ? "empty" : "blur"}
+          blurDataURL={variant === "mobile" ? undefined : image.blurDataURL}
         />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-espresso/34 via-transparent to-transparent" />
+        <div
+          className={`pointer-events-none absolute inset-0 bg-gradient-to-t ${
+            variant === "mobile"
+              ? "from-espresso/42 via-espresso/8 to-transparent"
+              : "from-espresso/34 via-transparent to-transparent"
+          }`}
+        />
 
         <div className="pointer-events-none absolute inset-x-0 bottom-0 p-3 md:p-4">
           <div className={labelClassName}>
@@ -224,7 +225,7 @@ export function Gallery({ items }: GalleryProps) {
           <span className="eyebrow hidden text-cognac md:block">Przesuń lub przeciągnij</span>
         </motion.div>
 
-        <div className="grid grid-cols-2 gap-3 md:hidden">
+        <div className="flex flex-col gap-3 md:hidden">
           {items.map((item, index) => renderCard(item, index, "mobile"))}
         </div>
 
@@ -246,6 +247,16 @@ export function Gallery({ items }: GalleryProps) {
           index={lightboxIndex}
           close={() => setLightboxIndex(-1)}
           slides={slides}
+          carousel={{ preload: 3 }}
+          animation={{
+            swipe: 320,
+            navigation: 260,
+            easing: {
+              swipe: "cubic-bezier(.25,.8,.25,1)",
+              navigation: "cubic-bezier(.25,.8,.25,1)",
+              fade: "cubic-bezier(.25,.8,.25,1)"
+            }
+          }}
         />
       ) : null}
     </section>
