@@ -163,6 +163,11 @@ a {
   border: 1px solid rgba(42, 36, 32, 0.55);
 }
 
+.defer-render {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1000px;
+}
+
 @media (hover: none) {
   .custom-cursor {
     display: none !important;

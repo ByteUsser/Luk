@@ -114,7 +114,10 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
   };
 
   return (
-    <section id="kontakt" className="relative overflow-hidden bg-espresso px-5 py-20 text-cream md:px-10 md:py-28">
+    <section
+      id="kontakt"
+      className="defer-render relative overflow-hidden bg-espresso px-5 py-20 text-cream md:px-10 md:py-28"
+    >
       <div className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-cognac/15 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-32 right-0 h-72 w-72 rounded-full bg-cognac/10 blur-3xl" />
       <div className="mx-auto grid max-w-[1320px] gap-12 md:grid-cols-[1.1fr_1fr] md:items-end md:gap-14">

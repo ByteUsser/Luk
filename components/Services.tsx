@@ -13,7 +13,7 @@ type ServicesProps = {
 
 export function Services({ items }: ServicesProps) {
   return (
-    <section id="oferta" className="px-5 pb-20 md:px-10 md:pb-28">
+    <section id="oferta" className="defer-render px-5 pb-20 md:px-10 md:pb-28">
       <div className="mx-auto max-w-[1400px]">
         <h2 className="section-title mb-10">
           Sesje, które <span className="italic">czujesz</span>

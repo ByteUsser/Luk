@@ -9,7 +9,7 @@ export function About({ publicId }: AboutProps) {
   const image = cloudinaryAsset(publicId, { width: 900, quality: 68 });
 
   return (
-    <section id="o-mnie" className="relative overflow-hidden px-5 py-20 md:px-10 md:py-28">
+    <section id="o-mnie" className="defer-render relative overflow-hidden px-5 py-20 md:px-10 md:py-28">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[36%] bg-gradient-to-b from-[#efe7db]/55 to-transparent" />
       <div className="mx-auto grid max-w-[1300px] gap-10 md:grid-cols-[minmax(280px,380px)_1fr] md:items-center md:gap-16">
         <figure className="relative aspect-[3/4] overflow-hidden">

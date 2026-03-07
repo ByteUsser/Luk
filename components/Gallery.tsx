@@ -3,12 +3,22 @@
 import { type PointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import "yet-another-react-lightbox/styles.css";
 import { cloudinaryAsset, cloudinaryUrl } from "@/lib/cloudinary";
 
 const Lightbox = dynamic(() => import("yet-another-react-lightbox"), {
   ssr: false
 });
+
+let lightboxStylesPromise: Promise<unknown> | null = null;
+
+function ensureLightboxStyles() {
+  if (!lightboxStylesPromise) {
+    // @ts-expect-error Next handles CSS chunk loading at runtime.
+    lightboxStylesPromise = import("yet-another-react-lightbox/styles.css");
+  }
+
+  return lightboxStylesPromise;
+}
 
 export type GalleryItem = {
   title: string;
@@ -100,14 +110,6 @@ export function Gallery({ items }: GalleryProps) {
     return () => stopMomentum();
   }, []);
 
-  useEffect(() => {
-    const preloadTimeout = window.setTimeout(() => {
-      void import("yet-another-react-lightbox");
-    }, 900);
-
-    return () => window.clearTimeout(preloadTimeout);
-  }, []);
-
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
     const node = scrollRef.current;
     if (!node || (event.pointerType === "mouse" && event.button !== 0)) {
@@ -190,7 +192,7 @@ export function Gallery({ items }: GalleryProps) {
             event.preventDefault();
             return;
           }
-          setLightboxIndex(index);
+          void ensureLightboxStyles().finally(() => setLightboxIndex(index));
         }}
         className={variant === "mobile" ? mobileClassName : desktopClassName}
       >
@@ -228,7 +230,7 @@ export function Gallery({ items }: GalleryProps) {
   };
 
   return (
-    <section id="wybrane-prace" className="px-5 pb-20 pt-20 md:px-10 md:pb-28 md:pt-28">
+    <section id="wybrane-prace" className="defer-render px-5 pb-20 pt-20 md:px-10 md:pb-28 md:pt-28">
       <div className="mx-auto max-w-[1600px]">
         <div className="mb-12 flex items-end justify-between gap-5">
           <h2 className="section-title">
