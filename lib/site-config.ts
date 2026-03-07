@@ -2,7 +2,7 @@ export const SITE_CONFIG = {
   name: "Janiczek Foto",
   owner: "Janiczek Łukasz",
   domain: "janiczekfoto.pl",
-  url: "https://www.janiczekfoto.pl",
+  url: "https://janiczekfoto.pl",
   city: "Bochnia",
   email: "janiczek.office@gmail.com",
   ogImage: "/og/cover-1200x630.jpg",
