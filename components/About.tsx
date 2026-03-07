@@ -11,7 +11,7 @@ type AboutProps = {
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function About({ publicId }: AboutProps) {
-  const image = cloudinaryAsset(publicId, { width: 1000 });
+  const image = cloudinaryAsset(publicId, { width: 900, quality: 68 });
 
   return (
     <section id="o-mnie" className="relative overflow-hidden px-5 py-20 md:px-10 md:py-28">
@@ -29,7 +29,8 @@ export function About({ publicId }: AboutProps) {
             alt="Kadr o zachodzie słońca"
             fill
             loading="lazy"
-            sizes="(max-width: 768px) 90vw, 380px"
+            quality={68}
+            sizes="(max-width: 768px) 86vw, 380px"
             className="object-cover"
             placeholder="blur"
             blurDataURL={image.blurDataURL}

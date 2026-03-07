@@ -29,10 +29,10 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 function lightboxSrc(publicId: string, width: number) {
   if (publicId.startsWith("/")) {
-    return `/_next/image?url=${encodeURIComponent(publicId)}&w=${width}&q=78`;
+    return publicId;
   }
 
-  return cloudinaryUrl(publicId, { width });
+  return cloudinaryUrl(publicId, { width, quality: "auto" });
 }
 
 export function Gallery({ items }: GalleryProps) {
@@ -111,25 +111,6 @@ export function Gallery({ items }: GalleryProps) {
     return () => window.clearTimeout(preloadTimeout);
   }, []);
 
-  useEffect(() => {
-    if (!isMobileViewport) {
-      return;
-    }
-
-    const preloaded = items.slice(0, 3).map((item) => {
-      const image = new window.Image();
-      image.decoding = "async";
-      image.src = lightboxSrc(item.publicId, 1280);
-      return image;
-    });
-
-    return () => {
-      preloaded.forEach((image) => {
-        image.src = "";
-      });
-    };
-  }, [isMobileViewport, items]);
-
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
     const node = scrollRef.current;
     if (!node || (event.pointerType === "mouse" && event.button !== 0)) {
@@ -198,11 +179,7 @@ export function Gallery({ items }: GalleryProps) {
       variant === "mobile"
         ? "inline-flex max-w-[97%] flex-col rounded-[1rem] border border-cream/35 bg-espresso/82 px-3 py-2 text-cream shadow-[0_8px_24px_rgba(28,21,16,0.28)]"
         : "inline-flex max-w-[95%] flex-col rounded-[1.1rem] border border-cream/35 bg-espresso/76 px-4 py-3 text-cream shadow-[0_10px_28px_rgba(28,21,16,0.35)] backdrop-blur-[1.6px] transition-[opacity,transform] duration-700 ease-[var(--ease-editorial)] md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100";
-    const imageSizes =
-      variant === "mobile"
-        ? "100vw"
-        : "(max-width: 768px) 70vw, 420px";
-    const prioritizedMobileCard = variant === "mobile" && index < 2;
+    const imageSizes = variant === "mobile" ? "92vw" : "(max-width: 1200px) 42vw, 430px";
     const imageClassName = isDesktop
       ? `${fitClass} md:brightness-[0.9] md:saturate-[0.88] transition-[transform,filter] duration-[900ms] ease-[var(--ease-editorial)] ${hoverScaleClass} md:group-hover:brightness-100 md:group-hover:saturate-100`
       : `${fitClass} transition-opacity duration-500`;
@@ -224,8 +201,8 @@ export function Gallery({ items }: GalleryProps) {
           src={image.src}
           alt={`${item.title} - ${item.category}`}
           fill
-          priority={prioritizedMobileCard}
-          loading={prioritizedMobileCard ? "eager" : "lazy"}
+          loading="lazy"
+          quality={68}
           sizes={imageSizes}
           className={imageClassName}
           placeholder={variant === "mobile" ? "empty" : "blur"}

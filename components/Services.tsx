@@ -32,7 +32,7 @@ export function Services({ items }: ServicesProps) {
 
         <div className="grid gap-4 md:grid-cols-3 md:gap-5">
           {items.map((item, index) => {
-            const image = cloudinaryAsset(item.publicId, { width: 1100 });
+            const image = cloudinaryAsset(item.publicId, { width: 900, quality: 70 });
 
             return (
               <motion.article
@@ -48,7 +48,8 @@ export function Services({ items }: ServicesProps) {
                   alt={item.title}
                   fill
                   loading="lazy"
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  quality={70}
+                  sizes="(max-width: 768px) 92vw, 33vw"
                   className="object-cover brightness-[0.88] transition-[transform,filter] duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[1.04] group-hover:brightness-[0.96]"
                   placeholder="blur"
                   blurDataURL={image.blurDataURL}
