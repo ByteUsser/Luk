@@ -27,6 +27,14 @@ const desktopHeights = ["h-[350px] md:h-[480px]", "h-[310px] md:h-[400px]", "h-[
 const mobileHeights = ["aspect-[4/5]", "aspect-[16/10]", "aspect-[4/5]"];
 const ease = [0.22, 1, 0.36, 1] as const;
 
+function lightboxSrc(publicId: string, width: number) {
+  if (publicId.startsWith("/")) {
+    return `/_next/image?url=${encodeURIComponent(publicId)}&w=${width}&q=78`;
+  }
+
+  return cloudinaryUrl(publicId, { width });
+}
+
 export function Gallery({ items }: GalleryProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const pointerDown = useRef(false);
@@ -38,14 +46,24 @@ export function Gallery({ items }: GalleryProps) {
   const momentumFrame = useRef<number | null>(null);
   const draggedDistance = useRef(0);
   const [lightboxIndex, setLightboxIndex] = useState(-1);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsMobileViewport(mediaQuery.matches);
+
+    update();
+    mediaQuery.addEventListener("change", update);
+    return () => mediaQuery.removeEventListener("change", update);
+  }, []);
 
   const slides = useMemo(
     () =>
       items.map((item) => ({
-        src: cloudinaryUrl(item.publicId, { width: 2000 }),
+        src: lightboxSrc(item.publicId, isMobileViewport ? 1280 : 1920),
         alt: item.title
       })),
-    [items]
+    [isMobileViewport, items]
   );
 
   const stopMomentum = () => {
@@ -84,6 +102,33 @@ export function Gallery({ items }: GalleryProps) {
   useEffect(() => {
     return () => stopMomentum();
   }, []);
+
+  useEffect(() => {
+    const preloadTimeout = window.setTimeout(() => {
+      void import("yet-another-react-lightbox");
+    }, 900);
+
+    return () => window.clearTimeout(preloadTimeout);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobileViewport) {
+      return;
+    }
+
+    const preloaded = items.slice(0, 3).map((item) => {
+      const image = new window.Image();
+      image.decoding = "async";
+      image.src = lightboxSrc(item.publicId, 1280);
+      return image;
+    });
+
+    return () => {
+      preloaded.forEach((image) => {
+        image.src = "";
+      });
+    };
+  }, [isMobileViewport, items]);
 
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
     const node = scrollRef.current;
@@ -247,13 +292,17 @@ export function Gallery({ items }: GalleryProps) {
           index={lightboxIndex}
           close={() => setLightboxIndex(-1)}
           slides={slides}
-          carousel={{ preload: 3 }}
+          carousel={{
+            preload: isMobileViewport ? 2 : 3,
+            padding: "0px",
+            spacing: "0px"
+          }}
           animation={{
-            swipe: 320,
-            navigation: 260,
+            swipe: isMobileViewport ? 250 : 320,
+            navigation: isMobileViewport ? 220 : 260,
             easing: {
-              swipe: "cubic-bezier(.25,.8,.25,1)",
-              navigation: "cubic-bezier(.25,.8,.25,1)",
+              swipe: "cubic-bezier(.22,.78,.22,1)",
+              navigation: "cubic-bezier(.22,.78,.22,1)",
               fade: "cubic-bezier(.25,.8,.25,1)"
             }
           }}
