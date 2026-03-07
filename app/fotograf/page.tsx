@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Cursor } from "@/components/Cursor";
+import { Footer } from "@/components/Footer";
+import { Nav } from "@/components/Nav";
 import { LOCATION_LANDINGS } from "@/lib/location-pages";
 import { SITE_CONFIG } from "@/lib/site-config";
 
@@ -35,33 +38,52 @@ export const metadata: Metadata = {
 
 export default function PhotographerAreasPage() {
   return (
-    <main className="px-5 pb-20 pt-28 md:px-10 md:pt-32">
-      <div className="mx-auto max-w-[1200px]">
-        <p className="eyebrow text-cognac">Lokalny fotograf</p>
-        <h1 className="section-title mt-4 max-w-[13ch]">
-          Fotograf Bochnia <span className="italic">i okolice</span>
-        </h1>
-        <p className="mt-6 max-w-[68ch] text-[1rem] leading-relaxed text-ink/80">
-          Tworzę sesje portretowe, lifestyle i dla par w Bochni, powiecie bocheńskim, Limanowej i
-          Krakowie. Wybierz miejscowość, aby zobaczyć dedykowaną stronę lokalną.
-        </p>
+    <>
+      <Cursor />
+      <Nav />
+      <main className="px-5 pb-20 pt-28 md:px-10 md:pt-32">
+        <div className="mx-auto max-w-[1200px]">
+          <p className="eyebrow text-cognac">Lokalny fotograf</p>
+          <h1 className="section-title mt-4 max-w-[13ch]">
+            Fotograf Bochnia <span className="italic">i okolice</span>
+          </h1>
+          <p className="mt-6 max-w-[68ch] text-[1rem] leading-relaxed text-ink/80">
+            Tworzę sesje portretowe, lifestyle i dla par w Bochni, powiecie bocheńskim, Limanowej i
+            Krakowie. Wybierz miejscowość, aby zobaczyć dedykowaną stronę lokalną.
+          </p>
 
-        <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {LOCATION_LANDINGS.map((location) => (
+          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {LOCATION_LANDINGS.map((location) => (
+              <Link
+                key={location.slug}
+                href={`/fotograf/${location.slug}`}
+                className="flex min-h-[90px] flex-col justify-center rounded-2xl border border-ink/15 bg-[#f3ecdf] px-5 py-4 transition-colors duration-700 hover:border-cognac"
+              >
+                <span className="font-display text-[1.7rem] leading-none">{location.name}</span>
+                <span className="mt-2 text-[0.75rem] uppercase tracking-[0.18em] text-ink/65">
+                  {location.regionLabel}
+                </span>
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-10 flex flex-wrap gap-3">
             <Link
-              key={location.slug}
-              href={`/fotograf/${location.slug}`}
-              className="flex min-h-[90px] flex-col justify-center rounded-2xl border border-ink/15 bg-[#f3ecdf] px-5 py-4 transition-colors duration-700 hover:border-cognac"
+              href="/kontakt"
+              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/25 bg-[#f3ecdf] px-5 text-[0.72rem] uppercase tracking-[0.2em] text-ink transition-colors duration-700 hover:border-cognac hover:text-cognac"
             >
-              <span className="font-display text-[1.7rem] leading-none">{location.name}</span>
-              <span className="mt-2 text-[0.75rem] uppercase tracking-[0.18em] text-ink/65">
-                {location.regionLabel}
-              </span>
+              Umów sesję
             </Link>
-          ))}
+            <Link
+              href="/"
+              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 px-5 text-[0.72rem] uppercase tracking-[0.2em] text-ink/80 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+            >
+              Zobacz portfolio
+            </Link>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }
-

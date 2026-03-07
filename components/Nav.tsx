@@ -3,13 +3,20 @@
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { SITE_CONFIG } from "@/lib/site-config";
 
-const navLinks = [
+const homeNavLinks = [
   { href: "#wybrane-prace", label: "Prace" },
   { href: "#o-mnie", label: "O mnie" },
   { href: "#oferta", label: "Oferta" },
   { href: "#kontakt", label: "Kontakt" }
+];
+
+const pageNavLinks = [
+  { href: "/", label: "Start" },
+  { href: "/fotograf", label: "Lokalizacje" },
+  { href: "/kontakt", label: "Kontakt" }
 ];
 
 const socials = [
@@ -20,6 +27,10 @@ const socials = [
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Nav() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const navLinks = isHome ? homeNavLinks : pageNavLinks;
+  const brandHref = isHome ? "#start" : "/";
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const mobileMenuItemClass =
@@ -67,7 +78,7 @@ export function Nav() {
           className="mx-auto flex max-w-[1400px] min-w-0 items-center justify-between rounded-full border px-3 py-2 md:px-6 md:py-3"
         >
           <Link
-            href="#start"
+            href={brandHref}
             className="menu-link relative max-w-[52vw] truncate whitespace-nowrap font-display text-[clamp(1.05rem,4.2vw,1.95rem)] leading-none text-ink sm:max-w-none"
           >
             {SITE_CONFIG.name}
