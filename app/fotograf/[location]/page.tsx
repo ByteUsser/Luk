@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Cursor } from "@/components/Cursor";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
+import { OptionalCursor } from "@/components/OptionalCursor";
 import { LOCATION_LANDINGS, findLocationBySlug } from "@/lib/location-pages";
 import { SITE_CONFIG } from "@/lib/site-config";
 
@@ -169,7 +169,7 @@ export default function PhotographerLocationPage({ params }: { params: Params })
 
   return (
     <>
-      <Cursor />
+      <OptionalCursor />
       <Nav />
       <main className="px-5 pb-28 pt-28 md:px-10 md:pb-20 md:pt-32">
         <script

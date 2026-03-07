@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Contact } from "@/components/Contact";
-import { Cursor } from "@/components/Cursor";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
+import { OptionalCursor } from "@/components/OptionalCursor";
 import { SITE_CONFIG } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <Cursor />
+      <OptionalCursor />
       <Nav />
       <main className="pt-20 md:pt-24">
         <section className="px-5 pb-6 pt-10 md:px-10 md:pt-14">

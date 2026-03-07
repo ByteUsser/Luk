@@ -12,7 +12,7 @@ type HeroProps = {
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Hero({ imagePublicId }: HeroProps) {
-  const image = cloudinaryAsset(imagePublicId, { width: 1800 });
+  const image = cloudinaryAsset(imagePublicId, { width: 1600, quality: 72 });
 
   return (
     <section id="start" className="relative min-h-[100dvh] overflow-hidden md:grid md:grid-cols-[45%_55%]">
@@ -94,7 +94,9 @@ export function Hero({ imagePublicId }: HeroProps) {
             alt="Kadr podróżniczy o złotej godzinie"
             fill
             priority
-            sizes="(max-width: 768px) 100vw, 55vw"
+            fetchPriority="high"
+            quality={72}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 55vw"
             className="object-cover"
             placeholder="blur"
             blurDataURL={image.blurDataURL}

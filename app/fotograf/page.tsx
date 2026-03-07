@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Cursor } from "@/components/Cursor";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
+import { OptionalCursor } from "@/components/OptionalCursor";
 import { LOCATION_LANDINGS } from "@/lib/location-pages";
 import { SITE_CONFIG } from "@/lib/site-config";
 
@@ -85,7 +85,7 @@ export default function PhotographerAreasPage() {
 
   return (
     <>
-      <Cursor />
+      <OptionalCursor />
       <Nav />
       <main className="px-5 pb-28 pt-28 md:px-10 md:pb-20 md:pt-32">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />

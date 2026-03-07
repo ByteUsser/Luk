@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { About } from "@/components/About";
 import { Areas } from "@/components/Areas";
 import { Contact } from "@/components/Contact";
-import { Cursor } from "@/components/Cursor";
 import { Footer } from "@/components/Footer";
 import { Gallery, type GalleryItem } from "@/components/Gallery";
 import { Hero } from "@/components/Hero";
 import { Nav } from "@/components/Nav";
+import { OptionalCursor } from "@/components/OptionalCursor";
 import { Services } from "@/components/Services";
 import { SITE_CONFIG } from "@/lib/site-config";
 
@@ -76,7 +76,7 @@ export default function HomePage() {
         // JSON-LD for rich results and business entity understanding.
         dangerouslySetInnerHTML={{ __html: JSON.stringify(photographerJsonLd) }}
       />
-      <Cursor />
+      <OptionalCursor />
       <Nav />
       <main>
         <Hero imagePublicId="/portfolio/hero-opt.jpg" />

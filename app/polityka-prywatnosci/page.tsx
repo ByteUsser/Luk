@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Cursor } from "@/components/Cursor";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
+import { OptionalCursor } from "@/components/OptionalCursor";
 import { SITE_CONFIG } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 export default function PrivacyPolicyPage() {
   return (
     <>
-      <Cursor />
+      <OptionalCursor />
       <Nav />
       <main className="px-5 pb-20 pt-28 md:px-10 md:pt-32">
         <article className="mx-auto max-w-[860px] space-y-8">
