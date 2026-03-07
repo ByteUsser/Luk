@@ -22,6 +22,8 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const mobileMenuItemClass =
+    "inline-flex min-h-[48px] w-full items-center justify-start rounded-full border border-ink/15 bg-[#f4ede2] px-5 text-left text-[1.05rem] leading-none";
 
   useEffect(() => {
     if (!open) {
@@ -175,13 +177,13 @@ export function Nav() {
               transition={{ duration: 0.8, ease }}
               className="fixed inset-y-0 right-0 z-20 flex w-[82vw] max-w-[360px] flex-col bg-cream px-8 pb-10 pt-24"
             >
-              <nav className="flex flex-col gap-3 text-lg font-light">
+              <nav className="flex w-full flex-col gap-3 text-lg font-light">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
                     onClick={() => setOpen(false)}
-                    className="inline-flex min-h-[44px] items-center rounded-full border border-ink/15 bg-[#f4ede2] px-4"
+                    className={mobileMenuItemClass}
                   >
                     {link.label}
                   </Link>
@@ -190,7 +192,8 @@ export function Nav() {
                   href={SITE_CONFIG.social.instagram}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-ink/15 bg-[#f4ede2] px-4 text-center text-[1.05rem]"
+                  onClick={() => setOpen(false)}
+                  className={mobileMenuItemClass}
                 >
                   Instagram
                 </a>
@@ -198,7 +201,8 @@ export function Nav() {
                   href={SITE_CONFIG.social.facebook}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-ink/15 bg-[#f4ede2] px-4 text-center text-[1.05rem]"
+                  onClick={() => setOpen(false)}
+                  className={mobileMenuItemClass}
                 >
                   Facebook
                 </a>
