@@ -1,7 +1,6 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 import { SITE_CONFIG } from "@/lib/site-config";
 
 type FormState = {
@@ -119,12 +118,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
       <div className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-cognac/15 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-32 right-0 h-72 w-72 rounded-full bg-cognac/10 blur-3xl" />
       <div className="mx-auto grid max-w-[1320px] gap-12 md:grid-cols-[1.1fr_1fr] md:items-end md:gap-14">
-        <motion.div
-          initial={{ opacity: 0, y: 22 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        >
+        <div>
           <span className="eyebrow text-cognac">Kontakt</span>
           <HeadingTag className="section-title mt-5 max-w-[12ch] text-cream">
             Zróbmy coś <span className="italic">pięknego</span> razem
@@ -155,13 +149,9 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
               Facebook
             </a>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.form
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+        <form
           onSubmit={handleSubmit}
           className="space-y-7"
           noValidate
@@ -268,7 +258,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
             </a>
             .
           </p>
-        </motion.form>
+        </form>
       </div>
     </section>
   );

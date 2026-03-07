@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { SITE_CONFIG } from "@/lib/site-config";
@@ -23,8 +22,6 @@ const socials = [
   { href: SITE_CONFIG.social.instagram, label: "Instagram" },
   { href: SITE_CONFIG.social.facebook, label: "Facebook" }
 ];
-
-const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Nav() {
   const pathname = usePathname();
@@ -61,21 +58,30 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  const headerStyle = scrolled
+    ? {
+        backgroundColor: "rgba(250, 248, 244, 0.94)",
+        backdropFilter: "blur(10px)",
+        boxShadow: "0 8px 24px rgba(28, 21, 16, 0.14)",
+        borderColor: "rgba(42, 36, 32, 0.2)"
+      }
+    : {
+        backgroundColor: "rgba(250, 248, 244, 0.86)",
+        backdropFilter: "blur(10px)",
+        boxShadow: "0 6px 20px rgba(28, 21, 16, 0.1)",
+        borderColor: "rgba(42, 36, 32, 0.14)"
+      };
+
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-30 px-5 py-5 md:px-10 md:py-7">
-        <motion.div
-          initial={false}
-          animate={{
-            backgroundColor: scrolled ? "rgba(250, 248, 244, 0.94)" : "rgba(250, 248, 244, 0.86)",
-            backdropFilter: "blur(10px)",
-            boxShadow: scrolled
-              ? "0 8px 24px rgba(28, 21, 16, 0.14)"
-              : "0 6px 20px rgba(28, 21, 16, 0.1)",
-            borderColor: scrolled ? "rgba(42, 36, 32, 0.2)" : "rgba(42, 36, 32, 0.14)"
-          }}
-          transition={{ duration: 0.7, ease }}
-          className="mx-auto flex max-w-[1400px] min-w-0 items-center justify-between rounded-full border px-3 py-2 md:px-6 md:py-3"
+        <div
+          style={headerStyle}
+          className="mx-auto flex max-w-[1400px] min-w-0 items-center justify-between rounded-full border px-3 py-2 transition-[background-color,box-shadow,border-color] duration-500 md:px-6 md:py-3"
         >
           <Link
             href={brandHref}
@@ -155,73 +161,63 @@ export function Nav() {
               onClick={() => setOpen((prev) => !prev)}
               className="relative flex h-9 w-9 items-center justify-center rounded-full border border-ink/25 bg-cream/80 shadow-sm backdrop-blur-sm sm:h-10 sm:w-10"
             >
-              <motion.span
-                className="absolute h-[1.5px] w-5 bg-ink sm:w-6"
-                animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }}
-                transition={{ duration: 0.5, ease }}
+              <span
+                className={`absolute h-[1.5px] w-5 bg-ink transition-transform duration-300 sm:w-6 ${
+                  open ? "rotate-45" : "-translate-y-1"
+                }`}
               />
-              <motion.span
-                className="absolute h-[1.5px] w-5 bg-ink sm:w-6"
-                animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }}
-                transition={{ duration: 0.5, ease }}
+              <span
+                className={`absolute h-[1.5px] w-5 bg-ink transition-transform duration-300 sm:w-6 ${
+                  open ? "-rotate-45" : "translate-y-1"
+                }`}
               />
             </button>
           </div>
-        </motion.div>
+        </div>
       </header>
 
-      <AnimatePresence>
-        {open ? (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.45, ease }}
-              className="fixed inset-0 z-20 bg-espresso/25"
+      <div
+        className={`fixed inset-0 z-20 bg-espresso/25 transition-opacity duration-300 ${
+          open ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+        onClick={() => setOpen(false)}
+      />
+      <aside
+        className={`fixed inset-y-0 right-0 z-20 flex w-[82vw] max-w-[360px] flex-col bg-cream px-8 pb-10 pt-24 transition-transform duration-500 ${
+          open ? "translate-x-0" : "pointer-events-none translate-x-full"
+        }`}
+      >
+        <nav className="flex w-full flex-col gap-3 text-lg font-light">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
               onClick={() => setOpen(false)}
-            />
-            <motion.aside
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ duration: 0.8, ease }}
-              className="fixed inset-y-0 right-0 z-20 flex w-[82vw] max-w-[360px] flex-col bg-cream px-8 pb-10 pt-24"
+              className={mobileMenuItemClass}
             >
-              <nav className="flex w-full flex-col gap-3 text-lg font-light">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    className={mobileMenuItemClass}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-                <a
-                  href={SITE_CONFIG.social.instagram}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => setOpen(false)}
-                  className={mobileMenuItemClass}
-                >
-                  Instagram
-                </a>
-                <a
-                  href={SITE_CONFIG.social.facebook}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => setOpen(false)}
-                  className={mobileMenuItemClass}
-                >
-                  Facebook
-                </a>
-              </nav>
-            </motion.aside>
-          </>
-        ) : null}
-      </AnimatePresence>
+              {link.label}
+            </Link>
+          ))}
+          <a
+            href={SITE_CONFIG.social.instagram}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => setOpen(false)}
+            className={mobileMenuItemClass}
+          >
+            Instagram
+          </a>
+          <a
+            href={SITE_CONFIG.social.facebook}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => setOpen(false)}
+            className={mobileMenuItemClass}
+          >
+            Facebook
+          </a>
+        </nav>
+      </aside>
     </>
   );
 }

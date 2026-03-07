@@ -3,7 +3,6 @@
 import { type PointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
 import "yet-another-react-lightbox/styles.css";
 import { cloudinaryAsset, cloudinaryUrl } from "@/lib/cloudinary";
 
@@ -25,8 +24,6 @@ type GalleryProps = {
 
 const desktopHeights = ["h-[350px] md:h-[480px]", "h-[310px] md:h-[400px]", "h-[390px] md:h-[560px]"];
 const mobileHeights = ["aspect-[4/5]", "aspect-[16/10]", "aspect-[4/5]"];
-const ease = [0.22, 1, 0.36, 1] as const;
-
 function lightboxSrc(publicId: string, width: number) {
   if (publicId.startsWith("/")) {
     return publicId;
@@ -233,19 +230,13 @@ export function Gallery({ items }: GalleryProps) {
   return (
     <section id="wybrane-prace" className="px-5 pb-20 pt-20 md:px-10 md:pb-28 md:pt-28">
       <div className="mx-auto max-w-[1600px]">
-        <motion.div
-          initial={{ opacity: 0, y: 22 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.45 }}
-          transition={{ duration: 0.8, ease }}
-          className="mb-12 flex items-end justify-between gap-5"
-        >
+        <div className="mb-12 flex items-end justify-between gap-5">
           <h2 className="section-title">
             Wybrane <span className="italic">prace</span>
           </h2>
           <span className="eyebrow text-cognac md:hidden">Dotknij zdjęcia, aby otworzyć podgląd</span>
           <span className="eyebrow hidden text-cognac md:block">Przesuń lub przeciągnij</span>
-        </motion.div>
+        </div>
 
         <div className="flex flex-col gap-3 md:hidden">
           {items.map((item, index) => renderCard(item, index, "mobile"))}

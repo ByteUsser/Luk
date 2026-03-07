@@ -1,7 +1,4 @@
-"use client";
-
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { cloudinaryAsset } from "@/lib/cloudinary";
 
 type Service = {
@@ -14,33 +11,21 @@ type ServicesProps = {
   items: Service[];
 };
 
-const ease = [0.22, 1, 0.36, 1] as const;
-
 export function Services({ items }: ServicesProps) {
   return (
     <section id="oferta" className="px-5 pb-20 md:px-10 md:pb-28">
       <div className="mx-auto max-w-[1400px]">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.45 }}
-          transition={{ duration: 0.8, ease }}
-          className="section-title mb-10"
-        >
+        <h2 className="section-title mb-10">
           Sesje, które <span className="italic">czujesz</span>
-        </motion.h2>
+        </h2>
 
         <div className="grid gap-4 md:grid-cols-3 md:gap-5">
           {items.map((item, index) => {
             const image = cloudinaryAsset(item.publicId, { width: 900, quality: 70 });
 
             return (
-              <motion.article
+              <article
                 key={item.title}
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.28 }}
-                transition={{ duration: 0.8, ease, delay: index * 0.08 }}
                 className="group relative min-h-[330px] overflow-hidden md:min-h-[420px]"
               >
                 <Image
@@ -63,7 +48,7 @@ export function Services({ items }: ServicesProps) {
                     </p>
                   </div>
                 </div>
-              </motion.article>
+              </article>
             );
           })}
         </div>
