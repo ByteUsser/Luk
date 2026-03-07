@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { SITE_CONFIG } from "@/lib/site-config";
 
@@ -20,17 +20,64 @@ const INITIAL_STATE: FormState = {
 
 type ContactProps = {
   headingLevel?: "h1" | "h2";
+  allowQueryPrefill?: boolean;
 };
 
 type ApiErrorResponse = {
   error?: string;
 };
 
-export function Contact({ headingLevel = "h2" }: ContactProps) {
+function normalizeLocation(raw: string): string {
+  let decoded = raw;
+  try {
+    decoded = decodeURIComponent(raw);
+  } catch {
+    decoded = raw;
+  }
+
+  decoded = decoded.replaceAll("-", " ").trim();
+  if (!decoded) {
+    return "";
+  }
+
+  return decoded.charAt(0).toUpperCase() + decoded.slice(1);
+}
+
+function prefillMessageForLocation(location: string): string {
+  return `Cześć, chcę umówić sesję w ${location}. Interesuje mnie sesja portretowa/lifestyle i proszę o propozycję terminu.`;
+}
+
+export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: ContactProps) {
   const [formState, setFormState] = useState<FormState>(INITIAL_STATE);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
+  const [prefillLocation, setPrefillLocation] = useState("");
+  const prefillAppliedRef = useRef(false);
   const HeadingTag = headingLevel;
+
+  useEffect(() => {
+    if (!allowQueryPrefill || prefillAppliedRef.current) {
+      return;
+    }
+
+    const searchParams = new URLSearchParams(window.location.search);
+    const locationFromQuery = searchParams.get("lokalizacja") ?? searchParams.get("location") ?? "";
+    const normalizedLocation = normalizeLocation(locationFromQuery);
+    if (!normalizedLocation) {
+      return;
+    }
+
+    setPrefillLocation(normalizedLocation);
+    setFormState((prev) =>
+      prev.message
+        ? prev
+        : {
+            ...prev,
+            message: prefillMessageForLocation(normalizedLocation)
+          }
+    );
+    prefillAppliedRef.current = true;
+  }, [allowQueryPrefill]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -119,6 +166,13 @@ export function Contact({ headingLevel = "h2" }: ContactProps) {
           className="space-y-7"
           noValidate
         >
+          {prefillLocation ? (
+            <p className="rounded-2xl border border-cognac/35 bg-cream/10 px-4 py-3 text-[0.83rem] text-cream/90">
+              Wstępnie uzupełniłem wiadomość dla lokalizacji: <strong>{prefillLocation}</strong>.
+              Możesz ją dowolnie edytować.
+            </p>
+          ) : null}
+
           <label className="hidden" aria-hidden="true">
             <span className="sr-only">Website</span>
             <input
@@ -202,6 +256,10 @@ export function Contact({ headingLevel = "h2" }: ContactProps) {
               {statusMessage}
             </p>
           ) : null}
+
+          <p className="text-[0.76rem] text-cream/70">
+            Zwykle odpowiadam w ciągu 24 godzin.
+          </p>
 
           <p className="text-[0.76rem] text-cream/70">
             Wysyłając formularz akceptujesz{" "}

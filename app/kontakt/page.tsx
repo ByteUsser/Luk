@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Contact } from "@/components/Contact";
 import { Cursor } from "@/components/Cursor";
 import { Footer } from "@/components/Footer";
@@ -38,7 +39,29 @@ export default function ContactPage() {
       <Cursor />
       <Nav />
       <main className="pt-20 md:pt-24">
-        <Contact headingLevel="h1" />
+        <section className="px-5 pb-6 pt-10 md:px-10 md:pt-14">
+          <div className="mx-auto max-w-[1320px] rounded-[1.3rem] border border-ink/10 bg-[#f3ecdf] p-5 md:flex md:items-center md:justify-between md:gap-6 md:p-7">
+            <p className="text-[0.92rem] leading-relaxed text-ink/80">
+              Napisz kilka zdań o tym, jakiej sesji szukasz i gdzie chcesz ją zrealizować.
+              Odpowiem z konkretną propozycją terminu oraz planem działania.
+            </p>
+            <div className="mt-4 flex shrink-0 flex-wrap gap-3 md:mt-0">
+              <Link
+                href="/fotograf"
+                className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 px-5 text-[0.68rem] uppercase tracking-[0.2em] text-ink/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              >
+                Lokalizacje
+              </Link>
+              <a
+                href={`mailto:${SITE_CONFIG.email}`}
+                className="inline-flex min-h-[44px] items-center rounded-full border border-ink/25 bg-[#f7f0e4] px-5 text-[0.68rem] uppercase tracking-[0.2em] text-ink transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              >
+                Napisz maila
+              </a>
+            </div>
+          </div>
+        </section>
+        <Contact headingLevel="h1" allowQueryPrefill />
       </main>
       <Footer />
     </>
