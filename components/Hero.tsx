@@ -52,8 +52,7 @@ export function Hero({ imagePublicId }: HeroProps) {
             quality={62}
             sizes="(max-width: 767px) 92vw, 55vw"
             className="object-cover"
-            placeholder="blur"
-            blurDataURL={image.blurDataURL}
+            placeholder="empty"
           />
           <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-cream/20 md:to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-espresso/20 via-transparent to-transparent" />

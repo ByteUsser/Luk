@@ -176,7 +176,6 @@ a {
 
 @media (max-width: 767px) {
   body::before {
-    animation: none;
-    opacity: 0.015;
+    content: none;
   }
 }
