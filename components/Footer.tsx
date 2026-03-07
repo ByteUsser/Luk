@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SITE_CONFIG } from "@/lib/site-config";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -7,11 +8,13 @@ export function Footer() {
     <footer className="px-5 pb-7 pt-8 md:px-10 md:pb-8 md:pt-10">
       <div className="mx-auto max-w-[1400px] border-t border-ink/15 pt-5 md:pt-6">
         <div className="flex items-center justify-between gap-5">
-          <p className="text-[0.76rem] uppercase tracking-[0.22em] sm:text-[0.82rem]">Janiczek Łukasz</p>
+          <p className="text-[0.76rem] uppercase tracking-[0.22em] sm:text-[0.82rem]">
+            {SITE_CONFIG.owner}
+          </p>
 
           <div className="flex items-center gap-4">
             <Link
-              href="https://www.instagram.com/janiczekfoto/"
+              href={SITE_CONFIG.social.instagram}
               target="_blank"
               rel="noreferrer"
               aria-label="Instagram"
@@ -24,7 +27,7 @@ export function Footer() {
               </svg>
             </Link>
             <p className="text-[0.74rem] uppercase tracking-[0.2em] text-ink/70 sm:text-[0.8rem]">
-              Kraków • {year}
+              {SITE_CONFIG.city} • {year}
             </p>
           </div>
         </div>

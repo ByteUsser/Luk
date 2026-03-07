@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { motion } from "framer-motion";
+import { SITE_CONFIG } from "@/lib/site-config";
 
 type FormState = {
   name: string;
@@ -17,10 +18,19 @@ const INITIAL_STATE: FormState = {
   website: ""
 };
 
-export function Contact() {
+type ContactProps = {
+  headingLevel?: "h1" | "h2";
+};
+
+type ApiErrorResponse = {
+  error?: string;
+};
+
+export function Contact({ headingLevel = "h2" }: ContactProps) {
   const [formState, setFormState] = useState<FormState>(INITIAL_STATE);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
+  const HeadingTag = headingLevel;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -44,7 +54,8 @@ export function Contact() {
       });
 
       if (!response.ok) {
-        throw new Error("Nie udało się wysłać wiadomości.");
+        const payload = (await response.json().catch(() => null)) as ApiErrorResponse | null;
+        throw new Error(payload?.error ?? "Nie udało się wysłać wiadomości.");
       }
 
       setStatus("success");
@@ -68,20 +79,20 @@ export function Contact() {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
           <span className="eyebrow text-cognac">Kontakt</span>
-          <h2 className="section-title mt-5 max-w-[12ch] text-cream">
+          <HeadingTag className="section-title mt-5 max-w-[12ch] text-cream">
             Zróbmy coś <span className="italic">pięknego</span> razem
-          </h2>
+          </HeadingTag>
 
           <a
-            href="mailto:janiczek.office@gmail.com"
+            href={`mailto:${SITE_CONFIG.email}`}
             className="mt-8 inline-flex min-h-[44px] max-w-full items-center rounded-full border border-cream/45 bg-cream/10 px-4 text-[0.78rem] tracking-[0.03em] text-cream transition-colors duration-700 hover:border-cognac hover:text-cognac sm:px-5 sm:text-[0.82rem]"
           >
-            janiczek.office@gmail.com
+            {SITE_CONFIG.email}
           </a>
 
           <div className="mt-8 flex flex-wrap gap-3 text-[0.66rem] uppercase tracking-[0.16em] text-cream/90 sm:text-[0.68rem] sm:tracking-[0.2em]">
             <a
-              href="https://www.instagram.com/janiczekfoto/"
+              href={SITE_CONFIG.social.instagram}
               target="_blank"
               rel="noreferrer"
               className="inline-flex min-h-[44px] items-center rounded-full border border-cream/35 bg-cream/10 px-4 transition-colors duration-700 hover:border-cognac hover:text-cognac"
@@ -89,7 +100,7 @@ export function Contact() {
               Instagram
             </a>
             <a
-              href="https://www.facebook.com/profile.php?id=61586472251565"
+              href={SITE_CONFIG.social.facebook}
               target="_blank"
               rel="noreferrer"
               className="inline-flex min-h-[44px] items-center rounded-full border border-cream/35 bg-cream/10 px-4 transition-colors duration-700 hover:border-cognac hover:text-cognac"

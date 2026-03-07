@@ -28,6 +28,7 @@ export function About({ publicId }: AboutProps) {
             src={image.src}
             alt="Kadr o zachodzie słońca"
             fill
+            loading="lazy"
             sizes="(max-width: 768px) 90vw, 380px"
             className="object-cover"
             placeholder="blur"

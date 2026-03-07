@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { SITE_CONFIG } from "@/lib/site-config";
 
 const navLinks = [
   { href: "#wybrane-prace", label: "Prace" },
@@ -12,8 +13,8 @@ const navLinks = [
 ];
 
 const socials = [
-  { href: "https://www.instagram.com/janiczekfoto/", label: "Instagram" },
-  { href: "https://www.facebook.com/profile.php?id=61586472251565", label: "Facebook" }
+  { href: SITE_CONFIG.social.instagram, label: "Instagram" },
+  { href: SITE_CONFIG.social.facebook, label: "Facebook" }
 ];
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -67,7 +68,7 @@ export function Nav() {
             href="#start"
             className="menu-link relative max-w-[52vw] truncate whitespace-nowrap font-display text-[clamp(1.05rem,4.2vw,1.95rem)] leading-none text-ink sm:max-w-none"
           >
-            Janiczek Foto
+            {SITE_CONFIG.name}
           </Link>
 
           <nav className="relative hidden items-center gap-8 text-[0.8rem] uppercase tracking-[0.22em] xl:flex">
@@ -186,7 +187,7 @@ export function Nav() {
                   </Link>
                 ))}
                 <a
-                  href="https://www.instagram.com/janiczekfoto/"
+                  href={SITE_CONFIG.social.instagram}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-ink/15 bg-[#f4ede2] px-4 text-center text-[1.05rem]"
@@ -194,7 +195,7 @@ export function Nav() {
                   Instagram
                 </a>
                 <a
-                  href="https://www.facebook.com/profile.php?id=61586472251565"
+                  href={SITE_CONFIG.social.facebook}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-ink/15 bg-[#f4ede2] px-4 text-center text-[1.05rem]"

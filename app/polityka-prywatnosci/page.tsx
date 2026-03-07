@@ -1,8 +1,31 @@
 import type { Metadata } from "next";
+import { SITE_CONFIG } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Polityka Prywatności",
-  description: "Polityka prywatności strony janiczekfoto.pl"
+  description: "Polityka prywatności strony janiczekfoto.pl",
+  alternates: {
+    canonical: "/polityka-prywatnosci"
+  },
+  openGraph: {
+    url: `${SITE_CONFIG.url}/polityka-prywatnosci`,
+    title: `Polityka Prywatności | ${SITE_CONFIG.name}`,
+    description: "Informacje o przetwarzaniu danych osobowych i zasadach kontaktu.",
+    images: [
+      {
+        url: SITE_CONFIG.ogImage,
+        width: 1200,
+        height: 630,
+        alt: `Polityka prywatności | ${SITE_CONFIG.name}`
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Polityka Prywatności | ${SITE_CONFIG.name}`,
+    description: "Informacje o przetwarzaniu danych osobowych i zasadach kontaktu.",
+    images: [SITE_CONFIG.ogImage]
+  }
 };
 
 export default function PrivacyPolicyPage() {
@@ -24,8 +47,8 @@ export default function PrivacyPolicyPage() {
           <h2 className="font-display text-[2rem] leading-none">Administrator danych</h2>
           <p className="text-[1rem] leading-relaxed text-ink/80">
             Administratorem danych jest Łukasz Janiczek. Kontakt:{" "}
-            <a href="mailto:janiczek.office@gmail.com" className="text-link">
-              janiczek.office@gmail.com
+            <a href={`mailto:${SITE_CONFIG.email}`} className="text-link">
+              {SITE_CONFIG.email}
             </a>
             .
           </p>

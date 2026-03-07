@@ -2,10 +2,14 @@
 
 import { type PointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
-import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import { cloudinaryAsset, cloudinaryUrl } from "@/lib/cloudinary";
+
+const Lightbox = dynamic(() => import("yet-another-react-lightbox"), {
+  ssr: false
+});
 
 export type GalleryItem = {
   title: string;
@@ -179,6 +183,7 @@ export function Gallery({ items }: GalleryProps) {
                   src={image.src}
                   alt={`${item.title} - ${item.category}`}
                   fill
+                  loading="lazy"
                   sizes="(max-width: 768px) 70vw, 420px"
                   className={`${fitClass} brightness-[0.9] saturate-[0.88] transition-[transform,filter] duration-[900ms] ease-[var(--ease-editorial)] ${hoverScaleClass} group-hover:brightness-100 group-hover:saturate-100`}
                   placeholder="blur"
@@ -202,12 +207,14 @@ export function Gallery({ items }: GalleryProps) {
         </div>
       </div>
 
-      <Lightbox
-        open={lightboxIndex >= 0}
-        index={lightboxIndex}
-        close={() => setLightboxIndex(-1)}
-        slides={slides}
-      />
+      {lightboxIndex >= 0 ? (
+        <Lightbox
+          open
+          index={lightboxIndex}
+          close={() => setLightboxIndex(-1)}
+          slides={slides}
+        />
+      ) : null}
     </section>
   );
 }

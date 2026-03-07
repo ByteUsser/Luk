@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import { About } from "@/components/About";
+import { Areas } from "@/components/Areas";
 import { Contact } from "@/components/Contact";
 import { Cursor } from "@/components/Cursor";
 import { Footer } from "@/components/Footer";
@@ -6,6 +8,13 @@ import { Gallery, type GalleryItem } from "@/components/Gallery";
 import { Hero } from "@/components/Hero";
 import { Nav } from "@/components/Nav";
 import { Services } from "@/components/Services";
+import { SITE_CONFIG } from "@/lib/site-config";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/"
+  }
+};
 
 const galleryItems: GalleryItem[] = [
   { title: "Nadmorski kadr", category: "Podróże", publicId: "/portfolio/gallery-01-opt.jpg" },
@@ -41,8 +50,32 @@ const serviceItems = [
 ];
 
 export default function HomePage() {
+  const photographerJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Photographer",
+    name: SITE_CONFIG.name,
+    url: SITE_CONFIG.url,
+    image: `${SITE_CONFIG.url}${SITE_CONFIG.ogImage}`,
+    email: SITE_CONFIG.email,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: SITE_CONFIG.city,
+      addressCountry: "PL"
+    },
+    areaServed: SITE_CONFIG.primaryAreas.map((name) => ({
+      "@type": "AdministrativeArea",
+      name
+    })),
+    sameAs: [SITE_CONFIG.social.instagram, SITE_CONFIG.social.facebook]
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        // JSON-LD for rich results and business entity understanding.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(photographerJsonLd) }}
+      />
       <Cursor />
       <Nav />
       <main>
@@ -50,6 +83,7 @@ export default function HomePage() {
         <Gallery items={galleryItems} />
         <About publicId="/portfolio/about-opt.jpg" />
         <Services items={serviceItems} />
+        <Areas />
         <Contact />
       </main>
       <Footer />

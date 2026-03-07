@@ -47,6 +47,7 @@ export function Services({ items }: ServicesProps) {
                   src={image.src}
                   alt={item.title}
                   fill
+                  loading="lazy"
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover brightness-[0.88] transition-[transform,filter] duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[1.04] group-hover:brightness-[0.96]"
                   placeholder="blur"

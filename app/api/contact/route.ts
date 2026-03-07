@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { z } from "zod";
+import { getServerEnv } from "@/lib/server-env";
 
-type RequestBody = {
-  name?: string;
-  email?: string;
-  message?: string;
-  website?: string;
-};
+const contactBodySchema = z.object({
+  name: z.string().trim().min(2).max(80),
+  email: z.string().trim().email(),
+  message: z.string().trim().min(10).max(3000),
+  website: z.string().trim().max(200).optional().default("")
+});
 
 type RateBucket = {
   count: number;
@@ -65,10 +67,6 @@ function isRateLimited(ip: string, now: number): boolean {
   return false;
 }
 
-function isValidEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
 export async function POST(request: Request) {
   try {
     const now = Date.now();
@@ -80,54 +78,26 @@ export async function POST(request: Request) {
       );
     }
 
-    const body = (await request.json()) as RequestBody | null;
-    const name = body?.name?.trim();
-    const email = body?.email?.trim();
-    const message = body?.message?.trim();
-    const website = body?.website?.trim();
+    const rawBody = (await request.json()) as unknown;
+    const parsed = contactBodySchema.safeParse(rawBody);
+
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Nieprawidłowe dane formularza." }, { status: 400 });
+    }
+
+    const { name, email, message, website } = parsed.data;
 
     // Honeypot field. If filled, treat as a successful no-op.
     if (website) {
       return NextResponse.json({ ok: true }, { status: 200 });
     }
 
-    if (!name || !email || !message) {
-      return NextResponse.json({ error: "Brak wymaganych pól." }, { status: 400 });
-    }
+    const env = getServerEnv();
+    const resend = new Resend(env.RESEND_API_KEY);
 
-    if (name.length < 2 || name.length > 80) {
-      return NextResponse.json({ error: "Imię ma nieprawidłową długość." }, { status: 400 });
-    }
-
-    if (!isValidEmail(email)) {
-      return NextResponse.json({ error: "Podaj poprawny adres email." }, { status: 400 });
-    }
-
-    if (message.length < 10 || message.length > 3000) {
-      return NextResponse.json(
-        { error: "Wiadomość musi mieć od 10 do 3000 znaków." },
-        { status: 400 }
-      );
-    }
-
-    const apiKey = process.env.RESEND_API_KEY;
-    const to = process.env.CONTACT_TO ?? "janiczek.office@gmail.com";
-    const from = process.env.RESEND_FROM ?? "Janiczek Foto <onboarding@resend.dev>";
-
-    if (!apiKey) {
-      return NextResponse.json(
-        {
-          error: "Brak konfiguracji RESEND_API_KEY w zmiennych środowiskowych."
-        },
-        { status: 500 }
-      );
-    }
-
-    const resend = new Resend(apiKey);
-
-    await resend.emails.send({
-      from,
-      to: [to],
+    const { error: resendError } = await resend.emails.send({
+      from: env.RESEND_FROM,
+      to: [env.CONTACT_TO],
       subject: `Nowa wiadomość portfolio od ${name}`,
       replyTo: email,
       html: `
@@ -139,8 +109,20 @@ export async function POST(request: Request) {
       `
     });
 
+    if (resendError) {
+      console.error("Resend API error:", resendError);
+      return NextResponse.json(
+        { error: "Nie udało się wysłać wiadomości. Spróbuj ponownie później." },
+        { status: 502 }
+      );
+    }
+
     return NextResponse.json({ ok: true });
   } catch (error) {
+    if (error instanceof SyntaxError) {
+      return NextResponse.json({ error: "Nieprawidłowy format danych." }, { status: 400 });
+    }
+
     console.error("Contact form error:", error);
 
     return NextResponse.json(

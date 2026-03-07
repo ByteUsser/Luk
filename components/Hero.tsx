@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { cloudinaryAsset } from "@/lib/cloudinary";
+import { SITE_CONFIG } from "@/lib/site-config";
 
 type HeroProps = {
   imagePublicId: string;
@@ -72,7 +73,7 @@ export function Hero({ imagePublicId }: HeroProps) {
           transition={{ duration: 0.8, ease }}
           className="mt-7 text-[0.74rem] uppercase tracking-[0.22em] text-ink/70"
         >
-          Janiczekfoto
+          {SITE_CONFIG.name}
         </motion.p>
       </motion.div>
 
