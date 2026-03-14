@@ -11,7 +11,7 @@ export function Hero({ imagePublicId }: HeroProps) {
 
   return (
     <section id="start" className="relative grid min-h-[100dvh] overflow-hidden md:grid-cols-[45%_55%]">
-      <div className="relative order-2 flex min-h-[40dvh] flex-col justify-end bg-cream px-5 pb-12 pt-24 md:order-1 md:min-h-[100dvh] md:px-12 md:pb-16 md:pt-32 lg:px-16">
+      <div className="relative order-2 flex min-h-[40dvh] flex-col justify-end bg-cream px-5 pb-12 pt-24 md:order-1 md:min-h-[100dvh] md:px-12 md:pb-16 md:pt-40 lg:px-16 lg:pt-44 xl:pt-32">
         <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[8vw] translate-x-[96%] bg-cream md:block" />
         <span className="eyebrow mb-6 text-cognac">
           Polska • Portret • Lifestyle
