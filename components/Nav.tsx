@@ -10,11 +10,14 @@ const homeNavLinks = [
   { href: "#wybrane-prace", label: "Prace" },
   { href: "#o-mnie", label: "O mnie" },
   { href: "#oferta", label: "Oferta" },
+  { href: "/fotograf", label: "Lokalizacje" },
   { href: "#kontakt", label: "Kontakt" }
 ];
 
 const pageNavLinks = [
-  { href: "/", label: "Start" },
+  { href: "/#wybrane-prace", label: "Prace" },
+  { href: "/#o-mnie", label: "O mnie" },
+  { href: "/#oferta", label: "Oferta" },
   { href: "/fotograf", label: "Lokalizacje" },
   { href: "/kontakt", label: "Kontakt" }
 ];
@@ -79,10 +82,10 @@ export function Nav() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-30 px-3 py-3 sm:px-5 sm:py-5 md:px-8 md:py-6 xl:px-10 xl:py-7">
+      <header className="fixed inset-x-0 top-0 z-30 px-3 py-3 sm:px-5 sm:py-5 md:px-8 md:py-6 xl:px-10 xl:py-5">
         <div
           style={headerStyle}
-          className="mx-auto flex max-w-[1400px] min-w-0 items-center justify-between gap-2 rounded-full border px-2.5 py-2 transition-[background-color,box-shadow,border-color] duration-500 sm:px-3 md:px-4 md:py-2.5 xl:px-6 xl:py-3"
+          className="mx-auto flex max-w-[1400px] min-w-0 items-center justify-between gap-2 rounded-full border px-2.5 py-2 transition-[background-color,box-shadow,border-color] duration-500 sm:px-3 md:px-4 md:py-2.5 xl:px-6 xl:py-2.5"
         >
           <Link
             href={brandHref}
@@ -90,13 +93,13 @@ export function Nav() {
             className="menu-link relative flex min-w-0 flex-1 items-center xl:flex-none"
           >
             <Image
-              src="/logo.png"
+              src="/logo-black.svg"
               alt={SITE_CONFIG.name}
-              width={1500}
-              height={520}
+              width={2200}
+              height={650}
               priority
-              sizes="(max-width: 359px) 110px, (max-width: 767px) 140px, (max-width: 1279px) 180px, 220px"
-              className="h-auto w-[clamp(110px,31vw,220px)] max-w-full md:w-[clamp(148px,23vw,210px)] xl:w-[220px]"
+              sizes="(max-width: 359px) 132px, (max-width: 767px) 172px, (max-width: 1279px) 220px, 260px"
+              className="h-auto w-[clamp(132px,31vw,210px)] max-w-full md:w-[clamp(185px,24vw,250px)] xl:w-[260px]"
             />
           </Link>
 
@@ -137,13 +140,13 @@ export function Nav() {
             </div>
           </nav>
 
-          <div className="flex shrink-0 items-center gap-1 sm:gap-1.5 xl:hidden">
+          <div className="flex shrink-0 items-center gap-1 xl:hidden">
             <a
               href={socials[0].href}
               target="_blank"
               rel="noreferrer"
               aria-label={socials[0].label}
-              className="hidden h-8 w-8 items-center justify-center rounded-full border border-ink/25 bg-cream/80 transition-colors duration-700 hover:border-cognac hover:text-cognac min-[360px]:inline-flex sm:h-9 sm:w-9"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-ink/25 bg-cream/80 transition-colors duration-700 hover:border-cognac hover:text-cognac sm:h-9 sm:w-9"
             >
               <svg viewBox="0 0 24 24" className="h-[13px] w-[13px] sm:h-[14px] sm:w-[14px]" fill="none" aria-hidden="true">
                 <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5.2" stroke="currentColor" strokeWidth="1.3" />
@@ -156,7 +159,7 @@ export function Nav() {
               target="_blank"
               rel="noreferrer"
               aria-label={socials[1].label}
-              className="hidden h-8 w-8 items-center justify-center rounded-full border border-ink/25 bg-cream/80 transition-colors duration-700 hover:border-cognac hover:text-cognac min-[430px]:inline-flex sm:h-9 sm:w-9"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-ink/25 bg-cream/80 transition-colors duration-700 hover:border-cognac hover:text-cognac sm:h-9 sm:w-9"
             >
               <svg viewBox="0 0 24 24" className="h-[12px] w-[12px] sm:h-[13px] sm:w-[13px]" fill="none" aria-hidden="true">
                 <path
@@ -169,15 +172,15 @@ export function Nav() {
               type="button"
               aria-label={open ? "Zamknij menu" : "Otwórz menu"}
               onClick={() => setOpen((prev) => !prev)}
-              className="relative flex h-8 w-8 items-center justify-center rounded-full border border-ink/25 bg-cream/80 shadow-sm backdrop-blur-sm min-[360px]:h-9 min-[360px]:w-9 sm:h-10 sm:w-10"
+              className="relative flex h-8 w-8 items-center justify-center rounded-full border border-ink/25 bg-cream/80 shadow-sm backdrop-blur-sm sm:h-10 sm:w-10"
             >
               <span
-                className={`absolute h-[1.5px] w-[16px] bg-ink transition-transform duration-300 min-[360px]:w-5 sm:w-6 ${
+                className={`absolute h-[1.5px] w-[16px] bg-ink transition-transform duration-300 sm:w-6 ${
                   open ? "rotate-45" : "-translate-y-[3px]"
                 }`}
               />
               <span
-                className={`absolute h-[1.5px] w-[16px] bg-ink transition-transform duration-300 min-[360px]:w-5 sm:w-6 ${
+                className={`absolute h-[1.5px] w-[16px] bg-ink transition-transform duration-300 sm:w-6 ${
                   open ? "-rotate-45" : "translate-y-[3px]"
                 }`}
               />

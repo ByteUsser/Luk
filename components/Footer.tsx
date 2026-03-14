@@ -11,12 +11,12 @@ export function Footer() {
         <div className="flex items-center justify-between gap-5">
           <Link href="/" aria-label={SITE_CONFIG.name} className="inline-flex items-center">
             <Image
-              src="/logo.png"
+              src="/logo-black.svg"
               alt={SITE_CONFIG.name}
-              width={1500}
-              height={520}
-              sizes="140px"
-              className="h-auto w-[120px] sm:w-[140px]"
+              width={2200}
+              height={650}
+              sizes="180px"
+              className="h-auto w-[150px] sm:w-[180px]"
             />
           </Link>
 

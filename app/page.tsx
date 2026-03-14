@@ -57,9 +57,9 @@ export default function HomePage() {
     url: SITE_CONFIG.url,
     logo: {
       "@type": "ImageObject",
-      url: `${SITE_CONFIG.url}/logo.png`,
-      width: 1500,
-      height: 520
+      url: `${SITE_CONFIG.url}/logo-black.svg`,
+      width: 2200,
+      height: 650
     },
     image: `${SITE_CONFIG.url}${SITE_CONFIG.ogImage}`,
     email: SITE_CONFIG.email,
