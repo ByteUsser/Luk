@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { SITE_CONFIG } from "@/lib/site-config";
 
@@ -8,9 +9,16 @@ export function Footer() {
     <footer className="px-5 pb-7 pt-8 md:px-10 md:pb-8 md:pt-10">
       <div className="mx-auto max-w-[1400px] border-t border-ink/15 pt-5 md:pt-6">
         <div className="flex items-center justify-between gap-5">
-          <p className="text-[0.76rem] uppercase tracking-[0.22em] sm:text-[0.82rem]">
-            {SITE_CONFIG.owner}
-          </p>
+          <Link href="/" aria-label={SITE_CONFIG.name} className="inline-flex items-center">
+            <Image
+              src="/logo.png"
+              alt={SITE_CONFIG.name}
+              width={1500}
+              height={520}
+              sizes="140px"
+              className="h-auto w-[120px] sm:w-[140px]"
+            />
+          </Link>
 
           <div className="flex items-center gap-4">
             <Link

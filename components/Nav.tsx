@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
@@ -85,9 +86,18 @@ export function Nav() {
         >
           <Link
             href={brandHref}
-            className="menu-link relative max-w-[52vw] truncate whitespace-nowrap font-display text-[clamp(1.05rem,4.2vw,1.95rem)] leading-none text-ink sm:max-w-none"
+            aria-label={SITE_CONFIG.name}
+            className="menu-link relative flex max-w-[56vw] items-center sm:max-w-none"
           >
-            {SITE_CONFIG.name}
+            <Image
+              src="/logo.png"
+              alt={SITE_CONFIG.name}
+              width={1500}
+              height={520}
+              priority
+              sizes="(max-width: 640px) 150px, 220px"
+              className="h-auto w-[clamp(132px,30vw,220px)]"
+            />
           </Link>
 
           <nav className="relative hidden items-center gap-8 text-[0.8rem] uppercase tracking-[0.22em] xl:flex">

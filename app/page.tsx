@@ -55,6 +55,12 @@ export default function HomePage() {
     "@type": "Photographer",
     name: SITE_CONFIG.name,
     url: SITE_CONFIG.url,
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE_CONFIG.url}/logo.png`,
+      width: 1500,
+      height: 520
+    },
     image: `${SITE_CONFIG.url}${SITE_CONFIG.ogImage}`,
     email: SITE_CONFIG.email,
     address: {
@@ -62,11 +68,20 @@ export default function HomePage() {
       addressLocality: SITE_CONFIG.city,
       addressCountry: "PL"
     },
+    alternateName: ["JaniczekFoto", SITE_CONFIG.domain],
     areaServed: SITE_CONFIG.primaryAreas.map((name) => ({
       "@type": "AdministrativeArea",
       name
     })),
     sameAs: [SITE_CONFIG.social.instagram, SITE_CONFIG.social.facebook]
+  };
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_CONFIG.name,
+    alternateName: ["JaniczekFoto", SITE_CONFIG.domain],
+    url: SITE_CONFIG.url
   };
 
   return (
@@ -76,6 +91,7 @@ export default function HomePage() {
         // JSON-LD for rich results and business entity understanding.
         dangerouslySetInnerHTML={{ __html: JSON.stringify(photographerJsonLd) }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
       <OptionalCursor />
       <Nav />
       <main>
