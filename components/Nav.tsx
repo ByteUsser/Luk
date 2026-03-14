@@ -193,7 +193,7 @@ export function Nav() {
         onClick={() => setOpen(false)}
       />
       <aside
-        className={`fixed inset-y-0 right-0 z-20 flex w-[82vw] max-w-[360px] flex-col bg-cream px-8 pb-10 pt-24 transition-transform duration-500 ${
+        className={`fixed bottom-0 right-0 top-[84px] z-20 flex w-[82vw] max-w-[360px] flex-col bg-cream px-8 pb-10 pt-5 sm:top-[104px] sm:pt-6 md:top-[114px] transition-transform duration-500 ${
           open ? "translate-x-0" : "pointer-events-none translate-x-full"
         }`}
       >
