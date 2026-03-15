@@ -34,7 +34,7 @@ export function About({ publicId }: AboutProps) {
           <h2 className="section-title mt-5 max-w-[13ch]">
             Janiczek Łukasz.
             <br />
-            Fotografuję <span className="italic">prawdziwie</span>
+            Fotografuję <span className="italic">naturalnie</span>
           </h2>
 
           <p className="mt-8 max-w-[52ch] text-[1rem] leading-relaxed text-ink/80 md:text-[1.08rem]">

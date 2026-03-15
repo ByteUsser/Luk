@@ -124,7 +124,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
         <div>
           <span className="eyebrow text-cognac">Kontakt</span>
           <HeadingTag className="section-title mt-5 max-w-[12ch] text-cream">
-            Zróbmy coś <span className="italic">pięknego</span> razem
+            Umówmy sesję <span className="italic">dopasowaną</span> do Ciebie
           </HeadingTag>
 
           <a

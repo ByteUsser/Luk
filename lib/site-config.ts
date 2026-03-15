@@ -25,4 +25,4 @@ export const SITE_CONFIG = {
   ]
 } as const;
 
-export const STATIC_ROUTES = ["/", "/fotograf", "/kontakt", "/polityka-prywatnosci"] as const;
+export const STATIC_ROUTES = ["/", "/fotograf", "/cennik", "/kontakt", "/polityka-prywatnosci"] as const;

@@ -215,7 +215,7 @@ export default function PhotographerLocationPage({ params }: { params: Params })
 
           <section className="rounded-[1.5rem] border border-ink/12 bg-[#f3ecdf] p-5 md:p-7">
             <h2 className="font-display text-[2rem] leading-none">
-              Dlaczego klienci wybierają sesję właśnie tutaj?
+              Dlaczego warto umówić sesję w tej lokalizacji?
             </h2>
             <div className="mt-5 grid gap-3 md:grid-cols-3">
               {trustHighlights.map((highlight) => (

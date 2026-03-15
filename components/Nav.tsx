@@ -11,6 +11,7 @@ const homeNavLinks = [
   { href: "#o-mnie", label: "O mnie" },
   { href: "#oferta", label: "Oferta" },
   { href: "/fotograf", label: "Lokalizacje" },
+  { href: "/cennik", label: "Cennik" },
   { href: "#kontakt", label: "Kontakt" }
 ];
 
@@ -19,6 +20,7 @@ const pageNavLinks = [
   { href: "/#o-mnie", label: "O mnie" },
   { href: "/#oferta", label: "Oferta" },
   { href: "/fotograf", label: "Lokalizacje" },
+  { href: "/cennik", label: "Cennik" },
   { href: "/kontakt", label: "Kontakt" }
 ];
 

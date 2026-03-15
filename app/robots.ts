@@ -9,7 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/"
       }
     ],
-    sitemap: `${SITE_CONFIG.url}/sitemap.xml`,
-    host: SITE_CONFIG.url
+    sitemap: `${SITE_CONFIG.url}/sitemap.xml`
   };
 }

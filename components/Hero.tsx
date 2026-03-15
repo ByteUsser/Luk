@@ -17,9 +17,9 @@ export function Hero({ imagePublicId }: HeroProps) {
         </span>
 
         <h1 className="hero-title max-w-[10ch] text-ink">
-          Łapię <span className="italic">chwile</span>
+          Naturalne kadry,
           <br />
-          jak z filmu
+          <span className="italic">prawdziwe emocje</span>
         </h1>
 
         <p className="mt-7 max-w-[34ch] text-[0.98rem] leading-relaxed text-ink/80 md:text-[1.04rem]">

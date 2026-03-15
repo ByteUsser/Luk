@@ -16,7 +16,7 @@ export function Services({ items }: ServicesProps) {
     <section id="oferta" className="defer-render px-5 pb-20 md:px-10 md:pb-28">
       <div className="mx-auto max-w-[1400px]">
         <h2 className="section-title mb-10">
-          Sesje, które <span className="italic">czujesz</span>
+          Rodzaje <span className="italic">sesji</span>
         </h2>
 
         <div className="grid gap-4 md:grid-cols-3 md:gap-5">
@@ -40,8 +40,8 @@ export function Services({ items }: ServicesProps) {
                   blurDataURL={image.blurDataURL}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-espresso/90 via-espresso/52 to-espresso/22" />
-                <div className="absolute inset-0 flex items-end p-5 text-cream md:p-7">
-                  <div className="w-full max-w-[32ch] rounded-2xl border border-cream/28 bg-espresso/64 px-4 py-4 shadow-[0_10px_24px_rgba(28,21,16,0.36)] backdrop-blur-[1.5px]">
+                <div className="absolute inset-0 flex items-center justify-center p-5 text-cream md:p-7">
+                  <div className="w-full max-w-[32ch] rounded-2xl border border-cream/28 bg-espresso/64 px-4 py-4 text-center shadow-[0_10px_24px_rgba(28,21,16,0.36)] backdrop-blur-[1.5px]">
                     <h3 className="font-display text-[2rem] leading-[0.92] md:text-[2.15rem]">{item.title}</h3>
                     <p className="mt-3 text-[0.98rem] leading-relaxed text-cream/95 md:translate-y-2 md:opacity-0 md:transition-[opacity,transform] md:duration-700 md:ease-[var(--ease-editorial)] md:group-hover:translate-y-0 md:group-hover:opacity-100">
                       {item.description}
