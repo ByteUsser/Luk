@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { cloudinaryAsset } from "@/lib/cloudinary";
-import { SITE_CONFIG } from "@/lib/site-config";
 
 type HeroProps = {
   imagePublicId: string;
@@ -36,9 +35,6 @@ export function Hero({ imagePublicId }: HeroProps) {
           <span className="h-px w-10 bg-ink/60" />
         </a>
 
-        <p className="mt-7 text-[0.74rem] uppercase tracking-[0.22em] text-ink/70">
-          {SITE_CONFIG.name}
-        </p>
       </div>
 
       <div className="relative order-1 min-h-[60dvh] md:order-2 md:min-h-[100dvh]">
