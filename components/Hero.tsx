@@ -45,7 +45,7 @@ export function Hero({ imagePublicId }: HeroProps) {
         <div className="absolute inset-0">
           <Image
             src={image.src}
-            alt="Kadr podróżniczy o złotej godzinie"
+            alt="Portretowa sesja w naturalnym świetle"
             fill
             priority
             fetchPriority="high"

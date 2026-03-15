@@ -35,17 +35,17 @@ const serviceItems = [
   {
     title: "Motoryzacja",
     description: "Kadry samochodowe z klimatem: detale, refleksy i mocne światło nocne.",
-    publicId: "/portfolio/service-portrait-opt.jpg"
+    publicId: "/portfolio/gallery-05-opt.jpg"
   },
   {
     title: "Podróże",
     description: "Reportażowe ujęcia miejsc i przestrzeni z filmową, ciepłą kolorystyką.",
-    publicId: "/portfolio/service-plener-opt.jpg"
+    publicId: "/portfolio/gallery-01-opt.jpg"
   },
   {
     title: "Event",
     description: "Fotografie wydarzeń i detali, które budują opowieść o całej atmosferze.",
-    publicId: "/portfolio/service-couple-opt.jpg"
+    publicId: "/portfolio/gallery-04-opt.jpg"
   }
 ];
 
