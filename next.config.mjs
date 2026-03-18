@@ -4,6 +4,12 @@ const nextConfig = {
     return [
       {
         source: "/:path*",
+        has: [{ type: "host", value: "luk-app.vercel.app" }],
+        destination: "https://janiczekfoto.pl/:path*",
+        permanent: true
+      },
+      {
+        source: "/:path*",
         has: [{ type: "host", value: "www.janiczekfoto.pl" }],
         destination: "https://janiczekfoto.pl/:path*",
         permanent: true
@@ -12,6 +18,11 @@ const nextConfig = {
   },
   async headers() {
     return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "luk-app.vercel.app" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex" }]
+      },
       {
         source: "/_next/static/:path*",
         headers: [{ key: "X-Robots-Tag", value: "noindex" }]
