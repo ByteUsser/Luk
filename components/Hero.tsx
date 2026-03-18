@@ -29,7 +29,7 @@ export function Hero({ imagePublicId }: HeroProps) {
 
         <a
           href="#kontakt"
-          className="mt-10 inline-flex min-h-[44px] max-w-full items-center gap-2 rounded-full border border-ink/30 bg-cream/90 px-4 text-[0.66rem] uppercase tracking-[0.16em] text-ink shadow-[0_8px_22px_rgba(42,36,32,0.12)] backdrop-blur-sm transition-colors duration-700 hover:border-ink/55 hover:bg-cream sm:gap-3 sm:px-5 sm:text-[0.72rem] sm:tracking-[0.22em]"
+          className="mt-10 inline-flex min-h-[44px] max-w-full items-center gap-2 rounded-full border border-ink/30 bg-cream/90 px-4 text-[0.76rem] uppercase tracking-[0.14em] text-ink shadow-[0_8px_22px_rgba(42,36,32,0.12)] backdrop-blur-sm transition-colors duration-700 hover:border-ink/55 hover:bg-cream sm:gap-3 sm:px-5 sm:text-[0.78rem]"
         >
           Umów sesję
           <span className="h-px w-10 bg-ink/60" />

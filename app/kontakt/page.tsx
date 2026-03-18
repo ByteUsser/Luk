@@ -48,13 +48,13 @@ export default function ContactPage() {
             <div className="mt-4 flex shrink-0 flex-wrap gap-3 md:mt-0">
               <Link
                 href="/fotograf"
-                className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 px-5 text-[0.68rem] uppercase tracking-[0.2em] text-ink/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+                className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 px-5 text-[0.76rem] uppercase tracking-[0.14em] text-ink/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
               >
                 Lokalizacje
               </Link>
               <a
                 href={`mailto:${SITE_CONFIG.email}`}
-                className="inline-flex min-h-[44px] items-center rounded-full border border-ink/25 bg-[#f7f0e4] px-5 text-[0.68rem] uppercase tracking-[0.2em] text-ink transition-colors duration-700 hover:border-cognac hover:text-cognac"
+                className="inline-flex min-h-[44px] items-center rounded-full border border-ink/25 bg-[#f7f0e4] px-5 text-[0.76rem] uppercase tracking-[0.14em] text-ink transition-colors duration-700 hover:border-cognac hover:text-cognac"
               >
                 Napisz maila
               </a>

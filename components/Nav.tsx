@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { SITE_CONFIG } from "@/lib/site-config";
 
@@ -34,24 +34,64 @@ export function Nav() {
   const isHome = pathname === "/";
   const navLinks = isHome ? homeNavLinks : pageNavLinks;
   const brandHref = isHome ? "#start" : "/";
+  const mobileMenuId = "mobile-site-menu";
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const menuPanelRef = useRef<HTMLElement>(null);
   const mobileMenuItemClass =
-    "inline-flex min-h-[48px] w-full items-center justify-start rounded-full border border-ink/15 bg-[#f4ede2] px-5 text-left text-[1.05rem] leading-none";
+    "inline-flex h-12 w-full items-center justify-start rounded-full border border-ink/15 bg-[#f4ede2] px-5 text-left text-[1.05rem] leading-none";
 
   useEffect(() => {
     if (!open) {
       return;
     }
 
-    const handleEscape = (event: KeyboardEvent) => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const panel = menuPanelRef.current;
+    const focusableElements = panel?.querySelectorAll<HTMLElement>(
+      "a[href],button:not([disabled]),[tabindex]:not([tabindex='-1'])"
+    );
+    focusableElements?.[0]?.focus();
+
+    const handleKeydown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setOpen(false);
+        menuButtonRef.current?.focus();
+        return;
+      }
+
+      if (event.key !== "Tab" || !panel) {
+        return;
+      }
+
+      const focusable = panel.querySelectorAll<HTMLElement>(
+        "a[href],button:not([disabled]),[tabindex]:not([tabindex='-1'])"
+      );
+      if (!focusable.length) {
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+
+      if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
       }
     };
 
-    window.addEventListener("keydown", handleEscape);
-    return () => window.removeEventListener("keydown", handleEscape);
+    window.addEventListener("keydown", handleKeydown);
+    return () => {
+      window.removeEventListener("keydown", handleKeydown);
+      document.body.style.overflow = previousOverflow;
+    };
   }, [open]);
 
   useEffect(() => {
@@ -115,7 +155,7 @@ export function Nav() {
               <a
                 href={socials[0].href}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 aria-label={socials[0].label}
                 className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/25 bg-cream/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
               >
@@ -128,7 +168,7 @@ export function Nav() {
               <a
                 href={socials[1].href}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 aria-label={socials[1].label}
                 className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/25 bg-cream/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
               >
@@ -142,15 +182,15 @@ export function Nav() {
             </div>
           </nav>
 
-          <div className="flex shrink-0 items-center gap-1 xl:hidden">
+          <div className="flex shrink-0 items-center gap-2 xl:hidden">
             <a
               href={socials[0].href}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               aria-label={socials[0].label}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-ink/25 bg-cream/80 transition-colors duration-700 hover:border-cognac hover:text-cognac sm:h-9 sm:w-9"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-ink/25 bg-cream/80 transition-colors duration-700 hover:border-cognac hover:text-cognac"
             >
-              <svg viewBox="0 0 24 24" className="h-[13px] w-[13px] sm:h-[14px] sm:w-[14px]" fill="none" aria-hidden="true">
+              <svg viewBox="0 0 24 24" className="h-[15px] w-[15px]" fill="none" aria-hidden="true">
                 <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5.2" stroke="currentColor" strokeWidth="1.3" />
                 <circle cx="12" cy="12" r="4.1" stroke="currentColor" strokeWidth="1.3" />
                 <circle cx="17.6" cy="6.4" r="1" fill="currentColor" />
@@ -159,11 +199,11 @@ export function Nav() {
             <a
               href={socials[1].href}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               aria-label={socials[1].label}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-ink/25 bg-cream/80 transition-colors duration-700 hover:border-cognac hover:text-cognac sm:h-9 sm:w-9"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-ink/25 bg-cream/80 transition-colors duration-700 hover:border-cognac hover:text-cognac"
             >
-              <svg viewBox="0 0 24 24" className="h-[12px] w-[12px] sm:h-[13px] sm:w-[13px]" fill="none" aria-hidden="true">
+              <svg viewBox="0 0 24 24" className="h-[14px] w-[14px]" fill="none" aria-hidden="true">
                 <path
                   d="M14.4 8.3h2V5.1h-2.3c-2.8 0-4.5 1.8-4.5 4.5v2.1H7.4v3.1h2.2v4.9h3.2v-4.9h2.6l.4-3.1h-3V10c0-1 .5-1.7 1.6-1.7Z"
                   fill="currentColor"
@@ -171,10 +211,13 @@ export function Nav() {
               </svg>
             </a>
             <button
+              ref={menuButtonRef}
               type="button"
+              aria-controls={mobileMenuId}
+              aria-expanded={open}
               aria-label={open ? "Zamknij menu" : "Otwórz menu"}
               onClick={() => setOpen((prev) => !prev)}
-              className="relative flex h-8 w-8 items-center justify-center rounded-full border border-ink/25 bg-cream/80 shadow-sm backdrop-blur-sm sm:h-10 sm:w-10"
+              className="relative flex h-12 w-12 items-center justify-center rounded-full border border-ink/25 bg-cream/80 shadow-sm backdrop-blur-sm"
             >
               <span
                 className={`absolute h-[1.5px] w-[16px] bg-ink transition-transform duration-300 sm:w-6 ${
@@ -192,14 +235,24 @@ export function Nav() {
       </header>
 
       <div
-        className={`fixed inset-0 z-20 bg-espresso/25 transition-opacity duration-300 ${
-          open ? "opacity-100" : "pointer-events-none opacity-0"
+        className={`fixed inset-0 z-20 bg-espresso/25 transition-opacity duration-300 xl:hidden ${
+          open ? "opacity-100" : "pointer-events-none invisible opacity-0"
         }`}
-        onClick={() => setOpen(false)}
+        aria-hidden="true"
+        onClick={() => {
+          setOpen(false);
+          menuButtonRef.current?.focus();
+        }}
       />
       <aside
-        className={`fixed bottom-0 right-0 top-[84px] z-20 flex w-[82vw] max-w-[360px] flex-col bg-cream px-8 pb-10 pt-5 sm:top-[104px] sm:pt-6 md:top-[114px] transition-transform duration-500 ${
-          open ? "translate-x-0" : "pointer-events-none translate-x-full"
+        id={mobileMenuId}
+        ref={menuPanelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menu nawigacyjne"
+        aria-hidden={!open}
+        className={`fixed bottom-0 right-0 top-[84px] z-20 flex w-[82vw] max-w-[360px] flex-col bg-cream px-8 pb-10 pt-5 transition-[transform,visibility] duration-500 sm:top-[104px] sm:pt-6 md:top-[114px] xl:hidden ${
+          open ? "translate-x-0 visible" : "pointer-events-none invisible translate-x-full"
         }`}
       >
         <nav className="flex w-full flex-col gap-3 text-lg font-light">
@@ -216,7 +269,7 @@ export function Nav() {
           <a
             href={SITE_CONFIG.social.instagram}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             onClick={() => setOpen(false)}
             className={mobileMenuItemClass}
           >
@@ -225,7 +278,7 @@ export function Nav() {
           <a
             href={SITE_CONFIG.social.facebook}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             onClick={() => setOpen(false)}
             className={mobileMenuItemClass}
           >

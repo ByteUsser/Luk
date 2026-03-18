@@ -5,7 +5,7 @@
 :root {
   --cream: #faf8f4;
   --ink: #2a2420;
-  --cognac: #8b7355;
+  --cognac: #7a6246;
   --espresso: #1c1510;
   --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -19,6 +19,10 @@ body {
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
+}
+
+:where(main, section, article, div)[id] {
+  scroll-margin-top: 6.6rem;
 }
 
 body {
@@ -177,5 +181,11 @@ a {
 @media (max-width: 767px) {
   body::before {
     content: none;
+  }
+}
+
+@media (min-width: 768px) {
+  :where(main, section, article, div)[id] {
+    scroll-margin-top: 8.2rem;
   }
 }

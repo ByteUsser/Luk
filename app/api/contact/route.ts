@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
 import { getServerEnv } from "@/lib/server-env";
+import { SITE_CONFIG } from "@/lib/site-config";
 
 const contactBodySchema = z.object({
   name: z.string().trim().min(2).max(80),
@@ -92,7 +93,20 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true }, { status: 200 });
     }
 
-    const env = getServerEnv();
+    let env;
+    try {
+      env = getServerEnv();
+    } catch (envError) {
+      const details = envError instanceof Error ? envError.message : "unknown";
+      console.error("Contact form configuration error:", details);
+      return NextResponse.json(
+        {
+          error: `Formularz jest chwilowo niedostępny. Napisz bezpośrednio na ${SITE_CONFIG.email}.`
+        },
+        { status: 503 }
+      );
+    }
+
     const resend = new Resend(env.RESEND_API_KEY);
 
     const { error: resendError } = await resend.emails.send({

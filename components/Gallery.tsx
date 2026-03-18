@@ -110,6 +110,19 @@ export function Gallery({ items }: GalleryProps) {
     return () => stopMomentum();
   }, []);
 
+  const scrollGalleryBy = (direction: "left" | "right") => {
+    const node = scrollRef.current;
+    if (!node) {
+      return;
+    }
+
+    const amount = Math.min(560, Math.max(320, node.clientWidth * 0.72));
+    node.scrollBy({
+      left: direction === "right" ? amount : -amount,
+      behavior: "smooth"
+    });
+  };
+
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
     const node = scrollRef.current;
     if (!node || (event.pointerType === "mouse" && event.button !== 0)) {
@@ -232,12 +245,36 @@ export function Gallery({ items }: GalleryProps) {
   return (
     <section id="wybrane-prace" className="defer-render px-5 pb-20 pt-20 md:px-10 md:pb-28 md:pt-28">
       <div className="mx-auto max-w-[1600px]">
-        <div className="mb-12 flex items-end justify-between gap-5">
+        <div className="mb-14 flex items-center justify-between gap-5 md:mb-16">
           <h2 className="section-title">
             Wybrane <span className="italic">prace</span>
           </h2>
-          <span className="eyebrow text-cognac md:hidden">Dotknij zdjęcia, aby otworzyć podgląd</span>
-          <span className="eyebrow hidden text-cognac md:block">Przesuń lub przeciągnij</span>
+          <div className="flex items-center gap-3">
+            <span className="eyebrow text-cognac md:hidden">Dotknij zdjęcia, aby otworzyć podgląd</span>
+            <span className="eyebrow hidden text-cognac md:block">Przesuń, przeciągnij lub użyj strzałek</span>
+            <div className="hidden items-center gap-3 md:flex">
+              <button
+                type="button"
+                aria-label="Przewiń galerię w lewo"
+                onClick={() => scrollGalleryBy("left")}
+                className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-ink/25 bg-cream/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden="true">
+                  <path d="m14.5 5.5-6 6 6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                aria-label="Przewiń galerię w prawo"
+                onClick={() => scrollGalleryBy("right")}
+                className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-ink/25 bg-cream/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden="true">
+                  <path d="m9.5 5.5 6 6-6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-col gap-3 md:hidden">

@@ -70,9 +70,12 @@ export default function PhotographerLocationPage({ params }: { params: Params })
   }
 
   const contactHref = `/kontakt?lokalizacja=${location.slug}&source=landing-${location.slug}`;
+  const nearbyLocations = location.nearbySlugs
+    .map((slug) => findLocationBySlug(slug))
+    .filter((item): item is NonNullable<typeof item> => Boolean(item));
   const trustHighlights = [
     "Spokojne prowadzenie bez sztywnego pozowania",
-    "Konsultacja przed sesją i dobór miejsca",
+    "Konsultacja przed sesją i dobór miejsca do Twojego stylu",
     "Naturalna estetyka i praca na emocjach"
   ];
   const processSteps = [
@@ -189,9 +192,7 @@ export default function PhotographerLocationPage({ params }: { params: Params })
               Fotograf <span className="italic">{location.name}</span>
             </h1>
             <p className="max-w-[64ch] text-[1rem] leading-relaxed text-ink/80">
-              Szukasz fotografa na terenie {location.name} ({location.regionLabel})? Realizuję
-              naturalne sesje portretowe, lifestyle i dla par z naciskiem na swobodę, światło i
-              prawdziwe emocje.
+              Szukasz fotografa na terenie {location.name} ({location.regionLabel})? {location.lead}
             </p>
           </header>
 
@@ -210,6 +211,22 @@ export default function PhotographerLocationPage({ params }: { params: Params })
               Dojeżdżam na sesje w {location.name} oraz pobliskich miejscowościach. Jeśli planujesz
               zdjęcia poza tym obszarem, napisz przez formularz i ustalimy szczegóły terminu oraz
               dojazdu.
+            </p>
+          </section>
+
+          <section className="rounded-[1.5rem] border border-ink/12 bg-[#f3ecdf] p-5 md:p-7">
+            <h2 className="font-display text-[2rem] leading-none">
+              Gdzie najlepiej zrobić sesję w {location.name}?
+            </h2>
+            <ul className="mt-5 grid gap-3 md:grid-cols-3">
+              {location.sessionSpots.map((spot) => (
+                <li key={spot} className="rounded-2xl border border-ink/12 bg-cream/65 p-4 text-[0.93rem] text-ink/80">
+                  {spot}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-5 border-l border-cognac/40 pl-4 text-[0.92rem] italic text-ink/75">
+              {location.bestLight}
             </p>
           </section>
 
@@ -243,7 +260,7 @@ export default function PhotographerLocationPage({ params }: { params: Params })
             <div className="space-y-3">
               {faqItems.map((item) => (
                 <details key={item.question} className="rounded-2xl border border-ink/12 bg-[#f3ecdf] p-4">
-                  <summary className="cursor-pointer text-[0.86rem] uppercase tracking-[0.12em] text-ink">
+                  <summary className="cursor-pointer text-[0.94rem] leading-relaxed text-ink">
                     {item.question}
                   </summary>
                   <p className="mt-3 text-[0.95rem] leading-relaxed text-ink/80">{item.answer}</p>
@@ -252,22 +269,37 @@ export default function PhotographerLocationPage({ params }: { params: Params })
             </div>
           </section>
 
+          <section className="space-y-4">
+            <h2 className="font-display text-[2rem] leading-none">Pobliskie lokalizacje</h2>
+            <div className="flex flex-wrap gap-3">
+              {nearbyLocations.map((nearby) => (
+                <Link
+                  key={nearby.slug}
+                  href={`/fotograf/${nearby.slug}`}
+                  className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 bg-[#f3ecdf] px-4 text-[0.76rem] uppercase tracking-[0.14em] text-ink transition-colors duration-700 hover:border-cognac hover:text-cognac"
+                >
+                  Fotograf {nearby.name}
+                </Link>
+              ))}
+            </div>
+          </section>
+
           <div className="flex flex-wrap gap-3 pt-2">
             <Link
               href={contactHref}
-              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/25 bg-[#f3ecdf] px-5 text-[0.72rem] uppercase tracking-[0.2em] text-ink transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/25 bg-[#f3ecdf] px-5 text-[0.78rem] uppercase tracking-[0.14em] text-ink transition-colors duration-700 hover:border-cognac hover:text-cognac"
             >
               Umów sesję
             </Link>
             <Link
               href="/fotograf"
-              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 px-5 text-[0.72rem] uppercase tracking-[0.2em] text-ink/80 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 px-5 text-[0.78rem] uppercase tracking-[0.14em] text-ink/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
             >
               Wszystkie lokalizacje
             </Link>
             <Link
               href="/"
-              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 px-5 text-[0.72rem] uppercase tracking-[0.2em] text-ink/80 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 px-5 text-[0.78rem] uppercase tracking-[0.14em] text-ink/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
             >
               Portfolio
             </Link>
@@ -278,13 +310,13 @@ export default function PhotographerLocationPage({ params }: { params: Params })
         <div className="mx-auto flex max-w-[560px] items-center gap-2 rounded-2xl border border-ink/20 bg-cream/95 p-2 shadow-[0_14px_30px_rgba(28,21,16,0.2)] backdrop-blur">
           <Link
             href={contactHref}
-            className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-xl bg-cognac px-3 text-[0.66rem] uppercase tracking-[0.18em] text-cream"
+            className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-xl bg-cognac px-3 text-[0.74rem] uppercase tracking-[0.14em] text-cream"
           >
             Umów sesję
           </Link>
           <Link
             href="/fotograf"
-            className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-xl border border-ink/20 px-3 text-[0.66rem] uppercase tracking-[0.18em] text-ink/85"
+            className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-xl border border-ink/20 px-3 text-[0.74rem] uppercase tracking-[0.14em] text-ink/85"
           >
             Lokalizacje
           </Link>

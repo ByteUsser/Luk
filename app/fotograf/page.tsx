@@ -129,15 +129,21 @@ export default function PhotographerAreasPage() {
           <div className="mt-10 flex flex-wrap gap-3">
             <Link
               href="/kontakt?source=lokalizacje"
-              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/25 bg-[#f3ecdf] px-5 text-[0.72rem] uppercase tracking-[0.2em] text-ink transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/25 bg-[#f3ecdf] px-5 text-[0.78rem] uppercase tracking-[0.14em] text-ink transition-colors duration-700 hover:border-cognac hover:text-cognac"
             >
               Umów sesję
             </Link>
             <Link
               href="/"
-              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 px-5 text-[0.72rem] uppercase tracking-[0.2em] text-ink/80 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 px-5 text-[0.78rem] uppercase tracking-[0.14em] text-ink/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
             >
               Zobacz portfolio
+            </Link>
+            <Link
+              href="/cennik"
+              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 px-5 text-[0.78rem] uppercase tracking-[0.14em] text-ink/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+            >
+              Cennik
             </Link>
           </div>
 
@@ -146,7 +152,7 @@ export default function PhotographerAreasPage() {
             <div className="space-y-3">
               {faqItems.map((item) => (
                 <details key={item.question} className="rounded-2xl border border-ink/12 bg-[#f3ecdf] p-4">
-                  <summary className="cursor-pointer text-[0.86rem] uppercase tracking-[0.12em] text-ink">
+                  <summary className="cursor-pointer text-[0.94rem] leading-relaxed text-ink">
                     {item.question}
                   </summary>
                   <p className="mt-3 text-[0.95rem] leading-relaxed text-ink/80">{item.answer}</p>
@@ -160,13 +166,13 @@ export default function PhotographerAreasPage() {
         <div className="mx-auto flex max-w-[560px] items-center gap-2 rounded-2xl border border-ink/20 bg-cream/95 p-2 shadow-[0_14px_30px_rgba(28,21,16,0.2)] backdrop-blur">
           <Link
             href="/kontakt?source=sticky-lokalizacje"
-            className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-xl bg-cognac px-3 text-[0.66rem] uppercase tracking-[0.18em] text-cream"
+            className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-xl bg-cognac px-3 text-[0.74rem] uppercase tracking-[0.14em] text-cream"
           >
             Umów sesję
           </Link>
           <Link
             href="/"
-            className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-xl border border-ink/20 px-3 text-[0.66rem] uppercase tracking-[0.18em] text-ink/85"
+            className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-xl border border-ink/20 px-3 text-[0.74rem] uppercase tracking-[0.14em] text-ink/85"
           >
             Portfolio
           </Link>
