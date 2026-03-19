@@ -42,7 +42,7 @@ const pricingItems = [
   },
   {
     name: "Sesja dla par",
-    price: "od 400 zł",
+    price: "od 350 zł",
     description: "Spokojna sesja w plenerze lub mieście, z naciskiem na emocje i relację.",
     includes: ["pomoc w wyborze miejsca", "naturalny przebieg bez sztywnego pozowania", "spójna, filmowa kolorystyka"]
   },
