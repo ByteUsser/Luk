@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { cloudinaryAsset } from "@/lib/cloudinary";
+import { InPageLink } from "@/components/InPageLink";
 
 type HeroProps = {
   imagePublicId: string;
@@ -27,13 +28,13 @@ export function Hero({ imagePublicId }: HeroProps) {
           prawdziwe emocje i spokojna atmosfera bez sztywnego pozowania.
         </p>
 
-        <a
-          href="#kontakt"
-          className="mt-10 inline-flex min-h-[44px] max-w-full items-center gap-2 rounded-full border border-ink/30 bg-cream/90 px-4 text-[0.76rem] uppercase tracking-[0.14em] text-ink shadow-[0_8px_22px_rgba(42,36,32,0.12)] backdrop-blur-sm transition-colors duration-700 hover:border-ink/55 hover:bg-cream sm:gap-3 sm:px-5 sm:text-[0.78rem]"
+        <InPageLink
+          targetId="kontakt"
+          className="button-primary mt-10 max-w-full gap-2 px-4 text-[0.76rem] uppercase tracking-[0.14em] backdrop-blur-sm sm:gap-3 sm:px-5 sm:text-[0.78rem]"
         >
           Umów sesję
-          <span className="h-px w-10 bg-ink/60" />
-        </a>
+          <span className="h-px w-10 bg-cream/70" />
+        </InPageLink>
 
       </div>
 

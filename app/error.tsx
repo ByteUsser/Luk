@@ -27,7 +27,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
         <button
           type="button"
           onClick={reset}
-          className="inline-flex min-h-[44px] items-center rounded-full border border-ink/25 px-5 text-[0.72rem] uppercase tracking-[0.2em] text-ink transition-colors duration-700 hover:border-cognac hover:text-cognac"
+          className="button-secondary px-5 text-[0.72rem] uppercase tracking-[0.2em]"
         >
           Spróbuj ponownie
         </button>
@@ -35,4 +35,3 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
     </main>
   );
 }
-

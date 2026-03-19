@@ -21,19 +21,19 @@ export default function NotFoundPage() {
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/"
-              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/25 bg-[#f3ecdf] px-5 text-[0.78rem] uppercase tracking-[0.14em] text-ink transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="button-primary px-5 text-[0.78rem] uppercase tracking-[0.14em]"
             >
               Strona główna
             </Link>
             <Link
               href="/kontakt?source=404"
-              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 px-5 text-[0.78rem] uppercase tracking-[0.14em] text-ink/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="button-outline px-5 text-[0.78rem] uppercase tracking-[0.14em]"
             >
               Kontakt
             </Link>
             <Link
               href="/cennik"
-              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 px-5 text-[0.78rem] uppercase tracking-[0.14em] text-ink/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="button-outline px-5 text-[0.78rem] uppercase tracking-[0.14em]"
             >
               Cennik
             </Link>

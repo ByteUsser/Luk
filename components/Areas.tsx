@@ -20,7 +20,7 @@ export function Areas() {
             <Link
               key={location.slug}
               href={`/fotograf/${location.slug}`}
-              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 bg-cream px-4 text-[0.72rem] uppercase tracking-[0.18em] text-ink transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="button-secondary px-4 text-[0.72rem] uppercase tracking-[0.18em]"
             >
               {location.name}
             </Link>

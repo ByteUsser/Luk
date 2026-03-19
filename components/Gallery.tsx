@@ -2,6 +2,7 @@
 
 import { type PointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 import { cloudinaryAsset, cloudinaryUrl } from "@/lib/cloudinary";
 
@@ -26,6 +27,8 @@ export type GalleryItem = {
   publicId: string;
   fit?: "cover" | "contain";
   cardClassName?: string;
+  mobileCardClassName?: string;
+  imageClassName?: string;
 };
 
 type GalleryProps = {
@@ -186,15 +189,15 @@ export function Gallery({ items }: GalleryProps) {
     } ${item.cardClassName ?? ""}`;
     const mobileClassName = `group relative w-full overflow-hidden rounded-[1.15rem] text-left ${
       mobileHeights[index % mobileHeights.length]
-    }`;
+    } ${item.mobileCardClassName ?? ""}`;
     const labelClassName =
       variant === "mobile"
-        ? "inline-flex max-w-[97%] flex-col rounded-[1rem] border border-cream/35 bg-espresso/82 px-3 py-2 text-cream shadow-[0_8px_24px_rgba(28,21,16,0.28)]"
-        : "inline-flex max-w-[95%] flex-col rounded-[1.1rem] border border-cream/35 bg-espresso/76 px-4 py-3 text-cream shadow-[0_10px_28px_rgba(28,21,16,0.35)] backdrop-blur-[1.6px] transition-[opacity,transform] duration-700 ease-[var(--ease-editorial)] md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100";
+        ? "inline-flex max-w-[97%] flex-col items-end rounded-[1rem] border border-cream/35 bg-espresso/82 px-3 py-2 text-right text-cream shadow-[0_8px_24px_rgba(28,21,16,0.28)]"
+        : "inline-flex max-w-[95%] flex-col items-end rounded-[1.1rem] border border-cream/35 bg-espresso/76 px-4 py-3 text-right text-cream shadow-[0_10px_28px_rgba(28,21,16,0.35)] backdrop-blur-[1.6px] transition-[opacity,transform] duration-700 ease-[var(--ease-editorial)] md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100";
     const imageSizes = variant === "mobile" ? "92vw" : "(max-width: 1200px) 42vw, 430px";
     const imageClassName = isDesktop
-      ? `${fitClass} md:brightness-[0.9] md:saturate-[0.88] transition-[transform,filter] duration-[900ms] ease-[var(--ease-editorial)] ${hoverScaleClass} md:group-hover:brightness-100 md:group-hover:saturate-100`
-      : `${fitClass} transition-opacity duration-500`;
+      ? `${fitClass} md:brightness-[0.9] md:saturate-[0.88] transition-[transform,filter] duration-[900ms] ease-[var(--ease-editorial)] ${hoverScaleClass} md:group-hover:brightness-100 md:group-hover:saturate-100 ${item.imageClassName ?? ""}`
+      : `${fitClass} transition-opacity duration-500 ${item.imageClassName ?? ""}`;
 
     return (
       <button
@@ -228,7 +231,7 @@ export function Gallery({ items }: GalleryProps) {
           }`}
         />
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 p-3 md:p-4">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-end p-3 md:p-4">
           <div className={labelClassName}>
             <p className="text-[0.62rem] uppercase tracking-[0.24em] text-cream/90 md:text-[0.68rem]">
               {item.category}
@@ -245,11 +248,19 @@ export function Gallery({ items }: GalleryProps) {
   return (
     <section id="wybrane-prace" className="defer-render px-5 pb-20 pt-20 md:px-10 md:pb-28 md:pt-28">
       <div className="mx-auto max-w-[1600px]">
-        <div className="mb-14 flex items-center justify-between gap-5 md:mb-16">
-          <h2 className="section-title">
-            Wybrane <span className="italic">prace</span>
-          </h2>
-          <div className="flex items-center gap-3">
+        <div className="mb-14 flex flex-col gap-5 md:mb-16 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-wrap items-center gap-3">
+            <h2 className="section-title">
+              Wybrane <span className="italic">prace</span>
+            </h2>
+            <Link
+              href="/galeria-zdjec"
+              className="button-outline h-11 px-4 text-[0.72rem] uppercase tracking-[0.14em]"
+            >
+              Galeria zdjęć
+            </Link>
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
             <span className="eyebrow text-cognac md:hidden">Dotknij zdjęcia, aby otworzyć podgląd</span>
             <span className="eyebrow hidden text-cognac md:block">Przesuń, przeciągnij lub użyj strzałek</span>
             <div className="hidden items-center gap-3 md:flex">
@@ -257,7 +268,7 @@ export function Gallery({ items }: GalleryProps) {
                 type="button"
                 aria-label="Przewiń galerię w lewo"
                 onClick={() => scrollGalleryBy("left")}
-                className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-ink/25 bg-cream/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+                className="button-icon h-12 w-12 shrink-0"
               >
                 <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden="true">
                   <path d="m14.5 5.5-6 6 6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
@@ -267,7 +278,7 @@ export function Gallery({ items }: GalleryProps) {
                 type="button"
                 aria-label="Przewiń galerię w prawo"
                 onClick={() => scrollGalleryBy("right")}
-                className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-ink/25 bg-cream/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+                className="button-icon h-12 w-12 shrink-0"
               >
                 <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden="true">
                   <path d="m9.5 5.5 6 6-6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />

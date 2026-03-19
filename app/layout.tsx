@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost } from "next/font/google";
+import Script from "next/script";
+import { HashAnchorManager } from "@/components/HashAnchorManager";
+import { MobileStickyCta } from "@/components/MobileStickyCta";
 import { SITE_CONFIG } from "@/lib/site-config";
 import "./globals.css";
 
@@ -70,14 +73,14 @@ export const metadata: Metadata = {
   ],
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any", type: "image/x-icon" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/brand-mark-j.png", sizes: "768x768", type: "image/png" },
+      { url: "/icon.png", sizes: "512x512", type: "image/png" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
       { url: "/favicon-64x64.png", sizes: "64x64", type: "image/png" }
     ],
-    shortcut: [{ url: "/favicon.ico", type: "image/x-icon" }],
-    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }]
+    shortcut: [{ url: "/favicon-48x48.png", type: "image/png" }],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }]
   },
   authors: [{ name: SITE_CONFIG.owner }]
 };
@@ -89,7 +92,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pl">
-      <body className={`${cormorant.variable} ${jost.variable}`}>{children}</body>
+      <body className={`${cormorant.variable} ${jost.variable}`}>
+        <Script id="scroll-reset" strategy="beforeInteractive">
+          {`(() => {
+            if ('scrollRestoration' in window.history) {
+              window.history.scrollRestoration = 'manual';
+            }
+
+            const rawHash = window.location.hash.slice(1);
+            if (rawHash && !rawHash.startsWith(':~:text=')) {
+              return;
+            }
+
+            const resetScroll = () => window.scrollTo(0, 0);
+            window.addEventListener('pageshow', resetScroll);
+            window.addEventListener('load', resetScroll, { once: true });
+            resetScroll();
+          })();`}
+        </Script>
+        <HashAnchorManager />
+        {children}
+        <MobileStickyCta />
+      </body>
     </html>
   );
 }

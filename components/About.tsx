@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { cloudinaryAsset } from "@/lib/cloudinary";
+import { InPageLink } from "@/components/InPageLink";
 
 type AboutProps = {
   publicId: string;
@@ -32,27 +33,24 @@ export function About({ publicId }: AboutProps) {
         <div className="relative">
           <span className="eyebrow text-cognac">O mnie</span>
           <h2 className="section-title mt-5 max-w-[13ch]">
-            Janiczek Łukasz.
+            Łukasz Janiczek.
             <br />
-            Fotografuję <span className="italic">naturalnie</span>
+            Po prostu <span className="italic">robię zdjęcia</span>
           </h2>
 
           <p className="mt-8 max-w-[52ch] text-[1rem] leading-relaxed text-ink/80 md:text-[1.08rem]">
-            Pracuję z ludźmi, którzy chcą czuć się swobodnie przed obiektywem. Tworzę kadry o ciepłym,
-            analogowym charakterze, które opowiadają historię zamiast udawać perfekcję. Każda sesja to
-            spokojna współpraca i uważność na detale.
+            Fotografią interesuję się od dawna. Z czasem z zajawki przerodziło się to w coś, czym zacząłem
+            zajmować się na serio. Profesjonalnie działam od ponad roku i cały czas się rozwijam, ale nadal
+            najważniejsze jest dla mnie jedno: żeby zdjęcia były naturalne, miały klimat i nie wyglądały
+            sztucznie.
           </p>
 
-          <p className="mt-6 border-l border-cognac/45 pl-4 text-[0.95rem] italic text-ink/75">
-            &quot;Najlepsze zdjęcia powstają wtedy, gdy człowiek zapomina o aparacie.&quot;
-          </p>
-
-          <a
-            href="#kontakt"
-            className="mt-8 inline-flex min-h-[44px] max-w-full items-center rounded-full border border-ink/25 bg-[#f3ecdf] px-4 text-[0.66rem] uppercase tracking-[0.16em] text-ink transition-colors duration-700 hover:border-cognac hover:text-cognac sm:px-5 sm:text-[0.72rem] sm:tracking-[0.22em]"
+          <InPageLink
+            targetId="kontakt"
+            className="button-primary mt-8 max-w-full px-4 text-[0.66rem] uppercase tracking-[0.16em] sm:px-5 sm:text-[0.72rem] sm:tracking-[0.22em]"
           >
             Napisz do mnie
-          </a>
+          </InPageLink>
         </div>
       </div>
     </section>

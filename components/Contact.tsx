@@ -169,7 +169,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
 
           <a
             href={`mailto:${SITE_CONFIG.email}`}
-            className="mt-8 inline-flex h-12 max-w-full items-center rounded-full border border-cream/45 bg-cream/10 px-5 text-[0.78rem] leading-none tracking-[0.03em] text-cream transition-colors duration-700 hover:border-cognac hover:text-cognac sm:text-[0.82rem]"
+            className="button-dark mt-8 h-12 max-w-full px-5 text-[0.78rem] leading-none tracking-[0.03em] sm:text-[0.82rem]"
           >
             {SITE_CONFIG.email}
           </a>
@@ -179,7 +179,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
               href={SITE_CONFIG.social.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-12 items-center rounded-full border border-cream/35 bg-cream/10 px-5 leading-none transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="button-dark h-12 px-5 leading-none"
             >
               Instagram
             </a>
@@ -187,7 +187,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
               href={SITE_CONFIG.social.facebook}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-12 items-center rounded-full border border-cream/35 bg-cream/10 px-5 leading-none transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="button-dark h-12 px-5 leading-none"
             >
               Facebook
             </a>
@@ -197,7 +197,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
             href={SITE_CONFIG.googleBusinessProfile}
             target="_blank"
             rel="noopener noreferrer"
-            className="group mt-6 flex max-w-[430px] items-center justify-between gap-4 rounded-[1.35rem] border border-cream/20 bg-gradient-to-br from-cream/14 via-cream/10 to-transparent px-4 py-4 transition-colors duration-700 hover:border-cognac/60 hover:bg-cream/12 sm:px-5"
+            className="group mt-6 flex max-w-[430px] items-center justify-between gap-4 rounded-[1.35rem] border border-cream/30 bg-gradient-to-br from-cream/18 via-cream/14 to-transparent px-4 py-4 shadow-[0_14px_30px_rgba(8,6,5,0.2)] transition-colors duration-700 hover:border-cognac/70 hover:bg-cream/16 sm:px-5"
           >
             <div className="min-w-0">
               <p className="text-[0.7rem] uppercase tracking-[0.2em] text-[#d8c2a8]">Google</p>
@@ -208,7 +208,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
                 Sprawdz profil firmy w Google i otworz go bezposrednio w mapach.
               </p>
             </div>
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-cream/20 bg-cream/10 text-[1.3rem] text-cream transition-colors duration-700 group-hover:border-cognac/60 group-hover:text-[#d8c2a8]">
+            <span className="button-icon-dark h-12 w-12 shrink-0 text-[1.3rem] group-hover:border-cognac/70">
               G
             </span>
           </a>
@@ -338,7 +338,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
           <button
             type="submit"
             disabled={status === "loading"}
-            className="h-12 min-w-[180px] rounded-full border border-cognac bg-cognac px-6 text-[0.7rem] uppercase tracking-[0.24em] text-cream transition-colors duration-700 hover:bg-transparent hover:text-cognac disabled:cursor-not-allowed disabled:opacity-65"
+            className="button-dark-solid h-12 min-w-[180px] px-6 text-[0.7rem] uppercase tracking-[0.24em] disabled:cursor-not-allowed disabled:opacity-65"
           >
             {status === "loading" ? "Wysyłanie..." : "Wyślij"}
           </button>

@@ -5,6 +5,7 @@ import { SITE_CONFIG } from "@/lib/site-config";
 export function Footer() {
   const year = new Date().getFullYear();
   const quickLinks = [
+    { href: "/galeria-zdjec", label: "Galeria" },
     { href: "/fotograf", label: "Lokalizacje" },
     { href: "/cennik", label: "Cennik" },
     { href: "/kontakt", label: "Kontakt" },
@@ -32,7 +33,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-ink/20 text-ink/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="button-icon h-11 w-11"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
                 <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.2" />
@@ -45,7 +46,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-ink/20 text-ink/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="button-icon h-11 w-11"
             >
               <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" aria-hidden="true">
                 <path
@@ -62,7 +63,7 @@ export function Footer() {
             <Link
               key={item.href}
               href={item.href}
-              className="inline-flex h-11 items-center rounded-full border border-ink/15 px-4 leading-none transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="button-outline h-11 px-4 leading-none"
             >
               {item.label}
             </Link>

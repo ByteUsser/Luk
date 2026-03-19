@@ -4,10 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { InPageLink } from "@/components/InPageLink";
 import { SITE_CONFIG } from "@/lib/site-config";
 
 const homeNavLinks = [
   { href: "#wybrane-prace", label: "Prace" },
+  { href: "/galeria-zdjec", label: "Galeria" },
   { href: "#o-mnie", label: "O mnie" },
   { href: "#oferta", label: "Oferta" },
   { href: "/fotograf", label: "Lokalizacje" },
@@ -17,6 +19,7 @@ const homeNavLinks = [
 
 const pageNavLinks = [
   { href: "/#wybrane-prace", label: "Prace" },
+  { href: "/galeria-zdjec", label: "Galeria" },
   { href: "/#o-mnie", label: "O mnie" },
   { href: "/#oferta", label: "Oferta" },
   { href: "/fotograf", label: "Lokalizacje" },
@@ -40,7 +43,7 @@ export function Nav() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuPanelRef = useRef<HTMLElement>(null);
   const mobileMenuItemClass =
-    "inline-flex h-12 w-full items-center justify-start rounded-full border border-ink/15 bg-[#f4ede2] px-5 text-left text-[1.05rem] leading-none";
+    "button-panel h-12 w-full px-5 text-left text-[1.05rem] leading-none";
 
   useEffect(() => {
     if (!open) {
@@ -122,6 +125,22 @@ export function Nav() {
         borderColor: "rgba(42, 36, 32, 0.14)"
       };
 
+  const renderNavLink = (href: string, label: string, className: string, onNavigate?: () => void) => {
+    if (isHome && href.startsWith("#")) {
+      return (
+        <InPageLink key={href} targetId={href.slice(1)} className={className} onNavigate={onNavigate}>
+          {label}
+        </InPageLink>
+      );
+    }
+
+    return (
+      <Link key={href} href={href} className={className} onClick={onNavigate}>
+        {label}
+      </Link>
+    );
+  };
+
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-30 px-3 py-3 sm:px-5 sm:py-5 md:px-8 md:py-6 xl:px-10 xl:py-5">
@@ -129,35 +148,49 @@ export function Nav() {
           style={headerStyle}
           className="mx-auto flex max-w-[1400px] min-w-0 items-center justify-between gap-2 rounded-full border px-2.5 py-2 transition-[background-color,box-shadow,border-color] duration-500 sm:px-3 md:px-4 md:py-2.5 xl:px-6 xl:py-2.5"
         >
-          <Link
-            href={brandHref}
-            aria-label={SITE_CONFIG.name}
-            className="menu-link relative flex min-w-0 flex-1 items-center xl:flex-none"
-          >
-            <Image
-              src="/logo-black.svg"
-              alt={SITE_CONFIG.name}
-              width={2200}
-              height={650}
-              priority
-              sizes="(max-width: 359px) 132px, (max-width: 767px) 172px, (max-width: 1279px) 220px, 260px"
-              className="h-auto w-[clamp(132px,31vw,210px)] max-w-full md:w-[clamp(185px,24vw,250px)] xl:w-[260px]"
-            />
-          </Link>
+          {isHome ? (
+            <InPageLink
+              targetId="start"
+              ariaLabel={SITE_CONFIG.name}
+              className="menu-link relative flex min-w-0 flex-1 items-center xl:flex-none"
+            >
+              <Image
+                src="/logo-black.svg"
+                alt={SITE_CONFIG.name}
+                width={2200}
+                height={650}
+                priority
+                sizes="(max-width: 359px) 132px, (max-width: 767px) 172px, (max-width: 1279px) 220px, 260px"
+                className="h-auto w-[clamp(132px,31vw,210px)] max-w-full md:w-[clamp(185px,24vw,250px)] xl:w-[260px]"
+              />
+            </InPageLink>
+          ) : (
+            <Link
+              href={brandHref}
+              aria-label={SITE_CONFIG.name}
+              className="menu-link relative flex min-w-0 flex-1 items-center xl:flex-none"
+            >
+              <Image
+                src="/logo-black.svg"
+                alt={SITE_CONFIG.name}
+                width={2200}
+                height={650}
+                priority
+                sizes="(max-width: 359px) 132px, (max-width: 767px) 172px, (max-width: 1279px) 220px, 260px"
+                className="h-auto w-[clamp(132px,31vw,210px)] max-w-full md:w-[clamp(185px,24vw,250px)] xl:w-[260px]"
+              />
+            </Link>
+          )}
 
           <nav className="relative hidden items-center gap-8 text-[0.8rem] uppercase tracking-[0.22em] xl:flex">
-            {navLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="menu-link text-link">
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) => renderNavLink(link.href, link.label, "menu-link text-link"))}
             <div className="ml-1 flex items-center gap-2">
               <a
                 href={socials[0].href}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={socials[0].label}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/25 bg-cream/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+                className="button-icon h-10 w-10"
               >
                 <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" aria-hidden="true">
                   <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5.2" stroke="currentColor" strokeWidth="1.3" />
@@ -170,7 +203,7 @@ export function Nav() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={socials[1].label}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/25 bg-cream/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+                className="button-icon h-10 w-10"
               >
                 <svg viewBox="0 0 24 24" className="h-[17px] w-[17px]" fill="none" aria-hidden="true">
                   <path
@@ -188,7 +221,7 @@ export function Nav() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={socials[0].label}
-              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-ink/25 bg-cream/80 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="button-icon h-12 w-12"
             >
               <svg viewBox="0 0 24 24" className="h-[15px] w-[15px]" fill="none" aria-hidden="true">
                 <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5.2" stroke="currentColor" strokeWidth="1.3" />
@@ -201,7 +234,7 @@ export function Nav() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={socials[1].label}
-              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-ink/25 bg-cream/80 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="button-icon h-12 w-12"
             >
               <svg viewBox="0 0 24 24" className="h-[14px] w-[14px]" fill="none" aria-hidden="true">
                 <path
@@ -217,7 +250,7 @@ export function Nav() {
               aria-expanded={open}
               aria-label={open ? "Zamknij menu" : "Otwórz menu"}
               onClick={() => setOpen((prev) => !prev)}
-              className="relative flex h-12 w-12 items-center justify-center rounded-full border border-ink/25 bg-cream/80 shadow-sm backdrop-blur-sm"
+              className="button-icon relative h-12 w-12 backdrop-blur-sm"
             >
               <span
                 className={`absolute h-[1.5px] w-[16px] bg-ink transition-transform duration-300 sm:w-6 ${
@@ -256,16 +289,7 @@ export function Nav() {
         }`}
       >
         <nav className="flex w-full flex-col gap-3 text-lg font-light">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className={mobileMenuItemClass}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => renderNavLink(link.href, link.label, mobileMenuItemClass, () => setOpen(false)))}
           <a
             href={SITE_CONFIG.social.instagram}
             target="_blank"

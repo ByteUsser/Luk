@@ -18,33 +18,46 @@ export const metadata: Metadata = {
 
 const galleryItems: GalleryItem[] = [
   { title: "Nadmorski kadr", category: "Podróże", publicId: "/portfolio/gallery-01-opt.jpg" },
-  { title: "Linie architektury", category: "Miejski", publicId: "/portfolio/gallery-02-opt.jpg" },
-  { title: "Odbicie chwili", category: "Detal", publicId: "/portfolio/gallery-03-opt.jpg" },
   {
-    title: "Kolory wydarzeń",
-    category: "Event",
-    publicId: "/portfolio/gallery-04-opt.jpg",
-    fit: "contain",
-    cardClassName: "md:min-w-[520px]"
+    title: "Górski postój",
+    category: "Motoryzacja",
+    publicId: "/portfolio/fotograf-bochnia-motoryzacja-gorski-kadr.jpeg",
+    cardClassName: "md:min-w-[360px] md:h-[520px] md:mt-0",
+    mobileCardClassName: "aspect-[4/5]"
   },
-  { title: "Nocna karoseria", category: "Motoryzacja", publicId: "/portfolio/gallery-05-opt.jpg" },
-  { title: "Czerwone wskazówki", category: "Motoryzacja", publicId: "/portfolio/gallery-06-opt.jpg" }
+  { title: "Odbicie chwili", category: "Detal", publicId: "/portfolio/gallery-03-opt.jpg" },
+  { title: "Linie architektury", category: "Miejski", publicId: "/portfolio/gallery-02-opt.jpg" },
+  {
+    title: "Miejski portret",
+    category: "Portrety",
+    publicId: "/portfolio/fotograf-bochnia-portret-miejski.jpeg",
+    cardClassName: "md:min-w-[360px] md:h-[560px] md:mt-0",
+    mobileCardClassName: "aspect-[4/5]",
+    imageClassName: "object-[center_top]"
+  },
+  {
+    title: "Między kolumnami",
+    category: "Portrety",
+    publicId: "/portfolio/fotograf-bochnia-portret-kolumny.jpeg",
+    imageClassName: "object-[center_top]"
+  }
 ];
 
 const serviceItems = [
   {
-    title: "Motoryzacja",
-    description: "Kadry samochodowe z klimatem: detale, refleksy i mocne światło nocne.",
-    publicId: "/portfolio/gallery-05-opt.jpg"
+    title: "Portrety",
+    description: "Sesje portretowe i wizerunkowe, które skupiają uwagę na osobie, emocjach i świetle.",
+    publicId: "/portfolio/fotograf-bochnia-portret-zimowy.jpeg",
+    fit: "contain"
   },
   {
-    title: "Podróże",
-    description: "Reportażowe ujęcia miejsc i przestrzeni z filmową, ciepłą kolorystyką.",
+    title: "Sesje i plenery",
+    description: "Kadry w mieście, naturze i w podróży - naturalnie, spokojnie i bez sztucznego pozowania.",
     publicId: "/portfolio/gallery-01-opt.jpg"
   },
   {
-    title: "Event",
-    description: "Fotografie wydarzeń i detali, które budują opowieść o całej atmosferze.",
+    title: "Reportaż i event",
+    description: "Fotografie wydarzeń, detali i momentów, które budują pełną opowieść o atmosferze.",
     publicId: "/portfolio/gallery-04-opt.jpg"
   }
 ];

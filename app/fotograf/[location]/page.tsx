@@ -276,7 +276,7 @@ export default function PhotographerLocationPage({ params }: { params: Params })
                 <Link
                   key={nearby.slug}
                   href={`/fotograf/${nearby.slug}`}
-                  className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 bg-[#f3ecdf] px-4 text-[0.76rem] uppercase tracking-[0.14em] text-ink transition-colors duration-700 hover:border-cognac hover:text-cognac"
+                  className="button-secondary px-4 text-[0.76rem] uppercase tracking-[0.14em]"
                 >
                   Fotograf {nearby.name}
                 </Link>
@@ -287,41 +287,25 @@ export default function PhotographerLocationPage({ params }: { params: Params })
           <div className="flex flex-wrap gap-3 pt-2">
             <Link
               href={contactHref}
-              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/25 bg-[#f3ecdf] px-5 text-[0.78rem] uppercase tracking-[0.14em] text-ink transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="button-primary px-5 text-[0.78rem] uppercase tracking-[0.14em]"
             >
               Umów sesję
             </Link>
             <Link
               href="/fotograf"
-              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 px-5 text-[0.78rem] uppercase tracking-[0.14em] text-ink/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="button-outline px-5 text-[0.78rem] uppercase tracking-[0.14em]"
             >
               Wszystkie lokalizacje
             </Link>
             <Link
               href="/"
-              className="inline-flex min-h-[44px] items-center rounded-full border border-ink/20 px-5 text-[0.78rem] uppercase tracking-[0.14em] text-ink/85 transition-colors duration-700 hover:border-cognac hover:text-cognac"
+              className="button-outline px-5 text-[0.78rem] uppercase tracking-[0.14em]"
             >
               Portfolio
             </Link>
           </div>
         </article>
       </main>
-      <div className="fixed inset-x-0 bottom-3 z-40 px-4 md:hidden">
-        <div className="mx-auto flex max-w-[560px] items-center gap-2 rounded-2xl border border-ink/20 bg-cream/95 p-2 shadow-[0_14px_30px_rgba(28,21,16,0.2)] backdrop-blur">
-          <Link
-            href={contactHref}
-            className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-xl bg-cognac px-3 text-[0.74rem] uppercase tracking-[0.14em] text-cream"
-          >
-            Umów sesję
-          </Link>
-          <Link
-            href="/fotograf"
-            className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-xl border border-ink/20 px-3 text-[0.74rem] uppercase tracking-[0.14em] text-ink/85"
-          >
-            Lokalizacje
-          </Link>
-        </div>
-      </div>
       <Footer />
     </>
   );
