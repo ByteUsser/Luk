@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { cloudinaryAsset } from "@/lib/cloudinary";
 
-type Service = {
+export type Service = {
   title: string;
   description: string;
   publicId: string;

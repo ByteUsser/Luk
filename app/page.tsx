@@ -7,7 +7,7 @@ import { Gallery, type GalleryItem } from "@/components/Gallery";
 import { Hero } from "@/components/Hero";
 import { Nav } from "@/components/Nav";
 import { OptionalCursor } from "@/components/OptionalCursor";
-import { Services } from "@/components/Services";
+import { Services, type Service } from "@/components/Services";
 import { SITE_CONFIG } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -43,7 +43,7 @@ const galleryItems: GalleryItem[] = [
   }
 ];
 
-const serviceItems = [
+const serviceItems: Service[] = [
   {
     title: "Portrety",
     description: "Sesje portretowe i wizerunkowe, które skupiają uwagę na osobie, emocjach i świetle.",
