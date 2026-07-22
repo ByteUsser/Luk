@@ -161,7 +161,7 @@ export default async function PhotographerLocationPage({ params }: LocationPageP
               <nav aria-label={`Najważniejsze linki — ${location.name}`} className="mt-7 flex flex-wrap gap-x-2 gap-y-3">
                 <Link
                   href={contactHref}
-                  className="button-dark-solid min-h-12 px-3 text-[0.76rem] uppercase tracking-[0.1em] sm:px-5 sm:text-[0.78rem] sm:tracking-[0.12em]"
+                  className="button-dark-solid min-h-12 px-2.5 text-[0.76rem] uppercase tracking-[0.1em] sm:px-5 sm:text-[0.78rem] sm:tracking-[0.12em]"
                 >
                   Sprawdź termin
                 </Link>
