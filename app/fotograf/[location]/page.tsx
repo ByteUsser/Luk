@@ -30,8 +30,13 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   }
 
   const pagePath = `/fotograf/${location.slug}`;
-  const title = `Fotograf ${location.name}`;
-  const description = location.lead;
+  const isBochnia = location.slug === "bochnia";
+  const title = isBochnia
+    ? "Fotograf Bochnia – portrety, śluby i reportaże"
+    : `Fotograf ${location.name}`;
+  const description = isBochnia
+    ? "Naturalne portrety, sesje dla par, śluby, komunie i reportaże w Bochni. Zobacz portfolio, ceny i sprawdź wolny termin."
+    : location.lead;
 
   return {
     title,
@@ -153,20 +158,37 @@ export default async function PhotographerLocationPage({ params }: LocationPageP
               <p className="mt-5 max-w-[52ch] text-[1rem] leading-relaxed text-cream/76">
                 {location.lead}
               </p>
-              <div className="mt-7 flex flex-wrap gap-3">
+              <nav aria-label={`Najważniejsze linki — ${location.name}`} className="mt-7 flex flex-wrap gap-x-2 gap-y-3">
                 <Link
                   href={contactHref}
-                  className="button-dark-solid min-h-12 px-5 text-[0.78rem] uppercase tracking-[0.12em]"
+                  className="button-dark-solid min-h-12 px-3 text-[0.76rem] uppercase tracking-[0.1em] sm:px-5 sm:text-[0.78rem] sm:tracking-[0.12em]"
                 >
                   Sprawdź termin
                 </Link>
-                <Link
-                  href="/galeria-zdjec"
-                  className="button-dark min-h-12 px-5 text-[0.78rem] uppercase tracking-[0.12em]"
-                >
-                  Galeria
-                </Link>
-              </div>
+                {location.slug === "bochnia" ? (
+                  <>
+                    <Link
+                      href="/galeria-zdjec"
+                      className="text-link inline-flex min-h-12 items-center text-[0.72rem] uppercase tracking-[0.12em] text-cream/78"
+                    >
+                      Portfolio
+                    </Link>
+                    <Link
+                      href="/cennik"
+                      className="text-link inline-flex min-h-12 items-center text-[0.72rem] uppercase tracking-[0.12em] text-cream/78"
+                    >
+                      Cennik
+                    </Link>
+                  </>
+                ) : (
+                  <Link
+                    href="/galeria-zdjec"
+                    className="button-dark min-h-12 px-5 text-[0.78rem] uppercase tracking-[0.12em]"
+                  >
+                    Portfolio
+                  </Link>
+                )}
+              </nav>
             </div>
             <figure className="relative min-h-[300px] lg:min-h-[520px]">
               <Image

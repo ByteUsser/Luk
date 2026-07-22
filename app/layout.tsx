@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
 import { HashAnchorManager } from "@/components/HashAnchorManager";
 import { MarketingAnalytics } from "@/components/MarketingAnalytics";
@@ -27,15 +28,15 @@ export const metadata: Metadata = {
     canonical: "./"
   },
   title: {
-    default: `${SITE_CONFIG.name} | Fotograf Bochnia i okolice`,
+    default: `${SITE_CONFIG.name} | Naturalne zdjęcia w Bochni`,
     template: `%s | ${SITE_CONFIG.name}`
   },
   description:
-    "Fotograf Bochnia i okolice. Naturalne portrety, zdjęcia dla par, uroczystości i reportaże. Dojazd do Krakowa i Tarnowa.",
+    "Portrety, sesje dla par, śluby, komunie i reportaże w Bochni i okolicy. Zobacz portfolio i sprawdź wolny termin.",
   openGraph: {
-    title: `${SITE_CONFIG.name} | Fotograf Bochnia i okolice`,
+    title: `${SITE_CONFIG.name} | Naturalne zdjęcia w Bochni`,
     description:
-      "Naturalne portrety, zdjęcia dla par, rodzinne uroczystości i reportaże. Bochnia, Kraków, Tarnów i Małopolska.",
+      "Portrety, sesje dla par, śluby, komunie i reportaże w Bochni i okolicy. Zobacz portfolio i sprawdź wolny termin.",
     url: SITE_CONFIG.url,
     siteName: SITE_CONFIG.name,
     locale: "pl_PL",
@@ -51,9 +52,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_CONFIG.name} | Fotograf Bochnia i okolice`,
+    title: `${SITE_CONFIG.name} | Naturalne zdjęcia w Bochni`,
     description:
-      "Naturalne portrety, zdjęcia dla par, rodzinne uroczystości i reportaże.",
+      "Portrety, sesje dla par, śluby, komunie i reportaże w Bochni i okolicy.",
     images: [SITE_CONFIG.ogImage]
   },
   manifest: "/manifest.webmanifest",
@@ -99,6 +100,7 @@ export default function RootLayout({
         </Script>
         <HashAnchorManager />
         <MarketingAnalytics />
+        <SpeedInsights />
         {children}
       </body>
     </html>

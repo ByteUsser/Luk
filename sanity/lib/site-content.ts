@@ -137,6 +137,10 @@ function positionFromImage(image?: SanityImage) {
 }
 
 function validCategory(category?: string): GalleryCategory {
+  if (category === "Event i reportaż") {
+    return "Eventy";
+  }
+
   return category && categorySet.has(category) ? (category as GalleryCategory) : "Portrety";
 }
 

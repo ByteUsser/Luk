@@ -48,18 +48,6 @@ export const GALLERY_CATEGORY_DEFINITIONS = [
       "Ta część portfolio czeka na pierwszą publikację. Zdjęcia przypisane w Sanity do kategorii Eventy pojawią się tutaj automatycznie."
   },
   {
-    name: "Event i reportaż",
-    label: "Reportaż",
-    slug: "event-i-reportaz",
-    eyebrow: "Prawdziwy przebieg wydarzeń",
-    heading: "Event i reportaż",
-    metaTitle: "Fotografia eventowa i reportażowa Bochnia",
-    description:
-      "Reportaż z uroczystości, wydarzeń i spotkań — ważne momenty, detale i atmosfera pokazane w spójnej, naturalnej historii.",
-    emptyMessage: "Ta kategoria została podzielona na Uroczystości i Eventy.",
-    navigation: false
-  },
-  {
     name: "Motoryzacja",
     label: "Motoryzacja",
     slug: "motoryzacja",

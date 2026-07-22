@@ -36,31 +36,31 @@ const primaryLocations = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "Fotograf Bochnia, Kraków i Tarnów",
+  title: "Dojazd na sesje – Bochnia, Kraków i Tarnów",
   description:
-    "Fotograf Bochnia i okolice z dojazdem do Krakowa i Tarnowa. Portrety, uroczystości i reportaże.",
+    "Obszar działania Janiczek Foto: Bochnia i okolice oraz dojazd do Krakowa i Tarnowa. Sprawdź warunki dojazdu i wolny termin.",
   alternates: {
     canonical: "/fotograf"
   },
   openGraph: {
     url: `${SITE_CONFIG.url}/fotograf`,
-    title: `Fotograf Bochnia i okolice | ${SITE_CONFIG.name}`,
+    title: `Dojazd na sesje – Bochnia, Kraków i Tarnów | ${SITE_CONFIG.name}`,
     description:
-      "Portrety, uroczystości i reportaże. Bochnia, Kraków, Tarnów i Małopolska.",
+      "Bochnia i okolice oraz dojazd do Krakowa i Tarnowa. Sprawdź warunki dojazdu i wolny termin.",
     images: [
       {
         url: SITE_CONFIG.ogImage,
         width: 1200,
         height: 630,
-        alt: `Fotograf Bochnia i okolice | ${SITE_CONFIG.name}`
+        alt: `Dojazd na sesje | ${SITE_CONFIG.name}`
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: `Fotograf Bochnia i okolice | ${SITE_CONFIG.name}`,
+    title: `Dojazd na sesje – Bochnia, Kraków i Tarnów | ${SITE_CONFIG.name}`,
     description:
-      "Portrety, uroczystości i reportaże. Bochnia, Kraków, Tarnów i Małopolska.",
+      "Bochnia i okolice oraz dojazd do Krakowa i Tarnowa.",
     images: [SITE_CONFIG.ogImage]
   }
 };
@@ -88,7 +88,7 @@ export default function PhotographerAreasPage() {
             <div>
               <p className="eyebrow text-cognac">Dojazd</p>
               <h1 className="section-title mt-4 max-w-[11ch]">
-                Fotograf Bochnia i okolice
+                Dojazd na sesje fotograficzne
               </h1>
               <p className="mt-6 max-w-[64ch] text-[1rem] leading-relaxed text-ink/80">
                 Najczęściej pracuję w Bochni i okolicy. Do Krakowa, Tarnowa i innych miejsc

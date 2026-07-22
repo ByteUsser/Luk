@@ -5,22 +5,22 @@ import { PublicPageShell } from "@/components/PublicPageShell";
 import { SITE_CONFIG } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "Cennik",
+  title: "Cennik fotografa Bochnia – sesje i reportaże",
   description:
-    "Ceny startowe sesji portretowych, zdjęć do dowodu z dojazdem, uroczystości, reportaży i odbitek Janiczek Foto.",
+    "Ceny sesji portretowych, zdjęć dla par, ślubów, komunii, reportaży i zdjęć do dowodu z dojazdem. Bochnia i okolice.",
   alternates: {
     canonical: "/cennik"
   },
   openGraph: {
     url: `${SITE_CONFIG.url}/cennik`,
-    title: `Cennik | ${SITE_CONFIG.name}`,
-    description: "Zobacz ceny startowe i sprawdź wolny termin.",
+    title: `Cennik fotografa Bochnia – sesje i reportaże | ${SITE_CONFIG.name}`,
+    description: "Ceny sesji, ślubów, uroczystości i reportaży w Bochni i okolicy.",
     images: [SITE_CONFIG.ogImage]
   },
   twitter: {
     card: "summary_large_image",
-    title: `Cennik | ${SITE_CONFIG.name}`,
-    description: "Zobacz ceny startowe i sprawdź wolny termin.",
+    title: `Cennik fotografa Bochnia – sesje i reportaże | ${SITE_CONFIG.name}`,
+    description: "Ceny sesji, ślubów, uroczystości i reportaży w Bochni i okolicy.",
     images: [SITE_CONFIG.ogImage]
   }
 };

@@ -4,6 +4,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/galeria-zdjec/event-i-reportaz",
+        destination: "/galeria-zdjec/eventy",
+        permanent: true
+      },
+      {
         source: "/fotograf/nowy-wisnicz",
         destination: "/fotograf/powiat-bochenski",
         permanent: true
