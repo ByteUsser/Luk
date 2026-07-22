@@ -1,6 +1,7 @@
 "use client";
 
 import type { MouseEvent, ReactNode } from "react";
+import { scrollToAnchor } from "@/lib/anchor-scroll";
 
 type InPageLinkProps = {
   targetId: string;
@@ -15,16 +16,13 @@ export function InPageLink({ targetId, className, children, onNavigate, ariaLabe
     event.preventDefault();
     onNavigate?.();
 
-    const target = document.getElementById(targetId);
-    if (!target) {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const didScroll = scrollToAnchor(targetId, prefersReducedMotion ? "auto" : "smooth", {
+      stabilize: true
+    });
+    if (!didScroll) {
       return;
     }
-
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    target.scrollIntoView({
-      behavior: prefersReducedMotion ? "auto" : "smooth",
-      block: "start"
-    });
 
     if (window.location.hash) {
       const cleanUrl = `${window.location.pathname}${window.location.search}`;

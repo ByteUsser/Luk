@@ -9,10 +9,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cream: "var(--cream)",
-        ink: "var(--ink)",
-        cognac: "var(--cognac)",
-        espresso: "var(--espresso)"
+        cream: "rgb(var(--cream-rgb) / <alpha-value>)",
+        surface: "rgb(var(--surface-rgb) / <alpha-value>)",
+        sand: "rgb(var(--sand-rgb) / <alpha-value>)",
+        ink: "rgb(var(--ink-rgb) / <alpha-value>)",
+        cognac: "rgb(var(--cognac-rgb) / <alpha-value>)",
+        espresso: "rgb(var(--espresso-rgb) / <alpha-value>)",
+        sage: "rgb(var(--sage-rgb) / <alpha-value>)",
+        sageDark: "rgb(var(--sage-dark-rgb) / <alpha-value>)"
       },
       fontFamily: {
         display: ["var(--font-cormorant)", "serif"],

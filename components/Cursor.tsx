@@ -21,9 +21,8 @@ export function Cursor() {
       return;
     }
 
-    setEnabled(true);
-
     let raf = 0;
+    const enableFrame = window.requestAnimationFrame(() => setEnabled(true));
 
     const handleMove = (event: MouseEvent) => {
       target.current = { x: event.clientX, y: event.clientY };
@@ -48,6 +47,7 @@ export function Cursor() {
     raf = window.requestAnimationFrame(loop);
 
     return () => {
+      window.cancelAnimationFrame(enableFrame);
       window.removeEventListener("mousemove", handleMove);
       window.cancelAnimationFrame(raf);
     };
@@ -64,7 +64,7 @@ export function Cursor() {
         style={{ x: dotX, y: dotY }}
         animate={{
           scale: hovering ? 1.7 : 1,
-          backgroundColor: hovering ? "#8B7355" : "#2A2420"
+          backgroundColor: hovering ? "#6F7660" : "#241F1B"
         }}
         transition={{ duration: 0.2, ease }}
       />

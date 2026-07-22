@@ -1,0 +1,402 @@
+[
+  {
+    "file": "DSC02117.jpg",
+    "order": 1,
+    "title": "Wiosenny portret",
+    "alt": "Naturalny portret kobiety wśród kwitnących drzew - Janiczek Foto",
+    "category": "Portrety",
+    "featured": true
+  },
+  {
+    "file": "DSC02234.jpg",
+    "order": 2,
+    "title": "Rodzinny moment",
+    "alt": "Rodzice z dzieckiem podczas rodzinnej uroczystości - Janiczek Foto",
+    "category": "Uroczystości",
+    "featured": true
+  },
+  {
+    "file": "DSC03929.jpg",
+    "order": 3,
+    "title": "Parkiet i energia",
+    "alt": "Dynamiczny moment na parkiecie podczas imprezy - Janiczek Foto",
+    "category": "Eventy",
+    "featured": true
+  },
+  {
+    "file": "Cars-6.jpg",
+    "order": 4,
+    "title": "Niebieski kabriolet",
+    "alt": "Niebieski samochód sfotografowany na postoju - Janiczek Foto",
+    "category": "Motoryzacja",
+    "featured": true
+  },
+  {
+    "file": "DSC00936.jpg",
+    "order": 5,
+    "title": "Nadmorski widok",
+    "alt": "Architektura i widok na morze w słoneczny dzień - Janiczek Foto",
+    "category": "Podróże",
+    "featured": true
+  },
+  {
+    "file": "Gabriela15.jpg",
+    "order": 6,
+    "title": "Portret przy drzwiach",
+    "alt": "Kobiecy portret w ciepłym świetle przy drewnianych drzwiach - Janiczek Foto",
+    "category": "Portrety",
+    "featured": false
+  },
+  {
+    "file": "DSC02535.jpg",
+    "order": 7,
+    "title": "Wnętrze kościoła",
+    "alt": "Szeroki kadr wnętrza kościoła podczas uroczystości - Janiczek Foto",
+    "category": "Uroczystości",
+    "featured": false
+  },
+  {
+    "file": "DSC04153.jpg",
+    "order": 8,
+    "title": "Ruch na parkiecie",
+    "alt": "Goście bawiący się na parkiecie podczas wydarzenia - Janiczek Foto",
+    "category": "Eventy",
+    "featured": false
+  },
+  {
+    "file": "Cars-2.jpg",
+    "order": 9,
+    "title": "Samochód przed domem",
+    "alt": "Ciemny samochód sfotografowany przed budynkiem - Janiczek Foto",
+    "category": "Motoryzacja",
+    "featured": false
+  },
+  {
+    "file": "DSC01052.jpg",
+    "order": 10,
+    "title": "Portret nad wodą",
+    "alt": "Kobiecy portret na tle nadmorskiego krajobrazu - Janiczek Foto",
+    "category": "Portrety",
+    "featured": false
+  },
+  {
+    "file": "DSC02317.jpg",
+    "order": 11,
+    "title": "Moment ceremonii",
+    "alt": "Bliski kadr dziecka podczas rodzinnej ceremonii - Janiczek Foto",
+    "category": "Uroczystości",
+    "featured": false
+  },
+  {
+    "file": "DSC03655.jpg",
+    "order": 12,
+    "title": "Tort urodzinowy",
+    "alt": "Tort i dekoracje podczas osiemnastych urodzin - Janiczek Foto",
+    "category": "Eventy",
+    "featured": false
+  },
+  {
+    "file": "Cars-1.jpg",
+    "order": 13,
+    "title": "Detal reflektora",
+    "alt": "Zbliżenie przedniego reflektora samochodu - Janiczek Foto",
+    "category": "Motoryzacja",
+    "featured": false
+  },
+  {
+    "file": "about-opt.jpg",
+    "order": 14,
+    "title": "Nadmorski krajobraz",
+    "alt": "Drzewo i nadmorski krajobraz w słoneczny dzień - Janiczek Foto",
+    "category": "Podróże",
+    "featured": false
+  },
+  {
+    "file": "Gabriela14Druk.jpg",
+    "order": 15,
+    "title": "Portret w ciepłym świetle",
+    "alt": "Naturalny kobiecy portret przy wejściu do budynku - Janiczek Foto",
+    "category": "Portrety",
+    "featured": false
+  },
+  {
+    "file": "DSC02570.jpg",
+    "order": 16,
+    "title": "Bliskość",
+    "alt": "Rodzinny moment z dzieckiem podczas uroczystości - Janiczek Foto",
+    "category": "Uroczystości",
+    "featured": false
+  },
+  {
+    "file": "DSC03960.jpg",
+    "order": 17,
+    "title": "Wspólna zabawa",
+    "alt": "Grupa gości podczas wspólnej zabawy na wydarzeniu - Janiczek Foto",
+    "category": "Eventy",
+    "featured": false
+  },
+  {
+    "file": "Cars-3.jpg",
+    "order": 18,
+    "title": "Detal nadwozia",
+    "alt": "Zbliżenie tylnej części samochodu i oznaczenia modelu - Janiczek Foto",
+    "category": "Motoryzacja",
+    "featured": false
+  },
+  {
+    "file": "DSC00928.jpg",
+    "order": 19,
+    "title": "Miasto nad morzem",
+    "alt": "Widok na nadmorskie miasto i zabudowę - Janiczek Foto",
+    "category": "Podróże",
+    "featured": false
+  },
+  {
+    "file": "Gabriela2Druk.jpg",
+    "order": 20,
+    "title": "Portret na pomoście",
+    "alt": "Swobodny kobiecy portret na pomoście nad wodą - Janiczek Foto",
+    "category": "Portrety",
+    "featured": false
+  },
+  {
+    "file": "DSC02378.jpg",
+    "order": 21,
+    "title": "Świeca chrzcielna",
+    "alt": "Detal świecy trzymanej podczas ceremonii chrztu - Janiczek Foto",
+    "category": "Uroczystości",
+    "featured": false
+  },
+  {
+    "file": "DSC03556.jpg",
+    "order": 22,
+    "title": "Osiemnaste urodziny",
+    "alt": "Dekoracja sali przygotowanej na osiemnaste urodziny - Janiczek Foto",
+    "category": "Eventy",
+    "featured": false
+  },
+  {
+    "file": "Cars-5.jpg",
+    "order": 23,
+    "title": "Koło i linia nadwozia",
+    "alt": "Detal koła i niebieskiego nadwozia samochodu - Janiczek Foto",
+    "category": "Motoryzacja",
+    "featured": false
+  },
+  {
+    "file": "DSC00997.jpg",
+    "order": 24,
+    "title": "Portret wśród kolumn",
+    "alt": "Kobiecy portret wśród jasnych kolumn - Janiczek Foto",
+    "category": "Portrety",
+    "featured": false
+  },
+  {
+    "file": "DSC02536.jpg",
+    "order": 25,
+    "title": "Droga do ołtarza",
+    "alt": "Nawa kościoła przygotowana na rodzinną uroczystość - Janiczek Foto",
+    "category": "Uroczystości",
+    "featured": false
+  },
+  {
+    "file": "DSC03663.jpg",
+    "order": 26,
+    "title": "Urodzinowe detale",
+    "alt": "Dekoracje i detale stołu podczas osiemnastych urodzin - Janiczek Foto",
+    "category": "Eventy",
+    "featured": false
+  },
+  {
+    "file": "Cars-7.jpg",
+    "order": 27,
+    "title": "Lusterko",
+    "alt": "Zbliżenie lusterka i boku niebieskiego samochodu - Janiczek Foto",
+    "category": "Motoryzacja",
+    "featured": false
+  },
+  {
+    "file": "DSC00929 2.jpg",
+    "order": 28,
+    "title": "Nadmorska wieża",
+    "alt": "Wieża i zabudowa widziane podczas podróży - Janiczek Foto",
+    "category": "Podróże",
+    "featured": false
+  },
+  {
+    "file": "Gabriela8Druk.jpg",
+    "order": 29,
+    "title": "Portret o zachodzie",
+    "alt": "Kobiecy portret nad wodą o zachodzie słońca - Janiczek Foto",
+    "category": "Portrety",
+    "featured": false
+  },
+  {
+    "file": "DSC02537.jpg",
+    "order": 30,
+    "title": "Przed ceremonią",
+    "alt": "Ołtarz i wnętrze kościoła przed rodzinną ceremonią - Janiczek Foto",
+    "category": "Uroczystości",
+    "featured": false
+  },
+  {
+    "file": "DSC04874.jpg",
+    "order": 31,
+    "title": "Portret na imprezie",
+    "alt": "Naturalny portret kobiety podczas wieczornego wydarzenia - Janiczek Foto",
+    "category": "Portrety",
+    "featured": false
+  },
+  {
+    "file": "Cars-4.jpg",
+    "order": 32,
+    "title": "Kokpit samochodu",
+    "alt": "Wnętrze i kokpit samochodu sfotografowane od strony kierowcy - Janiczek Foto",
+    "category": "Motoryzacja",
+    "featured": false
+  },
+  {
+    "file": "fotograf-bochnia-portret-kolumny.jpg",
+    "order": 33,
+    "title": "Między kolumnami",
+    "alt": "Naturalny kobiecy portret między kamiennymi kolumnami - Janiczek Foto",
+    "category": "Portrety",
+    "featured": false
+  },
+  {
+    "file": "DSC02581.jpg",
+    "order": 34,
+    "title": "Detal ceremonii",
+    "alt": "Detal wnętrza kościoła podczas rodzinnej ceremonii - Janiczek Foto",
+    "category": "Uroczystości",
+    "featured": false
+  },
+  {
+    "file": "DSC04805.jpg",
+    "order": 35,
+    "title": "Spontaniczny portret",
+    "alt": "Spontaniczny portret kobiety podczas wieczornej imprezy - Janiczek Foto",
+    "category": "Portrety",
+    "featured": false
+  },
+  {
+    "file": "Cars-8.jpg",
+    "order": 36,
+    "title": "Sportowe detale",
+    "alt": "Koło i sportowe detale niebieskiego samochodu - Janiczek Foto",
+    "category": "Motoryzacja",
+    "featured": false
+  },
+  {
+    "file": "hero-opt.jpg",
+    "order": 37,
+    "title": "Kadr z podróży",
+    "alt": "Uliczny kadr z podróży w ciepłym południowym świetle - Janiczek Foto",
+    "category": "Podróże",
+    "featured": false
+  },
+  {
+    "file": "DSC04960.jpg",
+    "order": 38,
+    "title": "Portret z kwiatami",
+    "alt": "Kobiecy portret z bukietem jasnych kwiatów - Janiczek Foto",
+    "category": "Portrety",
+    "featured": false
+  },
+  {
+    "file": "DSC04351.jpg",
+    "order": 39,
+    "title": "Detal komunijny",
+    "alt": "Elegancki detal przygotowany na przyjęcie komunijne - Janiczek Foto",
+    "category": "Uroczystości",
+    "featured": false
+  },
+  {
+    "file": "DSC04808.jpg",
+    "order": 40,
+    "title": "Wieczorny portret",
+    "alt": "Swobodny portret kobiety podczas wieczornego wydarzenia - Janiczek Foto",
+    "category": "Portrety",
+    "featured": false
+  },
+  {
+    "file": "Cars-9.jpg",
+    "order": 41,
+    "title": "Emblemat samochodu",
+    "alt": "Zbliżenie emblematu i wykończenia samochodu - Janiczek Foto",
+    "category": "Motoryzacja",
+    "featured": false
+  },
+  {
+    "file": "fotograf-bochnia-portret-miejski.jpg",
+    "order": 42,
+    "title": "Miejski portret",
+    "alt": "Kobiecy portret podczas spaceru miejską ulicą - Janiczek Foto",
+    "category": "Portrety",
+    "featured": false
+  },
+  {
+    "file": "DSC01450.jpg",
+    "order": 43,
+    "title": "Przyjęcie urodzinowe",
+    "alt": "Kolorowe dekoracje sali przygotowanej na przyjęcie - Janiczek Foto",
+    "category": "Eventy",
+    "featured": false
+  },
+  {
+    "file": "Cars-1-2.jpg",
+    "order": 44,
+    "title": "Jasne wnętrze samochodu",
+    "alt": "Jasne wnętrze samochodu widziane od strony tylnej kanapy - Janiczek Foto",
+    "category": "Motoryzacja",
+    "featured": false
+  },
+  {
+    "file": "gallery-03-opt.jpg",
+    "order": 45,
+    "title": "Portret w zieleni",
+    "alt": "Kobiecy portret w otoczeniu zieleni i ciepłego światła - Janiczek Foto",
+    "category": "Portrety",
+    "featured": false
+  },
+  {
+    "file": "Cars-2-2.jpg",
+    "order": 46,
+    "title": "Światła samochodu",
+    "alt": "Zbliżenie reflektora ciemnego samochodu - Janiczek Foto",
+    "category": "Motoryzacja",
+    "featured": false
+  },
+  {
+    "file": "Cars-3-2.jpg",
+    "order": 47,
+    "title": "Sterowanie w konsoli",
+    "alt": "Detal sterowania w środkowej konsoli samochodu - Janiczek Foto",
+    "category": "Motoryzacja",
+    "featured": false
+  },
+  {
+    "file": "Cars-4-2.jpg",
+    "order": 48,
+    "title": "Wnętrze SUV-a",
+    "alt": "Przestronne wnętrze samochodu sfotografowane od strony pasażera - Janiczek Foto",
+    "category": "Motoryzacja",
+    "featured": false
+  },
+  {
+    "file": "Cars-5-2.jpg",
+    "order": 49,
+    "title": "Detal progu",
+    "alt": "Zbliżenie metalowego wykończenia progu samochodu - Janiczek Foto",
+    "category": "Motoryzacja",
+    "featured": false
+  },
+  {
+    "file": "Cars-10.jpg",
+    "order": 50,
+    "title": "Sportowe wnętrze",
+    "alt": "Sportowe wnętrze samochodu z widocznym kokpitem - Janiczek Foto",
+    "category": "Motoryzacja",
+    "featured": false
+  }
+]

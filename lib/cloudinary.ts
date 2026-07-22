@@ -28,7 +28,7 @@ function normalizePublicId(publicId: string): string {
 }
 
 export function cloudinaryUrl(publicId: string, options?: ImageOptions): string {
-  if (publicId.startsWith("/")) {
+  if (publicId.startsWith("/") || /^https?:\/\//i.test(publicId)) {
     return publicId;
   }
 
@@ -42,7 +42,7 @@ export function cloudinaryUrl(publicId: string, options?: ImageOptions): string 
 }
 
 export function cloudinaryBlur(publicId: string): string {
-  if (publicId.startsWith("/")) {
+  if (publicId.startsWith("/") || /^https?:\/\//i.test(publicId)) {
     return LOCAL_BLUR_DATA_URL;
   }
 

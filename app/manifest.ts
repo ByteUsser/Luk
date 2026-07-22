@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "JaniczekFoto",
     start_url: "/",
     display: "standalone",
-    background_color: "#FAF8F4",
-    theme_color: "#1C1510",
+    background_color: "#FAF7F0",
+    theme_color: "#17110D",
     icons: [
       {
         src: "/icon-192.png",

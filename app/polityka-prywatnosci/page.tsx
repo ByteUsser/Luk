@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Footer } from "@/components/Footer";
-import { Nav } from "@/components/Nav";
-import { OptionalCursor } from "@/components/OptionalCursor";
+import { PublicPageShell } from "@/components/PublicPageShell";
 import { SITE_CONFIG } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -33,15 +31,13 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <>
-      <OptionalCursor />
-      <Nav />
+    <PublicPageShell>
       <main className="px-5 pb-20 pt-28 md:px-10 md:pt-32">
         <article className="mx-auto max-w-[860px] space-y-8">
           <header className="space-y-4">
             <p className="eyebrow text-cognac">RODO</p>
             <h1 className="section-title">
-              Polityka <span className="italic">prywatności</span>
+              Polityka prywatności
             </h1>
             <p className="text-[1rem] leading-relaxed text-ink/80">
               Niniejsza polityka opisuje zasady przetwarzania danych osobowych użytkowników strony
@@ -63,8 +59,11 @@ export default function PrivacyPolicyPage() {
           <section className="space-y-3">
             <h2 className="font-display text-[2rem] leading-none">Zakres danych</h2>
             <p className="text-[1rem] leading-relaxed text-ink/80">
-              Przetwarzane są dane podane dobrowolnie w formularzu: imię, adres email oraz treść
-              wiadomości.
+              Przetwarzane są dane podane dobrowolnie w formularzu: imię, adres email, opcjonalny
+              numer telefonu oraz treść wiadomości. Do zapytania mogą zostać dołączone informacje
+              o stronie wejścia i źródle kampanii, bez treści wpisywanych w formularzu. Serwer może też zapisywać podstawowe dane
+              techniczne, takie jak adres IP, data zapytania i informacje o przeglądarce, potrzebne
+              do działania i ochrony strony.
             </p>
           </section>
 
@@ -96,12 +95,19 @@ export default function PrivacyPolicyPage() {
             <h2 className="font-display text-[2rem] leading-none">Dostawcy usług</h2>
             <p className="text-[1rem] leading-relaxed text-ink/80">
               Formularz korzysta z usługi wysyłki email (Resend), która przetwarza dane jako podmiot
-              przetwarzający wyłącznie w zakresie niezbędnym do doręczenia wiadomości.
+              przetwarzający w zakresie niezbędnym do doręczenia wiadomości. Strona wyświetla też
+              mapę Google. Po jej załadowaniu Google może otrzymać dane techniczne, w tym adres IP,
+              zgodnie z własnymi zasadami prywatności. Linki do Google Maps, Instagrama i Facebooka
+              prowadzą do zewnętrznych serwisów, które działają według własnych zasad.
+            </p>
+            <p className="text-[1rem] leading-relaxed text-ink/80">
+              Do pomiaru odwiedzin i skuteczności podstawowych działań na stronie używany jest
+              Vercel Web Analytics. Nie przekazuję do analityki imienia, adresu email, numeru telefonu
+              ani treści wiadomości.
             </p>
           </section>
         </article>
       </main>
-      <Footer />
-    </>
+    </PublicPageShell>
   );
 }

@@ -2,7 +2,11 @@ node_modules
 .next
 .next_bak_*
 .next_broken_*
+.next-build-*
+.next-cache-*
+*.tsbuildinfo
 out
+dist
 .env*
 !.env.example
 .DS_Store
@@ -10,3 +14,19 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+
+# Local photo sources and originals. Keep generated public gallery output,
+# but do not commit heavy working exports.
+content/gallery-source/*
+!content/gallery-source/.gitkeep
+!content/gallery-source/README.md
+!content/gallery-source/gallery.json
+!content/gallery-source/_needs-review/
+content/gallery-source/_needs-review/*
+!content/gallery-source/_needs-review/README.md
+
+content/portfolio-originals/*
+!content/portfolio-originals/README.md
+!content/portfolio-originals/.gitkeep
+.vercel
+.sanity

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost } from "next/font/google";
 import Script from "next/script";
 import { HashAnchorManager } from "@/components/HashAnchorManager";
-import { MobileStickyCta } from "@/components/MobileStickyCta";
+import { MarketingAnalytics } from "@/components/MarketingAnalytics";
 import { SITE_CONFIG } from "@/lib/site-config";
 import "./globals.css";
 
@@ -27,15 +27,15 @@ export const metadata: Metadata = {
     canonical: "./"
   },
   title: {
-    default: `${SITE_CONFIG.name} | Fotografia portretowa i lifestyle`,
+    default: `${SITE_CONFIG.name} | Fotograf Bochnia i okolice`,
     template: `%s | ${SITE_CONFIG.name}`
   },
   description:
-    "Fotograf Bochnia i okolice: portrety, plenery, sesje dla par i lifestyle w naturalnym świetle.",
+    "Fotograf Bochnia i okolice. Naturalne portrety, zdjęcia dla par, uroczystości i reportaże. Dojazd do Krakowa i Tarnowa.",
   openGraph: {
-    title: `${SITE_CONFIG.name} | Fotografia portretowa i lifestyle`,
+    title: `${SITE_CONFIG.name} | Fotograf Bochnia i okolice`,
     description:
-      "Fotograf Bochnia, powiat bocheński, Kraków i okolice. Emocje, filmowe tony, naturalne światło.",
+      "Naturalne portrety, zdjęcia dla par, rodzinne uroczystości i reportaże. Bochnia, Kraków, Tarnów i Małopolska.",
     url: SITE_CONFIG.url,
     siteName: SITE_CONFIG.name,
     locale: "pl_PL",
@@ -51,26 +51,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_CONFIG.name} | Fotografia portretowa i lifestyle`,
+    title: `${SITE_CONFIG.name} | Fotograf Bochnia i okolice`,
     description:
-      "Portfolio fotograficzne: portret, lifestyle, plener. Emocje, filmowe tony, naturalne światło.",
+      "Naturalne portrety, zdjęcia dla par, rodzinne uroczystości i reportaże.",
     images: [SITE_CONFIG.ogImage]
   },
   manifest: "/manifest.webmanifest",
   category: "photography",
-  keywords: [
-    "fotograf bochnia",
-    "fotograf powiat bocheński",
-    "fotograf kraków",
-    "sesja zdjęciowa bochnia",
-    "fotograf Kraków",
-    "fotografia portretowa",
-    "sesja dla par bochnia",
-    "sesja rodzinna bochnia",
-    "sesja plenerowa",
-    "sesja lifestyle",
-    "janiczekfoto"
-  ],
   icons: {
     icon: [
       { url: "/brand-mark-j.png", sizes: "768x768", type: "image/png" },
@@ -91,7 +78,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pl">
+    <html lang="pl" data-scroll-behavior="smooth">
       <body className={`${cormorant.variable} ${jost.variable}`}>
         <Script id="scroll-reset" strategy="beforeInteractive">
           {`(() => {
@@ -111,8 +98,8 @@ export default function RootLayout({
           })();`}
         </Script>
         <HashAnchorManager />
+        <MarketingAnalytics />
         {children}
-        <MobileStickyCta />
       </body>
     </html>
   );

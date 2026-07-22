@@ -1,31 +1,41 @@
 import Link from "next/link";
-import { LOCATION_LANDINGS } from "@/lib/location-pages";
+import { MotionReveal } from "@/components/MotionReveal";
+import { ServiceAreaMap } from "@/components/ServiceAreaMap";
+
+const localLinks = [
+  { href: "/fotograf/bochnia", label: "Bochnia" },
+  { href: "/fotograf/krakow", label: "Kraków" },
+  { href: "/fotograf/tarnow", label: "Tarnów" }
+] as const;
 
 export function Areas() {
   return (
-    <section id="obszar" className="defer-render px-5 pb-20 md:px-10 md:pb-28">
-      <div className="mx-auto max-w-[1400px] rounded-[1.6rem] border border-ink/10 bg-[#f3ecdf] p-6 md:p-10">
-        <p className="eyebrow text-cognac">Obszar działania</p>
-        <h2 className="section-title mt-4 max-w-[12ch]">
-          Fotografuję w <span className="italic">Bochni</span> i okolicach
-        </h2>
-        <p className="mt-6 max-w-[72ch] text-[1rem] leading-relaxed text-ink/80">
-          Najczęściej pracuję na terenie Bochni i powiatu bocheńskiego, ale realizuję sesje także
-          w Krakowie i Limanowej. Poniżej znajdziesz lokalne strony z informacjami o sesjach w
-          konkretnych miejscowościach.
-        </p>
+    <section id="obszar" className="px-5 py-16 md:px-10 md:py-20">
+      <div
+        className="mx-auto grid max-w-[1280px] gap-6 lg:grid-cols-[0.62fr_1.38fr] lg:items-center"
+        data-scroll-anchor
+      >
+        <MotionReveal>
+          <p className="eyebrow text-cognac">Dojazd</p>
+          <p className="mt-5 max-w-[38ch] text-[1rem] leading-relaxed text-ink/78">
+            Bazą jest Bochnia i okolice. Do Krakowa i Tarnowa dojeżdżam po ustaleniu terminu.
+          </p>
+          <nav aria-label="Najważniejsze lokalizacje" className="mt-6 flex flex-wrap gap-x-5 gap-y-3">
+            {localLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-link inline-flex min-h-11 items-center text-[0.76rem] uppercase tracking-[0.1em] text-ink/68"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        </MotionReveal>
 
-        <div className="mt-7 flex flex-wrap gap-3">
-          {LOCATION_LANDINGS.map((location) => (
-            <Link
-              key={location.slug}
-              href={`/fotograf/${location.slug}`}
-              className="button-secondary px-4 text-[0.72rem] uppercase tracking-[0.18em]"
-            >
-              {location.name}
-            </Link>
-          ))}
-        </div>
+        <MotionReveal delay={0.08}>
+          <ServiceAreaMap />
+        </MotionReveal>
       </div>
     </section>
   );

@@ -1,16 +1,9 @@
 # Portfolio images
 
-W tym folderze możesz trzymać zdjęcia pod dowolnymi nazwami (`DSC...JPG`).
-Na stronie używane są pliki techniczne o stałych nazwach:
+Ten folder jest publiczny, więc powinny tu trafiać tylko pliki używane przez stronę.
+Ciężkie oryginały i pliki robocze trzymaj poza `public`, np. w `content/portfolio-originals/`.
 
-- `hero.jpg`
-- `about.jpg`
-- `gallery-01.jpg` ... `gallery-06.jpg`
-- `service-portrait.jpg`
-- `service-plener.jpg`
-- `service-couple.jpg`
-
-Wersja produkcyjna używa zoptymalizowanych plików:
+Na stronie głównej używane są zoptymalizowane pliki:
 
 - `hero-opt.jpg`
 - `about-opt.jpg`
@@ -20,3 +13,17 @@ Wersja produkcyjna używa zoptymalizowanych plików:
 - `service-couple-opt.jpg`
 
 Jeśli chcesz zmienić kolejność kadrów, podmieniamy mapowanie w `app/page.tsx`.
+
+## Pełna galeria zdjęć
+
+Pełna podstrona `/galeria-zdjec` korzysta z manifestu `content/gallery-manifest.json`.
+
+Nowe zdjęcia dodawaj tak:
+
+1. Wyeksportuj z Lightrooma tylko kadry zatwierdzone do publikacji.
+2. Wrzuć je do `content/gallery-source/`.
+3. Opcjonalnie opisz je w `content/gallery-source/gallery.json`.
+4. Uruchom `npm run gallery:build`.
+5. Sprawdź `/galeria-zdjec` lokalnie i dopiero wtedy publikuj zmiany.
+
+Skrypt generuje zoptymalizowane pliki do `public/portfolio/gallery/` oraz aktualizuje manifest używany przez Next.js.

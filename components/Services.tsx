@@ -1,10 +1,15 @@
+"use client";
+
 import Image from "next/image";
+import Link from "next/link";
+import { motion, useReducedMotion } from "framer-motion";
 import { cloudinaryAsset } from "@/lib/cloudinary";
 
 export type Service = {
   title: string;
-  description: string;
+  eyebrow: string;
   publicId: string;
+  href: string;
   fit?: "cover" | "contain";
 };
 
@@ -13,56 +18,82 @@ type ServicesProps = {
 };
 
 export function Services({ items }: ServicesProps) {
-  return (
-    <section id="oferta" className="defer-render px-5 pb-20 md:px-10 md:pb-28">
-      <div className="mx-auto max-w-[1400px]">
-        <h2 className="section-title">
-          Rodzaje <span className="italic">sesji</span>
-        </h2>
-        <p className="mt-5 max-w-[58ch] text-[0.98rem] leading-relaxed text-ink/78 md:text-[1.02rem]">
-          To główne kierunki, w których pracuję najczęściej. Jeśli masz inny pomysł na zdjęcia, napisz
-          śmiało - jestem też otwarty na niestandardowe realizacje.
-        </p>
+  const reduceMotion = useReducedMotion();
 
-        <div className="mt-10 grid gap-4 md:grid-cols-3 md:gap-5">
-          {items.map((item) => {
-            const image = cloudinaryAsset(item.publicId, { width: 900, quality: 70 });
-            const usesContain = item.fit === "contain";
-            const imageClassName = usesContain
-              ? "object-contain object-bottom scale-[0.84] brightness-[0.92] transition-[transform,filter] duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[0.88] group-hover:brightness-100"
-              : "object-cover brightness-[0.88] transition-[transform,filter] duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[1.04] group-hover:brightness-[0.96]";
+  return (
+    <section id="oferta" className="bg-espresso px-5 py-16 text-cream md:px-10 md:py-20">
+      <div className="mx-auto max-w-[1450px]" data-scroll-anchor>
+        <motion.div
+          className="border-b border-cream/16 pb-7"
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.68, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div>
+            <p className="eyebrow text-[#c8ad8d]">Oferta</p>
+            <h2 className="section-title mt-4 max-w-[13ch] text-cream">Portrety, uroczystości i reportaże</h2>
+          </div>
+        </motion.div>
+
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+          {items.map((item, index) => {
+            const image = cloudinaryAsset(item.publicId, { width: 1000, quality: 72 });
+            const fitClass = item.fit === "contain" ? "object-contain bg-sand p-3" : "object-cover";
 
             return (
-              <article
+              <motion.article
                 key={item.title}
-                className={`group relative min-h-[330px] overflow-hidden md:min-h-[420px] ${
-                  usesContain ? "bg-[#d8d0c7]" : ""
-                }`}
+                initial={reduceMotion ? false : { opacity: 0, y: 28 }}
+                whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+                whileHover={reduceMotion ? undefined : { y: -5 }}
+                viewport={{ once: true, amount: 0.16 }}
+                transition={{
+                  duration: 0.72,
+                  delay: Math.min(index * 0.08, 0.2),
+                  ease: [0.22, 1, 0.36, 1]
+                }}
               >
-                <Image
-                  src={image.src}
-                  alt={item.title}
-                  fill
-                  loading="lazy"
-                  quality={70}
-                  sizes="(max-width: 768px) 92vw, 33vw"
-                  className={imageClassName}
-                  placeholder="blur"
-                  blurDataURL={image.blurDataURL}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-espresso/90 via-espresso/52 to-espresso/22" />
-                <div className="absolute inset-0 flex items-end justify-end p-5 text-cream md:p-7">
-                  <div className="w-full max-w-[32ch] rounded-2xl border border-cream/28 bg-espresso/64 px-4 py-4 text-right shadow-[0_10px_24px_rgba(28,21,16,0.36)] backdrop-blur-[1.5px]">
-                    <h3 className="font-display text-[2rem] leading-[0.92] md:text-[2.15rem]">{item.title}</h3>
-                    <p className="mt-3 text-[0.98rem] leading-relaxed text-cream/95 md:translate-y-2 md:opacity-0 md:transition-[opacity,transform] md:duration-700 md:ease-[var(--ease-editorial)] md:group-hover:translate-y-0 md:group-hover:opacity-100">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              </article>
+                <Link
+                  href={item.href}
+                  className="group relative block aspect-[16/11] overflow-hidden rounded-[1.05rem] border border-cream/14 bg-[#211812] sm:aspect-[4/5]"
+                >
+                  <Image
+                    src={image.src}
+                    alt={item.title}
+                    fill
+                    loading="lazy"
+                    quality={72}
+                    sizes="(max-width: 639px) 92vw, (max-width: 767px) 46vw, (max-width: 1023px) 30vw, 33vw"
+                    className={`${fitClass} brightness-[0.83] transition duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[1.035] group-hover:brightness-[0.94]`}
+                    placeholder="blur"
+                    blurDataURL={image.blurDataURL}
+                  />
+                  <span className="absolute inset-0 bg-gradient-to-t from-espresso via-espresso/24 to-transparent" />
+                  <span className="absolute inset-x-0 bottom-0 block p-4 md:p-6">
+                    <span className="block text-[0.66rem] uppercase tracking-[0.14em] text-[#c8ad8d]">{item.eyebrow}</span>
+                    <span className="mt-2 block max-w-[13ch] font-display text-[1.9rem] leading-[0.94] text-cream md:text-[2.3rem]">{item.title}</span>
+                    <span className="mt-3 inline-flex items-center border-b border-cream/38 pb-1 text-[0.7rem] uppercase tracking-[0.12em] text-cream md:mt-5">
+                      Zobacz szczegóły <span className="ml-3 text-base" aria-hidden="true">→</span>
+                    </span>
+                  </span>
+                </Link>
+              </motion.article>
             );
           })}
         </div>
+
+        <motion.div
+          className="mt-8"
+          initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.6, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Link href="/cennik" className="button-dark min-h-12 px-5 text-[0.78rem] uppercase tracking-[0.12em]">
+            Zobacz cały cennik
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

@@ -4,28 +4,45 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "gallery:build": "node scripts/build-gallery.mjs",
+    "cms:migrate": "sanity exec scripts/migrate-gallery-to-sanity.mjs --with-user-token",
+    "cms:photos:replace": "sanity exec scripts/migrate-gallery-to-sanity.mjs --with-user-token -- --force",
+    "cms:videos": "sanity exec scripts/import-videos-to-sanity.mjs --with-user-token",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
+    "@sanity/client": "^7.23.2",
+    "@vercel/analytics": "^2.0.1",
     "framer-motion": "^12.23.24",
-    "next": "^14.2.33",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "next": "^16.2.10",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "resend": "^6.1.1",
     "yet-another-react-lightbox": "^3.25.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/node": "^24.6.0",
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.21",
-    "eslint": "^8.57.1",
-    "eslint-config-next": "^14.2.33",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "^16.2.10",
     "postcss": "^8.5.6",
+    "sanity": "^6.5.0",
+    "styled-components": "^6.4.3",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "postcss": "$postcss",
+    "@vercel/frameworks": {
+      "smol-toml": "1.7.0"
+    },
+    "typeid-js": {
+      "uuid": "11.1.1"
+    }
   }
 }

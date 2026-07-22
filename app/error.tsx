@@ -18,16 +18,16 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
       <div className="mx-auto max-w-[760px] space-y-6">
         <p className="eyebrow text-cognac">Błąd aplikacji</p>
         <h1 className="section-title">
-          Coś poszło <span className="italic">nie tak</span>
+          Wystąpił błąd
         </h1>
         <p className="max-w-[52ch] text-[1rem] leading-relaxed text-ink/80">
-          Przepraszamy, wystąpił nieoczekiwany błąd. Spróbuj odświeżyć stronę lub skontaktuj się
+          Przepraszam, coś poszło nie tak. Spróbuj odświeżyć stronę lub skontaktuj się
           przez email: {SITE_CONFIG.email}.
         </p>
         <button
           type="button"
           onClick={reset}
-          className="button-secondary px-5 text-[0.72rem] uppercase tracking-[0.2em]"
+          className="button-secondary px-5 text-[0.82rem] uppercase tracking-[0.12em]"
         >
           Spróbuj ponownie
         </button>

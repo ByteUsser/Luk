@@ -1,30 +1,18 @@
 "use client";
 
-import { type PointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import { motion, useReducedMotion } from "framer-motion";
+import { useMemo, useRef, useState } from "react";
+import { PhotoLightbox, preparePhotoLightbox } from "@/components/PhotoLightbox";
 import { cloudinaryAsset, cloudinaryUrl } from "@/lib/cloudinary";
-
-const Lightbox = dynamic(() => import("yet-another-react-lightbox"), {
-  ssr: false
-});
-
-let lightboxStylesPromise: Promise<unknown> | null = null;
-
-function ensureLightboxStyles() {
-  if (!lightboxStylesPromise) {
-    // @ts-expect-error Next handles CSS chunk loading at runtime.
-    lightboxStylesPromise = import("yet-another-react-lightbox/styles.css");
-  }
-
-  return lightboxStylesPromise;
-}
 
 export type GalleryItem = {
   title: string;
+  alt?: string;
   category: string;
   publicId: string;
+  imagePosition?: string;
   fit?: "cover" | "contain";
   cardClassName?: string;
   mobileCardClassName?: string;
@@ -33,299 +21,126 @@ export type GalleryItem = {
 
 type GalleryProps = {
   items: GalleryItem[];
+  lightboxItems?: GalleryItem[];
 };
 
-const desktopHeights = ["h-[350px] md:h-[480px]", "h-[310px] md:h-[400px]", "h-[390px] md:h-[560px]"];
-const mobileHeights = ["aspect-[4/5]", "aspect-[16/10]", "aspect-[4/5]"];
-function lightboxSrc(publicId: string, width: number) {
-  if (publicId.startsWith("/")) {
-    return publicId;
-  }
+const cardLayouts = [
+  "aspect-[4/5] sm:col-span-2 sm:aspect-[16/10] xl:col-span-7 xl:row-span-2 xl:aspect-auto xl:min-h-[560px]",
+  "aspect-[4/3] xl:col-span-5 xl:aspect-auto xl:min-h-[272px]",
+  "aspect-[4/3] xl:col-span-5 xl:aspect-auto xl:min-h-[272px]",
+  "aspect-[3/2] xl:col-span-8 xl:aspect-auto xl:min-h-[600px]",
+  "xl:col-span-4 xl:aspect-auto xl:min-h-[600px]"
+] as const;
 
-  return cloudinaryUrl(publicId, { width, quality: "auto" });
+function lightboxSrc(publicId: string) {
+  return publicId.startsWith("/") ? publicId : cloudinaryUrl(publicId, { width: 1920, quality: "auto" });
 }
 
-export function Gallery({ items }: GalleryProps) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const pointerDown = useRef(false);
-  const startClientX = useRef(0);
-  const startScrollLeft = useRef(0);
-  const lastClientX = useRef(0);
-  const lastTimestamp = useRef(0);
-  const velocity = useRef(0);
-  const momentumFrame = useRef<number | null>(null);
-  const draggedDistance = useRef(0);
+export function Gallery({ items, lightboxItems = items }: GalleryProps) {
   const [lightboxIndex, setLightboxIndex] = useState(-1);
-  const [isMobileViewport, setIsMobileViewport] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const update = () => setIsMobileViewport(mediaQuery.matches);
-
-    update();
-    mediaQuery.addEventListener("change", update);
-    return () => mediaQuery.removeEventListener("change", update);
-  }, []);
-
+  const lightboxTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const reduceMotion = useReducedMotion();
   const slides = useMemo(
-    () =>
-      items.map((item) => ({
-        src: lightboxSrc(item.publicId, isMobileViewport ? 1280 : 1920),
-        alt: item.title
-      })),
-    [isMobileViewport, items]
+    () => lightboxItems.map((item) => ({ src: lightboxSrc(item.publicId), alt: item.alt || item.title })),
+    [lightboxItems]
   );
 
-  const stopMomentum = () => {
-    if (momentumFrame.current !== null) {
-      window.cancelAnimationFrame(momentumFrame.current);
-      momentumFrame.current = null;
-    }
-  };
-
-  const runMomentum = () => {
-    const node = scrollRef.current;
-    if (!node) {
-      return;
-    }
-
-    stopMomentum();
-
-    const tick = () => {
-      if (!scrollRef.current) {
-        return;
-      }
-
-      scrollRef.current.scrollLeft += velocity.current * 16;
-      velocity.current *= 0.93;
-
-      if (Math.abs(velocity.current) > 0.015) {
-        momentumFrame.current = window.requestAnimationFrame(tick);
-      } else {
-        stopMomentum();
-      }
-    };
-
-    momentumFrame.current = window.requestAnimationFrame(tick);
-  };
-
-  useEffect(() => {
-    return () => stopMomentum();
-  }, []);
-
-  const scrollGalleryBy = (direction: "left" | "right") => {
-    const node = scrollRef.current;
-    if (!node) {
-      return;
-    }
-
-    const amount = Math.min(560, Math.max(320, node.clientWidth * 0.72));
-    node.scrollBy({
-      left: direction === "right" ? amount : -amount,
-      behavior: "smooth"
-    });
-  };
-
-  const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    const node = scrollRef.current;
-    if (!node || (event.pointerType === "mouse" && event.button !== 0)) {
-      return;
-    }
-
-    pointerDown.current = true;
-    startClientX.current = event.clientX;
-    startScrollLeft.current = node.scrollLeft;
-    lastClientX.current = event.clientX;
-    lastTimestamp.current = performance.now();
-    velocity.current = 0;
-    draggedDistance.current = 0;
-    stopMomentum();
-    event.currentTarget.setPointerCapture(event.pointerId);
-  };
-
-  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
-    const node = scrollRef.current;
-    if (!node || !pointerDown.current) {
-      return;
-    }
-
-    const walk = (event.clientX - startClientX.current) * 1.15;
-    node.scrollLeft = startScrollLeft.current - walk;
-
-    draggedDistance.current = Math.max(
-      draggedDistance.current,
-      Math.abs(event.clientX - startClientX.current)
-    );
-
-    const now = performance.now();
-    const dt = Math.max(16, now - lastTimestamp.current);
-    velocity.current = -(event.clientX - lastClientX.current) / dt;
-    lastClientX.current = event.clientX;
-    lastTimestamp.current = now;
-  };
-
-  const handlePointerEnd = (event: PointerEvent<HTMLDivElement>) => {
-    if (!pointerDown.current) {
-      return;
-    }
-
-    pointerDown.current = false;
-    event.currentTarget.releasePointerCapture(event.pointerId);
-    runMomentum();
-  };
-
-  const renderCard = (item: GalleryItem, index: number, variant: "mobile" | "desktop") => {
-    const image = cloudinaryAsset(item.publicId, { width: 900 });
-    const fitClass =
-      item.fit === "contain"
-        ? "object-contain bg-[#241a13] p-[6px] md:p-[8px]"
-        : "object-cover object-center";
-    const isDesktop = variant === "desktop";
-    const hoverScaleClass = item.fit === "contain" ? "" : "md:group-hover:scale-[1.018]";
-    const desktopClassName = `group relative min-w-[76vw] shrink-0 overflow-hidden text-left sm:min-w-[65vw] md:min-w-[380px] ${
-      desktopHeights[index % desktopHeights.length]
-    } ${index % 2 === 0 ? "md:min-w-[430px]" : ""} ${
-      index % 3 === 1 ? "md:mt-8" : index % 3 === 2 ? "md:mt-2" : ""
-    } ${item.cardClassName ?? ""}`;
-    const mobileClassName = `group relative w-full overflow-hidden rounded-[1.15rem] text-left ${
-      mobileHeights[index % mobileHeights.length]
-    } ${item.mobileCardClassName ?? ""}`;
-    const labelClassName =
-      variant === "mobile"
-        ? "inline-flex max-w-[97%] flex-col items-end rounded-[1rem] border border-cream/35 bg-espresso/82 px-3 py-2 text-right text-cream shadow-[0_8px_24px_rgba(28,21,16,0.28)]"
-        : "inline-flex max-w-[95%] flex-col items-end rounded-[1.1rem] border border-cream/35 bg-espresso/76 px-4 py-3 text-right text-cream shadow-[0_10px_28px_rgba(28,21,16,0.35)] backdrop-blur-[1.6px] transition-[opacity,transform] duration-700 ease-[var(--ease-editorial)] md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100";
-    const imageSizes = variant === "mobile" ? "92vw" : "(max-width: 1200px) 42vw, 430px";
-    const imageClassName = isDesktop
-      ? `${fitClass} md:brightness-[0.9] md:saturate-[0.88] transition-[transform,filter] duration-[900ms] ease-[var(--ease-editorial)] ${hoverScaleClass} md:group-hover:brightness-100 md:group-hover:saturate-100 ${item.imageClassName ?? ""}`
-      : `${fitClass} transition-opacity duration-500 ${item.imageClassName ?? ""}`;
-
-    return (
-      <button
-        key={`${item.publicId}-${item.title}-${variant}`}
-        type="button"
-        onClick={(event) => {
-          if (variant === "desktop" && draggedDistance.current > 8) {
-            event.preventDefault();
-            return;
-          }
-          void ensureLightboxStyles().finally(() => setLightboxIndex(index));
-        }}
-        className={variant === "mobile" ? mobileClassName : desktopClassName}
-      >
-        <Image
-          src={image.src}
-          alt={`${item.title} - ${item.category}`}
-          fill
-          loading="lazy"
-          quality={68}
-          sizes={imageSizes}
-          className={imageClassName}
-          placeholder={variant === "mobile" ? "empty" : "blur"}
-          blurDataURL={variant === "mobile" ? undefined : image.blurDataURL}
-        />
-        <div
-          className={`pointer-events-none absolute inset-0 bg-gradient-to-t ${
-            variant === "mobile"
-              ? "from-espresso/42 via-espresso/8 to-transparent"
-              : "from-espresso/34 via-transparent to-transparent"
-          }`}
-        />
-
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-end p-3 md:p-4">
-          <div className={labelClassName}>
-            <p className="text-[0.62rem] uppercase tracking-[0.24em] text-cream/90 md:text-[0.68rem]">
-              {item.category}
-            </p>
-            <p className="mt-2 font-display text-[clamp(1.15rem,4.6vw,2rem)] leading-[0.94] text-cream">
-              {item.title}
-            </p>
-          </div>
-        </div>
-      </button>
-    );
-  };
-
   return (
-    <section id="wybrane-prace" className="defer-render px-5 pb-20 pt-20 md:px-10 md:pb-28 md:pt-28">
-      <div className="mx-auto max-w-[1600px]">
-        <div className="mb-14 flex flex-col gap-5 md:mb-16 md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-wrap items-center gap-3">
-            <h2 className="section-title">
-              Wybrane <span className="italic">prace</span>
-            </h2>
-            <Link
-              href="/galeria-zdjec"
-              className="button-outline h-11 px-4 text-[0.72rem] uppercase tracking-[0.14em]"
-            >
-              Galeria zdjęć
-            </Link>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="eyebrow text-cognac md:hidden">Dotknij zdjęcia, aby otworzyć podgląd</span>
-            <span className="eyebrow hidden text-cognac md:block">Przesuń, przeciągnij lub użyj strzałek</span>
-            <div className="hidden items-center gap-3 md:flex">
-              <button
-                type="button"
-                aria-label="Przewiń galerię w lewo"
-                onClick={() => scrollGalleryBy("left")}
-                className="button-icon h-12 w-12 shrink-0"
-              >
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden="true">
-                  <path d="m14.5 5.5-6 6 6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                </svg>
-              </button>
-              <button
-                type="button"
-                aria-label="Przewiń galerię w prawo"
-                onClick={() => scrollGalleryBy("right")}
-                className="button-icon h-12 w-12 shrink-0"
-              >
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden="true">
-                  <path d="m9.5 5.5 6 6-6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-3 md:hidden">
-          {items.map((item, index) => renderCard(item, index, "mobile"))}
-        </div>
-
-        <div
-          ref={scrollRef}
-          className="no-scrollbar hidden cursor-grab touch-pan-y items-end gap-4 overflow-x-auto pb-2 active:cursor-grabbing md:flex md:gap-6"
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerEnd}
-          onPointerCancel={handlePointerEnd}
+    <section id="wybrane-prace" className="px-5 py-14 md:px-10 md:py-20">
+      <div className="mx-auto max-w-[1320px]" data-scroll-anchor>
+        <motion.div
+          className="flex flex-col gap-5 border-b border-ink/12 pb-8 sm:flex-row sm:items-end sm:justify-between"
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.68, ease: [0.22, 1, 0.36, 1] }}
         >
-          {items.map((item, index) => renderCard(item, index, "desktop"))}
+          <div>
+            <p className="eyebrow text-cognac">Galeria</p>
+            <h2 className="section-title mt-4 max-w-[12ch]">Wybrane zdjęcia</h2>
+          </div>
+          <Link
+            href="/galeria-zdjec"
+            className="text-link inline-flex min-h-11 w-fit items-center pb-1 text-[0.78rem] uppercase tracking-[0.12em] text-ink/72"
+          >
+            Cała galeria <span aria-hidden="true">→</span>
+          </Link>
+        </motion.div>
+
+        <div className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-12 xl:grid-rows-[272px_272px_600px] xl:gap-4">
+          {items.map((item, index) => {
+            const isLargeCard = index === 0 || index === 3;
+            const image = cloudinaryAsset(item.publicId, {
+              width: isLargeCard ? 1900 : 1200,
+              quality: isLargeCard ? 75 : 72
+            });
+            const fitClass = item.fit === "contain" ? "object-contain bg-espresso p-2" : "object-cover";
+            const imageSizes =
+              index === 0
+                ? "(max-width: 639px) 92vw, (max-width: 1279px) 92vw, 58vw"
+                : index === 3
+                  ? "(max-width: 1279px) 46vw, 66vw"
+                  : index === 4
+                    ? "32vw"
+                    : "(max-width: 639px) 92vw, (max-width: 1279px) 46vw, 40vw";
+            const fullGalleryIndex = lightboxItems.findIndex(
+              (lightboxItem) => lightboxItem.publicId === item.publicId
+            );
+
+            return (
+              <motion.button
+                key={`${item.publicId}-${item.title}`}
+                type="button"
+                aria-label={`Otwórz zdjęcie — ${item.category}`}
+                onClick={(event) => {
+                  lightboxTriggerRef.current = event.currentTarget;
+                  void preparePhotoLightbox().finally(() =>
+                    setLightboxIndex(fullGalleryIndex >= 0 ? fullGalleryIndex : index)
+                  );
+                }}
+                initial={reduceMotion ? false : { opacity: 0, y: 26, scale: 0.985 }}
+                whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+                whileHover={reduceMotion ? undefined : { y: -4 }}
+                viewport={{ once: true, amount: 0.12, margin: "0px 0px -6% 0px" }}
+                transition={{
+                  duration: 0.72,
+                  delay: Math.min(index * 0.055, 0.24),
+                  ease: [0.22, 1, 0.36, 1]
+                }}
+                className={`group relative overflow-hidden rounded-[1.05rem] bg-sand text-left shadow-[0_16px_36px_rgba(36,31,27,0.09)] ${
+                  index === 4 ? "hidden xl:block" : index >= 3 ? "hidden sm:block" : "block"
+                } ${
+                  cardLayouts[index] ?? "aspect-[4/3] xl:col-span-4 xl:min-h-[310px]"
+                }`}
+              >
+                <Image
+                  src={image.src}
+                  alt={item.alt || `${item.title} — ${item.category}`}
+                  fill
+                  loading={index < 2 ? "eager" : "lazy"}
+                  quality={isLargeCard ? 75 : 72}
+                  sizes={imageSizes}
+                  placeholder="blur"
+                  blurDataURL={image.blurDataURL}
+                  className={`${fitClass} transition duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[1.025] group-hover:saturate-[1.04] ${item.imageClassName ?? ""}`}
+                  style={item.imagePosition ? { objectPosition: item.imagePosition } : undefined}
+                />
+                <span className="absolute inset-0 bg-gradient-to-t from-espresso/48 via-transparent to-transparent opacity-55 transition-opacity group-hover:opacity-75" />
+                <span className="absolute inset-x-0 bottom-0 p-4 text-cream md:p-5">
+                  <span className="block text-[0.69rem] uppercase tracking-[0.15em] text-cream/82">{item.category}</span>
+                </span>
+              </motion.button>
+            );
+          })}
         </div>
       </div>
 
-      {lightboxIndex >= 0 ? (
-        <Lightbox
-          open
-          index={lightboxIndex}
-          close={() => setLightboxIndex(-1)}
-          slides={slides}
-          carousel={{
-            preload: isMobileViewport ? 2 : 3,
-            padding: "0px",
-            spacing: "0px"
-          }}
-          animation={{
-            swipe: isMobileViewport ? 250 : 320,
-            navigation: isMobileViewport ? 220 : 260,
-            easing: {
-              swipe: "cubic-bezier(.22,.78,.22,1)",
-              navigation: "cubic-bezier(.22,.78,.22,1)",
-              fade: "cubic-bezier(.25,.8,.25,1)"
-            }
-          }}
-        />
-      ) : null}
+      <PhotoLightbox
+        slides={slides}
+        index={lightboxIndex}
+        onClose={() => setLightboxIndex(-1)}
+        returnFocusRef={lightboxTriggerRef}
+      />
     </section>
   );
 }

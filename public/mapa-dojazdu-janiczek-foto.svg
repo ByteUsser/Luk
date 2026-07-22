@@ -1,0 +1,121 @@
+<svg width="1100" height="680" viewBox="0 0 1100 680" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Orientacyjny obszar dojazdu Janiczek Foto</title>
+  <desc id="desc">Mapa poglądowa okolic Bochni, Krakowa, Limanowej i Tarnowa z zaznaczonym obszarem dojazdu.</desc>
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="1100" y2="680" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#304936"/>
+      <stop offset="0.42" stop-color="#59613d"/>
+      <stop offset="0.72" stop-color="#263a2f"/>
+      <stop offset="1" stop-color="#151f1b"/>
+    </linearGradient>
+    <radialGradient id="cityGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(250 238) rotate(20) scale(240 150)">
+      <stop stop-color="#c7b793" stop-opacity="0.58"/>
+      <stop offset="0.58" stop-color="#7b7352" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#27362d" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bochniaGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(575 310) rotate(12) scale(180 118)">
+      <stop stop-color="#b7b089" stop-opacity="0.42"/>
+      <stop offset="0.7" stop-color="#546042" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#27362d" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="satelliteNoise" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.009 0.018" numOctaves="5" seed="18"/>
+      <feColorMatrix type="matrix" values="0.46 0 0 0 0.06 0 0.52 0 0 0.12 0 0 0.38 0 0.06 0 0 0 0.42 0"/>
+      <feBlend mode="overlay" in2="SourceGraphic"/>
+    </filter>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#07100d" flood-opacity="0.45"/>
+    </filter>
+    <filter id="labelStroke" x="-20%" y="-80%" width="140%" height="260%" color-interpolation-filters="sRGB">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="2.4" result="DILATED"/>
+      <feFlood flood-color="#121817" flood-opacity="0.78" result="OUTLINE"/>
+      <feComposite in="OUTLINE" in2="DILATED" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1100" height="680" rx="34" fill="url(#base)"/>
+  <rect width="1100" height="680" rx="34" fill="url(#cityGlow)"/>
+  <rect width="1100" height="680" rx="34" fill="url(#bochniaGlow)"/>
+  <rect width="1100" height="680" rx="34" filter="url(#satelliteNoise)" opacity="0.78"/>
+
+  <g opacity="0.32">
+    <path d="M-40 528C98 454 158 505 265 432C384 350 430 387 546 300C700 185 788 265 934 164C1022 103 1087 100 1148 82" stroke="#1c2d24" stroke-width="38" stroke-linecap="round"/>
+    <path d="M-22 212C138 162 266 169 376 102C484 36 591 74 709 42C831 9 946 20 1130 -38" stroke="#6c7347" stroke-width="42" stroke-linecap="round" opacity="0.46"/>
+    <path d="M72 706C155 594 263 570 392 598C517 625 610 543 722 555C844 568 935 648 1110 608" stroke="#14231e" stroke-width="60" stroke-linecap="round"/>
+    <path d="M244 -28C277 110 221 197 275 314C321 414 437 469 466 588C479 642 468 686 455 722" stroke="#738254" stroke-width="28" stroke-linecap="round" opacity="0.34"/>
+  </g>
+
+  <g opacity="0.5" stroke="#93a06b" stroke-width="1.1">
+    <path d="M28 94C165 128 269 108 402 145C536 183 638 161 778 203C916 244 984 216 1088 244"/>
+    <path d="M4 400C122 362 227 392 354 372C507 349 581 284 722 304C864 324 944 384 1102 350"/>
+    <path d="M125 0C148 119 128 208 174 300C220 393 294 452 309 680"/>
+    <path d="M792 0C760 93 768 176 726 267C677 372 627 450 628 680"/>
+  </g>
+
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-12 242C96 226 165 219 258 222C369 226 462 247 564 260C704 279 847 272 1114 268" stroke="#d4a36c" stroke-width="7" opacity="0.86"/>
+    <path d="M-12 242C96 226 165 219 258 222C369 226 462 247 564 260C704 279 847 272 1114 268" stroke="#493c2d" stroke-width="2.2" opacity="0.58"/>
+    <path d="M170 210C190 278 202 344 226 416C246 475 272 536 308 680" stroke="#d4a36c" stroke-width="5" opacity="0.82"/>
+    <path d="M170 210C190 278 202 344 226 416C246 475 272 536 308 680" stroke="#493c2d" stroke-width="1.7" opacity="0.58"/>
+    <path d="M318 252C369 284 430 301 492 310C556 319 635 315 718 330C796 344 874 367 1003 420" stroke="#bd9567" stroke-width="3.4" opacity="0.72"/>
+    <path d="M398 392C451 347 509 332 575 314C656 293 711 254 789 212" stroke="#bd9567" stroke-width="3.2" opacity="0.7"/>
+    <path d="M490 302C481 356 477 403 506 454C531 499 578 536 621 582" stroke="#bd9567" stroke-width="3" opacity="0.62"/>
+    <path d="M628 272C626 333 638 381 688 428C742 480 815 510 900 558" stroke="#bd9567" stroke-width="2.8" opacity="0.56"/>
+  </g>
+
+  <g opacity="0.44" stroke="#80a9a7" stroke-width="2" stroke-linecap="round">
+    <path d="M34 330C126 322 186 345 263 330C335 317 374 286 438 294C512 304 547 352 614 350C680 349 743 306 817 318C893 331 955 373 1060 356"/>
+    <path d="M-12 545C99 513 189 517 292 486C386 458 445 410 536 421C630 432 692 496 782 504C883 514 968 479 1116 502"/>
+  </g>
+
+  <path d="M132 233L332 171L595 188L784 294L713 467L443 512L193 410Z" fill="#ef4444" fill-opacity="0.08" stroke="#ef4444" stroke-width="3.4" stroke-dasharray="8 7" stroke-linejoin="round" filter="url(#softShadow)"/>
+
+  <g font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="34" fill="#f6f0e5" filter="url(#labelStroke)">
+    <text x="141" y="247">Kraków</text>
+    <text x="555" y="303" font-size="24">Bochnia</text>
+    <text x="811" y="276" font-size="24">Brzesko</text>
+    <text x="915" y="269" font-size="28">Tarnów</text>
+    <text x="456" y="524" font-size="25">Limanowa</text>
+    <text x="335" y="432" font-size="22">Dobczyce</text>
+    <text x="246" y="533" font-size="22">Myślenice</text>
+    <text x="487" y="373" font-size="22">Nowy Wiśnicz</text>
+    <text x="385" y="245" font-size="20">Wieliczka</text>
+    <text x="660" y="236" font-size="20">Niepołomice</text>
+  </g>
+
+  <g font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">
+    <rect x="74" y="224" width="38" height="25" rx="6" fill="#e84c4c"/>
+    <text x="87" y="242" fill="#fff7ef">A4</text>
+    <rect x="196" y="486" width="32" height="24" rx="6" fill="#71a15e"/>
+    <text x="204" y="504" fill="#fff7ef">S7</text>
+    <rect x="879" y="248" width="38" height="25" rx="6" fill="#e84c4c"/>
+    <text x="892" y="266" fill="#fff7ef">A4</text>
+  </g>
+
+  <g transform="translate(578 307)" filter="url(#softShadow)">
+    <circle r="20" fill="#fff8f0"/>
+    <circle r="13" fill="#f2545b"/>
+    <circle r="5" fill="#fff8f0"/>
+  </g>
+
+  <g transform="translate(606 300)" filter="url(#softShadow)">
+    <rect x="0" y="-22" width="214" height="44" rx="22" fill="#17110d" fill-opacity="0.86"/>
+    <text x="18" y="5" fill="#fff8f0" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700">Janiczek Foto - start</text>
+  </g>
+
+  <g transform="translate(32 38)" opacity="0.96">
+    <rect width="282" height="46" rx="23" fill="#17110d" fill-opacity="0.72"/>
+    <text x="22" y="29" fill="#fff8f0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" letter-spacing="2">ORIENTACYJNY OBSZAR DOJAZDU</text>
+  </g>
+
+  <g transform="translate(774 596)">
+    <rect width="286" height="44" rx="22" fill="#17110d" fill-opacity="0.68"/>
+    <text x="21" y="28" fill="#f6efe4" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">Szczegóły ustalam przed rezerwacją</text>
+  </g>
+
+  <rect x="1" y="1" width="1098" height="678" rx="33" stroke="#fff8f0" stroke-opacity="0.2" stroke-width="2"/>
+</svg>

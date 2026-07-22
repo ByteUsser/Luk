@@ -12,7 +12,11 @@ export function OptionalCursor() {
   const [canHover, setCanHover] = useState(false);
 
   useEffect(() => {
-    setCanHover(window.matchMedia("(hover: hover)").matches);
+    const frame = window.requestAnimationFrame(() => {
+      setCanHover(window.matchMedia("(hover: hover)").matches);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   if (!canHover) {

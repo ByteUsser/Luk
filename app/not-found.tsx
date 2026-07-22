@@ -1,46 +1,53 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { Footer } from "@/components/Footer";
-import { Nav } from "@/components/Nav";
-import { OptionalCursor } from "@/components/OptionalCursor";
+import { PublicPageShell } from "@/components/PublicPageShell";
+
+export const metadata: Metadata = {
+  title: "Strona nie istnieje",
+  description: "Nie znaleziono podanej strony w serwisie Janiczek Foto.",
+  alternates: {
+    canonical: null
+  },
+  robots: {
+    index: false,
+    follow: true
+  }
+};
 
 export default function NotFoundPage() {
   return (
-    <>
-      <OptionalCursor />
-      <Nav />
+    <PublicPageShell>
       <main className="px-5 pb-20 pt-28 md:px-10 md:pb-24 md:pt-32">
-        <section className="mx-auto max-w-[900px] rounded-[1.5rem] border border-ink/12 bg-[#f3ecdf] p-6 md:p-9">
+        <section className="mx-auto max-w-[900px] rounded-[1.5rem] border border-ink/12 bg-surface p-6 md:p-9">
           <p className="eyebrow text-cognac">404</p>
           <h1 className="section-title mt-4">
-            Tej strony <span className="italic">nie ma</span>
+            Strona nie istnieje
           </h1>
           <p className="mt-6 max-w-[58ch] text-[1rem] leading-relaxed text-ink/80">
-            Link może być nieaktualny albo adres został wpisany z literówką. Wróć na stronę główną
-            albo przejdź bezpośrednio do kontaktu.
+            Adres może być nieaktualny albo wpisany z literówką. Wróć na stronę główną albo napisz do mnie.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/"
-              className="button-primary px-5 text-[0.78rem] uppercase tracking-[0.14em]"
+              className="button-primary px-5 text-[0.82rem] uppercase tracking-[0.12em]"
             >
               Strona główna
             </Link>
             <Link
               href="/kontakt?source=404"
-              className="button-outline px-5 text-[0.78rem] uppercase tracking-[0.14em]"
+              className="button-outline px-5 text-[0.82rem] uppercase tracking-[0.12em]"
             >
-              Kontakt
+              Napisz wiadomość
             </Link>
             <Link
               href="/cennik"
-              className="button-outline px-5 text-[0.78rem] uppercase tracking-[0.14em]"
+              className="button-outline px-5 text-[0.82rem] uppercase tracking-[0.12em]"
             >
               Cennik
             </Link>
           </div>
         </section>
       </main>
-      <Footer />
-    </>
+    </PublicPageShell>
   );
 }

@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { scrollToAnchor } from "@/lib/anchor-scroll";
 
 export function HashAnchorManager() {
   const pathname = usePathname();
@@ -55,9 +56,9 @@ export function HashAnchorManager() {
     }
 
     afterPaint(() => {
-        target.scrollIntoView({ behavior: "auto", block: "start" });
-        const cleanUrl = `${window.location.pathname}${window.location.search}`;
-        window.history.replaceState(window.history.state, "", cleanUrl);
+      scrollToAnchor(targetId, "auto", { stabilize: true });
+      const cleanUrl = `${window.location.pathname}${window.location.search}`;
+      window.history.replaceState(window.history.state, "", cleanUrl);
     });
 
     return () => {

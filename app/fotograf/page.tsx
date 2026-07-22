@@ -1,48 +1,44 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Footer } from "@/components/Footer";
-import { Nav } from "@/components/Nav";
-import { OptionalCursor } from "@/components/OptionalCursor";
-import { LOCATION_LANDINGS } from "@/lib/location-pages";
+import { PublicPageShell } from "@/components/PublicPageShell";
+import { ServiceAreaMap } from "@/components/ServiceAreaMap";
 import { SITE_CONFIG } from "@/lib/site-config";
-
-const conversionSteps = [
-  {
-    title: "1. Wybierz lokalizację",
-    description: "Kliknij miejscowość poniżej i zobacz lokalną stronę z dopasowaną ofertą."
-  },
-  {
-    title: "2. Napisz kilka zdań",
-    description: "Po kliknięciu „Umów sesję” formularz podpowie gotowy szkic wiadomości."
-  },
-  {
-    title: "3. Otrzymaj plan sesji",
-    description: "Wracam z propozycją terminu, miejscówki i krótkim planem przebiegu."
-  }
-] as const;
 
 const faqItems = [
   {
-    question: "Czy realizujesz sesje tylko w Bochni?",
+    question: "Czy robisz zdjęcia poza Bochnią?",
     answer:
-      "Nie. Najczęściej pracuję w Bochni i powiecie bocheńskim, ale dojeżdżam też do Krakowa, Limanowej i okolicznych miejscowości."
+      "Tak. Najczęściej działam w Bochni i okolicy. Do Krakowa, Tarnowa i innych miejsc w Małopolsce dojeżdżam po ustaleniu."
   },
   {
-    question: "Jak szybko odpowiadasz na zapytania?",
+    question: "Czy dojazd jest dodatkowo płatny?",
     answer:
-      "Najczęściej w ciągu 24 godzin. W odpowiedzi otrzymasz propozycję terminu oraz dalsze kroki rezerwacji."
+      "Przy dalszych miejscowościach tak. Dostaniesz pełną wycenę przed potwierdzeniem terminu."
+  }
+] as const;
+
+const primaryLocations = [
+  {
+    name: "Bochnia",
+    href: "/fotograf/bochnia",
+    note: "Portrety, pary i uroczystości."
   },
   {
-    question: "Czy mogę umówić sesję, jeśli nie mam doświadczenia przed aparatem?",
-    answer:
-      "Tak. W trakcie sesji prowadzę Cię krok po kroku, tak żeby efekt był naturalny i bez stresu."
+    name: "Kraków",
+    href: "/fotograf/krakow",
+    note: "Portrety, pary i reportaże."
+  },
+  {
+    name: "Tarnów",
+    href: "/fotograf/tarnow",
+    note: "Sesje, uroczystości i wydarzenia."
   }
 ] as const;
 
 export const metadata: Metadata = {
-  title: "Fotograf Bochnia i okolice",
+  title: "Fotograf Bochnia, Kraków i Tarnów",
   description:
-    "Fotograf Bochnia, powiat bocheński, Kraków i okolice. Sprawdź lokalne strony dla miejscowości i umów sesję.",
+    "Fotograf Bochnia i okolice z dojazdem do Krakowa i Tarnowa. Portrety, uroczystości i reportaże.",
   alternates: {
     canonical: "/fotograf"
   },
@@ -50,7 +46,7 @@ export const metadata: Metadata = {
     url: `${SITE_CONFIG.url}/fotograf`,
     title: `Fotograf Bochnia i okolice | ${SITE_CONFIG.name}`,
     description:
-      "Sesje portretowe i lifestyle na terenie Bochni, powiatu bocheńskiego, Krakowa i Limanowej.",
+      "Portrety, uroczystości i reportaże. Bochnia, Kraków, Tarnów i Małopolska.",
     images: [
       {
         url: SITE_CONFIG.ogImage,
@@ -64,7 +60,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `Fotograf Bochnia i okolice | ${SITE_CONFIG.name}`,
     description:
-      "Sesje portretowe i lifestyle na terenie Bochni, powiatu bocheńskiego, Krakowa i Limanowej.",
+      "Portrety, uroczystości i reportaże. Bochnia, Kraków, Tarnów i Małopolska.",
     images: [SITE_CONFIG.ogImage]
   }
 };
@@ -84,75 +80,72 @@ export default function PhotographerAreasPage() {
   };
 
   return (
-    <>
-      <OptionalCursor />
-      <Nav />
-      <main className="px-5 pb-28 pt-28 md:px-10 md:pb-20 md:pt-32">
+    <PublicPageShell>
+      <main className="px-5 pb-20 pt-28 md:px-10 md:pb-24 md:pt-32">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-        <div className="mx-auto max-w-[1200px]">
-          <p className="eyebrow text-cognac">Lokalny fotograf</p>
-          <h1 className="section-title mt-4 max-w-[13ch]">
-            Fotograf Bochnia <span className="italic">i okolice</span>
-          </h1>
-          <p className="mt-6 max-w-[68ch] text-[1rem] leading-relaxed text-ink/80">
-            Tworzę sesje portretowe, lifestyle i dla par w Bochni, powiecie bocheńskim, Limanowej i
-            Krakowie. Wybierz miejscowość, aby zobaczyć dedykowaną stronę lokalną.
-          </p>
+        <div className="mx-auto max-w-[1220px]">
+          <section className="grid gap-7 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
+            <div>
+              <p className="eyebrow text-cognac">Dojazd</p>
+              <h1 className="section-title mt-4 max-w-[11ch]">
+                Fotograf Bochnia i okolice
+              </h1>
+              <p className="mt-6 max-w-[64ch] text-[1rem] leading-relaxed text-ink/80">
+                Najczęściej pracuję w Bochni i okolicy. Do Krakowa, Tarnowa i innych miejsc
+                w Małopolsce dojeżdżam po ustaleniu terminu.
+              </p>
 
-          <section className="mt-8 rounded-[1.5rem] border border-ink/12 bg-[#f3ecdf] p-5 md:p-7">
-            <h2 className="font-display text-[2.1rem] leading-none">Jak wygląda rezerwacja?</h2>
-            <div className="mt-5 grid gap-3 md:grid-cols-3">
-              {conversionSteps.map((step) => (
-                <article key={step.title} className="rounded-2xl border border-ink/12 bg-cream/65 p-4">
-                  <h3 className="text-[0.78rem] uppercase tracking-[0.18em] text-cognac">{step.title}</h3>
-                  <p className="mt-3 text-[0.95rem] leading-relaxed text-ink/80">{step.description}</p>
-                </article>
-              ))}
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Link
+                  href="/kontakt?source=lokalizacje"
+                  className="button-primary px-5 text-[0.82rem] uppercase tracking-[0.14em]"
+                >
+                  Sprawdź termin
+                </Link>
+                <a
+                  href={`tel:${SITE_CONFIG.phone}`}
+                  className="button-outline px-5 text-[0.82rem] uppercase tracking-[0.14em]"
+                >
+                  Zadzwoń
+                </a>
+              </div>
             </div>
+
+            <ServiceAreaMap />
           </section>
 
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {LOCATION_LANDINGS.map((location) => (
-              <Link
-                key={location.slug}
-                href={`/fotograf/${location.slug}`}
-                className="flex min-h-[90px] flex-col justify-center rounded-2xl border border-ink/15 bg-[#f3ecdf] px-5 py-4 transition-colors duration-700 hover:border-cognac"
-              >
-                <span className="font-display text-[1.7rem] leading-none">{location.name}</span>
-                <span className="mt-2 text-[0.75rem] uppercase tracking-[0.18em] text-ink/65">
-                  {location.regionLabel}
-                </span>
-              </Link>
-            ))}
-          </div>
+          <section className="mt-10">
+            <p className="eyebrow text-cognac">Lokalizacje</p>
+            <h2 className="mt-4 font-display text-[2.35rem] leading-none md:text-[3rem]">Najważniejsze kierunki</h2>
+            <nav className="mt-6 grid border-y border-ink/12 md:grid-cols-3 md:divide-x md:divide-ink/12" aria-label="Główny obszar działania">
+              {primaryLocations.map((location) => (
+                <Link
+                  key={location.href}
+                  href={location.href}
+                  className="group border-b border-ink/12 py-5 last:border-b-0 md:border-b-0 md:px-6 md:first:pl-0"
+                >
+                  <span className="block font-display text-[1.9rem] leading-none">{location.name}</span>
+                  <span className="mt-2 block text-[0.9rem] leading-relaxed text-ink/66">{location.note}</span>
+                  <span className="mt-4 inline-block text-[0.72rem] uppercase tracking-[0.1em] text-cognac transition-transform group-hover:translate-x-1">
+                    Zobacz <span aria-hidden="true">→</span>
+                  </span>
+                </Link>
+              ))}
+            </nav>
+            <Link
+              href="/kontakt?source=inna-lokalizacja"
+              className="text-link mt-5 inline-flex min-h-11 items-center pb-1 text-[0.76rem] uppercase tracking-[0.1em] text-ink/68"
+            >
+              Inna miejscowość? Napisz <span className="ml-2" aria-hidden="true">→</span>
+            </Link>
+          </section>
 
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Link
-              href="/kontakt?source=lokalizacje"
-              className="button-primary px-5 text-[0.78rem] uppercase tracking-[0.14em]"
-            >
-              Umów sesję
-            </Link>
-            <Link
-              href="/"
-              className="button-outline px-5 text-[0.78rem] uppercase tracking-[0.14em]"
-            >
-              Zobacz portfolio
-            </Link>
-            <Link
-              href="/cennik"
-              className="button-outline px-5 text-[0.78rem] uppercase tracking-[0.14em]"
-            >
-              Cennik
-            </Link>
-          </div>
-
-          <section className="mt-10 space-y-4">
-            <h2 className="font-display text-[2rem] leading-none">Najczęstsze pytania</h2>
+          <section className="mt-10 space-y-4 border-t border-ink/12 pt-8">
+            <h2 className="font-display text-[2rem] leading-none">Dojazd</h2>
             <div className="space-y-3">
               {faqItems.map((item) => (
-                <details key={item.question} className="rounded-2xl border border-ink/12 bg-[#f3ecdf] p-4">
-                  <summary className="cursor-pointer text-[0.94rem] leading-relaxed text-ink">
+                <details key={item.question} className="border-b border-ink/12 py-4">
+                  <summary className="flex min-h-11 cursor-pointer items-center text-[0.94rem] leading-relaxed text-ink">
                     {item.question}
                   </summary>
                   <p className="mt-3 text-[0.95rem] leading-relaxed text-ink/80">{item.answer}</p>
@@ -162,7 +155,6 @@ export default function PhotographerAreasPage() {
           </section>
         </div>
       </main>
-      <Footer />
-    </>
+    </PublicPageShell>
   );
 }

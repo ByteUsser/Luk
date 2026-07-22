@@ -6,14 +6,14 @@ export function Footer() {
   const year = new Date().getFullYear();
   const quickLinks = [
     { href: "/galeria-zdjec", label: "Galeria" },
-    { href: "/fotograf", label: "Lokalizacje" },
+    { href: "/#oferta", label: "Oferta" },
     { href: "/cennik", label: "Cennik" },
-    { href: "/kontakt", label: "Kontakt" },
-    { href: "/polityka-prywatnosci", label: "Prywatność" }
+    { href: "/o-mnie", label: "O mnie" },
+    { href: "/kontakt", label: "Kontakt" }
   ] as const;
 
   return (
-    <footer className="px-5 pb-7 pt-8 md:px-10 md:pb-8 md:pt-10">
+    <footer data-site-footer className="px-5 pb-7 pt-8 md:px-10 md:pb-8 md:pt-10">
       <div className="mx-auto max-w-[1400px] border-t border-ink/15 pt-5 md:pt-6">
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <Link href="/" aria-label={SITE_CONFIG.name} className="inline-flex items-center">
@@ -58,23 +58,28 @@ export function Footer() {
           </div>
         </div>
 
-        <nav className="mt-6 flex flex-wrap gap-3 text-[0.72rem] uppercase tracking-[0.14em] text-ink/70">
+        <nav className="mt-6 flex flex-wrap gap-x-6 gap-y-1 text-[0.74rem] uppercase tracking-[0.12em] text-ink/70">
           {quickLinks.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="button-outline h-11 px-4 leading-none"
+              className="text-link inline-flex min-h-11 items-center leading-none transition-colors hover:text-ink"
             >
               {item.label}
             </Link>
           ))}
         </nav>
 
-        <div className="mt-4 flex flex-col gap-1 text-[0.68rem] uppercase tracking-[0.16em] text-ink/60 sm:mt-5 sm:flex-row sm:items-center sm:justify-between sm:text-[0.72rem]">
-          <p>{SITE_CONFIG.city}</p>
+        <div className="mt-4 flex flex-col border-t border-ink/10 pt-3 text-[0.72rem] leading-relaxed text-ink/48 sm:mt-5 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} {SITE_CONFIG.name}. Wszelkie prawa zastrzeżone.
           </p>
+          <Link
+            href="/polityka-prywatnosci"
+            className="text-link inline-flex min-h-11 w-fit items-center transition-colors hover:text-ink/72"
+          >
+            Polityka prywatności
+          </Link>
         </div>
       </div>
     </footer>

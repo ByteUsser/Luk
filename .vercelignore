@@ -1,0 +1,16 @@
+node_modules
+.next
+.next_*
+.next-*
+dist
+out
+.git
+.vercel
+.sanity
+.env*
+*.tsbuildinfo
+.DS_Store
+
+# Lokalne źródła i oryginały nie są potrzebne do działania strony.
+content/gallery-source
+content/portfolio-originals

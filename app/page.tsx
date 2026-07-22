@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { About } from "@/components/About";
 import { Areas } from "@/components/Areas";
 import { Contact } from "@/components/Contact";
-import { Footer } from "@/components/Footer";
 import { Gallery, type GalleryItem } from "@/components/Gallery";
 import { Hero } from "@/components/Hero";
-import { Nav } from "@/components/Nav";
-import { OptionalCursor } from "@/components/OptionalCursor";
+import { PublicPageShell } from "@/components/PublicPageShell";
+import { Reviews } from "@/components/Reviews";
 import { Services, type Service } from "@/components/Services";
+import { VideoShowcase } from "@/components/VideoShowcase";
 import { SITE_CONFIG } from "@/lib/site-config";
+import { getResolvedSiteContent } from "@/sanity/lib/site-content";
 
 export const metadata: Metadata = {
   alternates: {
@@ -16,53 +16,36 @@ export const metadata: Metadata = {
   }
 };
 
-const galleryItems: GalleryItem[] = [
-  { title: "Nadmorski kadr", category: "Podróże", publicId: "/portfolio/gallery-01-opt.jpg" },
-  {
-    title: "Górski postój",
-    category: "Motoryzacja",
-    publicId: "/portfolio/fotograf-bochnia-motoryzacja-gorski-kadr.jpeg",
-    cardClassName: "md:min-w-[360px] md:h-[520px] md:mt-0",
-    mobileCardClassName: "aspect-[4/5]"
-  },
-  { title: "Odbicie chwili", category: "Detal", publicId: "/portfolio/gallery-03-opt.jpg" },
-  { title: "Linie architektury", category: "Miejski", publicId: "/portfolio/gallery-02-opt.jpg" },
-  {
-    title: "Miejski portret",
-    category: "Portrety",
-    publicId: "/portfolio/fotograf-bochnia-portret-miejski.jpeg",
-    cardClassName: "md:min-w-[360px] md:h-[560px] md:mt-0",
-    mobileCardClassName: "aspect-[4/5]",
-    imageClassName: "object-[center_top]"
-  },
-  {
-    title: "Między kolumnami",
-    category: "Portrety",
-    publicId: "/portfolio/fotograf-bochnia-portret-kolumny.jpeg",
-    imageClassName: "object-[center_top]"
-  }
-];
-
 const serviceItems: Service[] = [
   {
-    title: "Portrety",
-    description: "Sesje portretowe i wizerunkowe, które skupiają uwagę na osobie, emocjach i świetle.",
-    publicId: "/portfolio/fotograf-bochnia-portret-zimowy.jpeg",
-    fit: "contain"
+    eyebrow: "Portret • para • wizerunek",
+    title: "Portret i para",
+    publicId: "/portfolio/gallery/006-portret-przy-drzwiach.webp",
+    href: "/cennik#cennik-portret",
   },
   {
-    title: "Sesje i plenery",
-    description: "Kadry w mieście, naturze i w podróży - naturalnie, spokojnie i bez sztucznego pozowania.",
-    publicId: "/portfolio/gallery-01-opt.jpg"
+    eyebrow: "Ślub • komunia • chrzest",
+    title: "Śluby i uroczystości",
+    publicId: "/portfolio/gallery/007-wnetrze-kosciola.webp",
+    href: "/cennik#cennik-komunia-chrzest"
   },
   {
-    title: "Reportaż i event",
-    description: "Fotografie wydarzeń, detali i momentów, które budują pełną opowieść o atmosferze.",
-    publicId: "/portfolio/gallery-04-opt.jpg"
+    eyebrow: "Event • firma • backstage",
+    title: "Event i firma",
+    publicId: "/portfolio/gallery/008-ruch-na-parkiecie.webp",
+    href: "/cennik#cennik-event"
   }
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const content = await getResolvedSiteContent();
+  const galleryItems: GalleryItem[] = content.homepageGallery;
+  const allGalleryItems: GalleryItem[] = content.gallery.map((item) => ({
+    title: item.title,
+    alt: item.alt,
+    category: item.category,
+    publicId: item.src
+  }));
   const photographerJsonLd = {
     "@context": "https://schema.org",
     "@type": "Photographer",
@@ -76,9 +59,11 @@ export default function HomePage() {
     },
     image: `${SITE_CONFIG.url}${SITE_CONFIG.ogImage}`,
     email: SITE_CONFIG.email,
+    telephone: SITE_CONFIG.phone,
     address: {
       "@type": "PostalAddress",
       addressLocality: SITE_CONFIG.city,
+      addressRegion: "małopolskie",
       addressCountry: "PL"
     },
     alternateName: ["JaniczekFoto", SITE_CONFIG.domain],
@@ -86,6 +71,7 @@ export default function HomePage() {
       "@type": "AdministrativeArea",
       name
     })),
+    hasMap: SITE_CONFIG.googleBusinessProfile,
     sameAs: [SITE_CONFIG.social.instagram, SITE_CONFIG.social.facebook]
   };
 
@@ -98,24 +84,22 @@ export default function HomePage() {
   };
 
   return (
-    <>
+    <PublicPageShell>
       <script
         type="application/ld+json"
         // JSON-LD for rich results and business entity understanding.
         dangerouslySetInnerHTML={{ __html: JSON.stringify(photographerJsonLd) }}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
-      <OptionalCursor />
-      <Nav />
       <main>
-        <Hero imagePublicId="/portfolio/hero-opt.jpg" />
-        <Gallery items={galleryItems} />
-        <About publicId="/portfolio/about-opt.jpg" />
+        <Hero imagePublicId={content.heroImage.src} imagePosition={content.heroImage.position} />
+        <Gallery items={galleryItems} lightboxItems={allGalleryItems} />
         <Services items={serviceItems} />
+        <Reviews />
+        <VideoShowcase items={content.homepageVideos} />
         <Areas />
         <Contact />
       </main>
-      <Footer />
-    </>
+    </PublicPageShell>
   );
 }
