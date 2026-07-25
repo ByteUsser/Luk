@@ -282,48 +282,54 @@ function VideoModal({
         aria-label={`Film: ${item.title}`}
         className="relative flex h-full max-h-[calc(100dvh-1.5rem)] w-full max-w-[min(100%,920px)] flex-col items-center justify-center sm:max-h-[calc(100dvh-3rem)]"
       >
-        <div className="mb-3 text-center text-cream sm:mb-4" aria-live="polite">
-          <p className="text-[0.62rem] uppercase tracking-[0.19em] text-cream/55">{item.label}</p>
-          <p className="mt-1 font-display text-[1.45rem] leading-none sm:text-[1.7rem]">{item.title}</p>
-        </div>
-
         <div className="flex min-h-0 items-center justify-center gap-2.5 sm:gap-4">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={item.id}
-              data-video-phone
-              data-video-id={item.id}
-              initial={reduceMotion ? false : { opacity: 0, y: direction * 34, scale: 0.985 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={reduceMotion ? undefined : { opacity: 0, y: direction * -34, scale: 0.985 }}
-              transition={{ duration: reduceMotion ? 0 : 0.34, ease: [0.22, 1, 0.36, 1] }}
-              className="relative aspect-[9/19.5] w-[min(68vw,285px)] shrink-0 rounded-[2.85rem] border border-white/20 bg-[#090806] p-[7px] shadow-[0_34px_90px_rgba(0,0,0,0.58),inset_0_0_0_1px_rgba(255,255,255,0.08)] sm:w-[min(34vw,310px)] sm:rounded-[3.15rem] sm:p-2"
-            >
-              <span className="absolute -left-[3px] top-[24%] h-14 w-[3px] rounded-l-full bg-gradient-to-b from-[#77716b] to-[#26231f]" aria-hidden="true" />
-              <span className="absolute -left-[3px] top-[35%] h-10 w-[3px] rounded-l-full bg-gradient-to-b from-[#77716b] to-[#26231f]" aria-hidden="true" />
-              <span className="absolute -right-[3px] top-[29%] h-20 w-[3px] rounded-r-full bg-gradient-to-b from-[#77716b] to-[#26231f]" aria-hidden="true" />
-              <div className="relative h-full w-full overflow-hidden rounded-[2.42rem] bg-black sm:rounded-[2.68rem]">
-                <video
-                  key={item.videoUrl}
-                  src={item.videoUrl}
-                  poster={item.posterUrl}
-                  controls
-                  autoPlay
-                  playsInline
-                  preload="metadata"
-                  className="h-full w-full bg-black object-contain"
-                >
-                  Twoja przeglądarka nie obsługuje odtwarzania filmu.
-                </video>
-                <span
-                  className="pointer-events-none absolute left-1/2 top-2.5 z-10 flex h-[25px] w-[82px] -translate-x-1/2 items-center justify-end rounded-full bg-black px-2 shadow-[0_2px_8px_rgba(0,0,0,0.5)] ring-1 ring-white/5 sm:top-3 sm:h-[27px] sm:w-[88px]"
-                  aria-hidden="true"
-                >
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#171c20] ring-1 ring-[#313942]" />
-                </span>
-              </div>
-            </motion.div>
-          </AnimatePresence>
+          <div className="flex min-h-0 flex-col items-center">
+            <div className="mb-3 w-full text-center text-cream sm:mb-4" aria-live="polite">
+              <p className="text-[0.62rem] uppercase tracking-[0.19em] text-cream/55">{item.label}</p>
+              <p className="mt-1 font-display text-[1.45rem] leading-none sm:text-[1.7rem]">{item.title}</p>
+            </div>
+
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={item.id}
+                data-video-phone
+                data-video-id={item.id}
+                initial={reduceMotion ? false : { opacity: 0, y: direction * 34, scale: 0.985 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={reduceMotion ? undefined : { opacity: 0, y: direction * -34, scale: 0.985 }}
+                transition={{ duration: reduceMotion ? 0 : 0.34, ease: [0.22, 1, 0.36, 1] }}
+                className="relative aspect-[9/19.5] w-[min(68vw,285px)] shrink-0 rounded-[2.85rem] border border-white/20 bg-[#090806] p-[7px] shadow-[0_34px_90px_rgba(0,0,0,0.58),inset_0_0_0_1px_rgba(255,255,255,0.08)] sm:w-[min(34vw,310px)] sm:rounded-[3.15rem] sm:p-2"
+              >
+                <span className="absolute -left-[3px] top-[24%] h-14 w-[3px] rounded-l-full bg-gradient-to-b from-[#77716b] to-[#26231f]" aria-hidden="true" />
+                <span className="absolute -left-[3px] top-[35%] h-10 w-[3px] rounded-l-full bg-gradient-to-b from-[#77716b] to-[#26231f]" aria-hidden="true" />
+                <span className="absolute -right-[3px] top-[29%] h-20 w-[3px] rounded-r-full bg-gradient-to-b from-[#77716b] to-[#26231f]" aria-hidden="true" />
+                <div className="relative h-full w-full overflow-hidden rounded-[2.42rem] bg-black sm:rounded-[2.68rem]">
+                  <video
+                    key={item.videoUrl}
+                    src={item.videoUrl}
+                    poster={item.posterUrl}
+                    controls
+                    autoPlay
+                    playsInline
+                    preload="metadata"
+                    className="h-full w-full bg-black object-contain"
+                  >
+                    Twoja przeglądarka nie obsługuje odtwarzania filmu.
+                  </video>
+                  <span
+                    className="pointer-events-none absolute left-1/2 top-2.5 z-10 flex h-[25px] w-[82px] -translate-x-1/2 items-center justify-end rounded-full bg-black px-2 shadow-[0_2px_8px_rgba(0,0,0,0.5)] ring-1 ring-white/5 sm:top-3 sm:h-[27px] sm:w-[88px]"
+                    aria-hidden="true"
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#171c20] ring-1 ring-[#313942]" />
+                  </span>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            <p className="mt-3 text-center text-[0.62rem] uppercase tracking-[0.14em] text-cream/45 sm:mt-4">
+              Przesuń pionowo lub użyj ↑ ↓
+            </p>
+          </div>
 
           {hasMultiple ? (
             <div
@@ -353,10 +359,6 @@ function VideoModal({
             </div>
           ) : null}
         </div>
-
-        <p className="mt-3 text-center text-[0.62rem] uppercase tracking-[0.14em] text-cream/45 sm:mt-4">
-          Przesuń pionowo lub użyj ↑ ↓
-        </p>
 
         <button
           data-video-close
