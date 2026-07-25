@@ -49,6 +49,7 @@ export type HomepageGalleryItem = {
   alt: string;
   category: GalleryCategory;
   publicId: string;
+  fullSrc?: string;
   imagePosition?: string;
 };
 
@@ -109,7 +110,7 @@ const fallbackHomepageVideos: HomepageVideoItem[] = [
     id: "event",
     title: "Na parkiecie",
     label: "Reportaż",
-    videoUrl: "/video/event-full.mp4",
+    videoUrl: "/video/event-full-with-music.mp4",
     previewUrl: "/video/event-preview.mp4",
     posterUrl: "/video/event-poster.jpg"
   },
@@ -117,7 +118,7 @@ const fallbackHomepageVideos: HomepageVideoItem[] = [
     id: "sesja-plenerowa",
     title: "Sesja plenerowa",
     label: "Backstage",
-    videoUrl: "/video/sesja-plenerowa-full.mp4",
+    videoUrl: "/video/sesja-plenerowa-full-with-music.mp4",
     previewUrl: "/video/sesja-plenerowa-preview.mp4",
     posterUrl: "/video/sesja-plenerowa-poster.jpg"
   }
@@ -158,6 +159,7 @@ function mapHomepagePhoto(item: ManagedPhoto): HomepageGalleryItem | null {
     alt: item.alt?.trim() || `${title} — Janiczek Foto`,
     category: validCategory(item.category),
     publicId: src,
+    fullSrc: src,
     imagePosition: positionFromImage(item.image)
   };
 }
@@ -174,6 +176,7 @@ function mapGalleryPhoto(item: ManagedPhoto, index: number): PhotoGalleryItem | 
   return {
     src,
     thumb: `${src}${separator}auto=format&w=900&q=74&fit=max`,
+    fullSrc: src,
     title,
     alt: item.alt?.trim() || `${title} — Janiczek Foto`,
     category: validCategory(item.category),
@@ -208,7 +211,8 @@ function fallbackHomepage(): HomepageGalleryItem[] {
       title: item.title,
       alt: item.alt,
       category: item.category,
-      publicId: item.src
+      publicId: item.src,
+      fullSrc: item.fullSrc
     }));
 }
 
@@ -253,7 +257,7 @@ export async function getResolvedSiteContent(): Promise<ResolvedSiteContent> {
       position: useLocalPhotoPreview ? undefined : positionFromImage(content?.aboutImage)
     },
     homepageGallery: !useLocalPhotoPreview && cmsHomepage.length ? cmsHomepage.slice(0, 5) : fallbackHomepage(),
-    homepageVideos: cmsVideos.length ? cmsVideos : fallbackHomepageVideos,
+    homepageVideos: !useLocalPhotoPreview && cmsVideos.length ? cmsVideos : fallbackHomepageVideos,
     gallery: !useLocalPhotoPreview && cmsGallery.length ? cmsGallery : photoGalleryItems
   };
 }

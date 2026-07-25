@@ -10,7 +10,7 @@ export const managedVideo = defineType({
       title: "Pełny film",
       type: "file",
       options: { accept: "video/mp4" },
-      description: "Film otwierany po kliknięciu. Najlepiej MP4 w pionie, przygotowany do internetu.",
+      description: "Film otwierany po kliknięciu. MP4 H.264, maksymalnie 1920 px na dłuższym boku, przygotowany do internetu.",
       validation: (rule) => rule.required().error("Dodaj pełny film.")
     }),
     defineField({
@@ -18,7 +18,7 @@ export const managedVideo = defineType({
       title: "Lekki podgląd",
       type: "file",
       options: { accept: "video/mp4" },
-      description: "Krótki, wyciszony fragment odtwarzany na karcie. Zalecane 8–12 sekund.",
+      description: "Pionowy, wyciszony fragment 540 × 960 px, najlepiej 8–12 sekund. Nie dodawaj tutaj pełnego filmu.",
       validation: (rule) => rule.required().error("Dodaj lekki podgląd filmu.")
     }),
     defineField({
@@ -26,7 +26,7 @@ export const managedVideo = defineType({
       title: "Miniatura",
       type: "image",
       options: { hotspot: true },
-      description: "Pionowy kadr widoczny zanim podgląd zacznie się odtwarzać.",
+      description: "Pionowy kadr 540 × 960 px widoczny przed rozpoczęciem podglądu.",
       validation: (rule) => rule.required().error("Dodaj miniaturę.")
     }),
     defineField({

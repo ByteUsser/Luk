@@ -6,6 +6,7 @@ export { GALLERY_CATEGORIES, type GalleryCategory } from "@/lib/gallery-categori
 export type PhotoGalleryItem = {
   src: string;
   thumb: string;
+  fullSrc?: string;
   title: string;
   alt: string;
   category: GalleryCategory;
@@ -36,4 +37,13 @@ function isGalleryItem(item: unknown): item is PhotoGalleryItem {
   );
 }
 
-export const photoGalleryItems: PhotoGalleryItem[] = rawGalleryManifest.filter(isGalleryItem);
+export const photoGalleryItems: PhotoGalleryItem[] = rawGalleryManifest
+  .filter(isGalleryItem)
+  .map((item) => {
+    const candidate = item as PhotoGalleryItem & { jpeg?: unknown };
+
+    return {
+      ...item,
+      fullSrc: typeof candidate.jpeg === "string" ? candidate.jpeg : item.src
+    };
+  });

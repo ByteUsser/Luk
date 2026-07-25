@@ -38,7 +38,7 @@ export function Services({ items }: ServicesProps) {
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
           {items.map((item, index) => {
-            const image = cloudinaryAsset(item.publicId, { width: 1000, quality: 72 });
+            const image = cloudinaryAsset(item.publicId, { width: 1200, quality: 80 });
             const fitClass = item.fit === "contain" ? "object-contain bg-sand p-3" : "object-cover";
 
             return (
@@ -63,7 +63,7 @@ export function Services({ items }: ServicesProps) {
                     alt={item.title}
                     fill
                     loading="lazy"
-                    quality={72}
+                    quality={80}
                     sizes="(max-width: 639px) 92vw, (max-width: 767px) 46vw, (max-width: 1023px) 30vw, 33vw"
                     className={`${fitClass} brightness-[0.83] transition duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[1.035] group-hover:brightness-[0.94]`}
                     placeholder="blur"

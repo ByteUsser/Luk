@@ -15,12 +15,12 @@ const outputDir = path.join(rootDir, "public", "portfolio", "gallery");
 const manifestPath = path.join(rootDir, "content", "gallery-manifest.json");
 const metadataPath = path.resolve(optionValue("--metadata") || path.join(sourceDir, "gallery.json"));
 const listedOnly = process.argv.includes("--listed-only");
-const fullImageMaxSize = 2200;
-const fullJpegQuality = 84;
-const fullWebpQuality = 82;
-const thumbMaxSize = 720;
-const thumbJpegQuality = 74;
-const thumbWebpQuality = 70;
+const fullImageMaxSize = 2400;
+const fullJpegQuality = 88;
+const fullWebpQuality = 86;
+const thumbMaxSize = 960;
+const thumbJpegQuality = 78;
+const thumbWebpQuality = 76;
 const categories = new Set([
   "Portrety",
   "Sesje dla par",

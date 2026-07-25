@@ -44,7 +44,8 @@ export default async function HomePage() {
     title: item.title,
     alt: item.alt,
     category: item.category,
-    publicId: item.src
+    publicId: item.src,
+    fullSrc: item.fullSrc
   }));
   const photographerJsonLd = {
     "@context": "https://schema.org",

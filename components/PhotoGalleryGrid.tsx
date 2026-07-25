@@ -69,7 +69,7 @@ export function PhotoGalleryGrid({
   const slides = useMemo(
     () =>
       items.map((item) => ({
-        src: item.src,
+        src: item.fullSrc || item.src,
         alt: item.alt,
         width: item.width,
         height: item.height
@@ -220,7 +220,7 @@ export function PhotoGalleryGrid({
                   >
                     <span className="relative block overflow-hidden">
                       <Image
-                        src={item.thumb}
+                        src={item.src}
                         alt={item.alt}
                         width={item.width}
                         height={item.height}
@@ -228,8 +228,7 @@ export function PhotoGalleryGrid({
                         loading={globalIndex < 3 ? "eager" : "lazy"}
                         fetchPriority={globalIndex === 0 ? "high" : "auto"}
                         decoding="async"
-                        quality={72}
-                        unoptimized
+                        quality={82}
                         className="h-auto w-full object-cover transition duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[1.025] group-hover:saturate-[1.04]"
                       />
                       <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-espresso/44 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />

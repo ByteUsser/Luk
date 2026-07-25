@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "gallery:build": "node scripts/build-gallery.mjs",
+    "video:build": "node scripts/build-video.mjs",
     "cms:migrate": "sanity exec scripts/migrate-gallery-to-sanity.mjs --with-user-token",
     "cms:photos:replace": "sanity exec scripts/migrate-gallery-to-sanity.mjs --with-user-token -- --force",
     "cms:videos": "sanity exec scripts/import-videos-to-sanity.mjs --with-user-token",

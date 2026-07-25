@@ -11,7 +11,7 @@ type HeroProps = {
 };
 
 export function Hero({ imagePublicId, imagePosition }: HeroProps) {
-  const image = cloudinaryAsset(imagePublicId, { width: 1400, quality: 68 });
+  const image = cloudinaryAsset(imagePublicId, { width: 1920, quality: 82 });
   const reduceMotion = useReducedMotion();
 
   const itemVariants = {
@@ -81,8 +81,8 @@ export function Hero({ imagePublicId, imagePosition }: HeroProps) {
             fill
             priority
             fetchPriority="high"
-            quality={68}
-            sizes="(max-width: 767px) 100vw, 52vw"
+            quality={82}
+            sizes="(max-width: 767px) 100vw, 58vw"
             className="object-cover object-center"
             style={imagePosition ? { objectPosition: imagePosition } : undefined}
             placeholder="empty"

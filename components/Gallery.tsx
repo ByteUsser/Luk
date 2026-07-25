@@ -12,6 +12,7 @@ export type GalleryItem = {
   alt?: string;
   category: string;
   publicId: string;
+  fullSrc?: string;
   imagePosition?: string;
   fit?: "cover" | "contain";
   cardClassName?: string;
@@ -32,8 +33,11 @@ const cardLayouts = [
   "xl:col-span-4 xl:aspect-auto xl:min-h-[600px]"
 ] as const;
 
-function lightboxSrc(publicId: string) {
-  return publicId.startsWith("/") ? publicId : cloudinaryUrl(publicId, { width: 1920, quality: "auto" });
+function lightboxSrc(item: GalleryItem) {
+  if (item.fullSrc) return item.fullSrc;
+  return item.publicId.startsWith("/")
+    ? item.publicId
+    : cloudinaryUrl(item.publicId, { width: 2200, quality: 90 });
 }
 
 export function Gallery({ items, lightboxItems = items }: GalleryProps) {
@@ -41,7 +45,7 @@ export function Gallery({ items, lightboxItems = items }: GalleryProps) {
   const lightboxTriggerRef = useRef<HTMLButtonElement | null>(null);
   const reduceMotion = useReducedMotion();
   const slides = useMemo(
-    () => lightboxItems.map((item) => ({ src: lightboxSrc(item.publicId), alt: item.alt || item.title })),
+    () => lightboxItems.map((item) => ({ src: lightboxSrc(item), alt: item.alt || item.title })),
     [lightboxItems]
   );
 
@@ -72,7 +76,7 @@ export function Gallery({ items, lightboxItems = items }: GalleryProps) {
             const isLargeCard = index === 0 || index === 3;
             const image = cloudinaryAsset(item.publicId, {
               width: isLargeCard ? 1900 : 1200,
-              quality: isLargeCard ? 75 : 72
+              quality: isLargeCard ? 84 : 82
             });
             const fitClass = item.fit === "contain" ? "object-contain bg-espresso p-2" : "object-cover";
             const imageSizes =
@@ -118,7 +122,7 @@ export function Gallery({ items, lightboxItems = items }: GalleryProps) {
                   alt={item.alt || `${item.title} — ${item.category}`}
                   fill
                   loading={index < 2 ? "eager" : "lazy"}
-                  quality={isLargeCard ? 75 : 72}
+                  quality={isLargeCard ? 84 : 82}
                   sizes={imageSizes}
                   placeholder="blur"
                   blurDataURL={image.blurDataURL}
