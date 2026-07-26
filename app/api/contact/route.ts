@@ -96,7 +96,7 @@ const SOURCE_LABELS: Record<string, string> = {
   "galeria-podroze": "Galeria — podróże",
   cennik: "Cennik",
   "cennik-portret": "Cennik — sesja portretowa",
-  "cennik-dowod": "Cennik — zdjęcie do dowodu",
+  "cennik-dowod": "Cennik — zdjęcia do dokumentów",
   "cennik-odbitki": "Cennik — odbitki 10 × 15 cm",
   "cennik-para": "Cennik — sesja dla par",
   "cennik-komunia-chrzest": "Cennik — komunia lub chrzest",

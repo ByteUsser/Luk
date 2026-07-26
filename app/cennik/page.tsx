@@ -7,7 +7,7 @@ import { SITE_CONFIG } from "@/lib/site-config";
 export const metadata: Metadata = {
   title: "Cennik fotografa Bochnia – sesje i reportaże",
   description:
-    "Ceny sesji portretowych, zdjęć dla par, ślubów, komunii, reportaży i zdjęć do dowodu z dojazdem. Bochnia i okolice.",
+    "Ceny sesji portretowych, zdjęć dla par, ślubów, komunii, reportaży i zdjęć do dokumentów z dojazdem. Bochnia i okolice.",
   alternates: {
     canonical: "/cennik"
   },
@@ -69,10 +69,11 @@ const pricingItems = [
 ] as const;
 
 const documentPricingItem = {
-  name: "Zdjęcie do dowodu z dojazdem",
-  price: "100 zł + dojazd",
-  summary: "Zdjęcie wykonuję pod wskazanym adresem. Koszt dojazdu potwierdzam przed terminem.",
-  facts: ["wykonanie pod wskazanym adresem", "koszt dojazdu ustalony przed terminem"],
+  name: "Zdjęcia do dokumentów z dojazdem",
+  price: "100 zł",
+  summary:
+    "Zdjęcie wykonuję pod wskazanym adresem. Na terenie Bochni całość kosztuje 100 zł; poza miastem może dojść ustalony wcześniej koszt dojazdu.",
+  facts: ["dojazd na terenie Bochni w cenie", "poza Bochnią możliwa dopłata za dojazd"],
   icon: "document",
   label: "Usługa dodatkowa",
   source: "cennik-dowod"

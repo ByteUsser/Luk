@@ -9,6 +9,7 @@ type SanityImage = {
         width?: number;
         height?: number;
       };
+      lqip?: string;
     };
   };
   hotspot?: {
@@ -55,7 +56,7 @@ export type HomepageGalleryItem = {
 
 export type ResolvedSiteContent = {
   heroImage: { src: string; position?: string };
-  aboutImage: { src: string; position?: string };
+  aboutImage: { src: string; position?: string; blurDataURL?: string };
   homepageGallery: HomepageGalleryItem[];
   homepageVideos: HomepageVideoItem[];
   gallery: PhotoGalleryItem[];
@@ -71,8 +72,8 @@ export type HomepageVideoItem = {
 };
 
 const siteContentQuery = `*[_type == "siteContent" && _id == "siteContent"][0]{
-  heroImage{..., asset->{url, metadata{dimensions}}},
-  aboutImage{..., asset->{url, metadata{dimensions}}},
+  heroImage{..., asset->{url, metadata{dimensions, lqip}}},
+  aboutImage{..., asset->{url, metadata{dimensions, lqip}}},
   homepageGallery[]{
     _key, title, alt, category, visible,
     image{..., asset->{url, metadata{dimensions}}}
@@ -96,6 +97,9 @@ const fallbackHomepageSources = [
   "/portfolio/gallery/004-niebieski-kabriolet.webp",
   "/portfolio/gallery/005-nadmorski-widok.webp"
 ] as const;
+
+const fallbackAboutBlurDataURL =
+  "data:image/jpeg;base64,/9j//gAQTGF2YzYyLjI4LjEwMQD/2wBDAAgQEBMQExYWFhYWFhoYGhsbGxoaGhobGxsdHR0iIiIdHR0bGx0dICAiIiUmJSMjIiMmJigoKDAwLi44ODpFRVP/xAB3AAEBAQEBAAAAAAAAAAAAAAAFBgcCBAEBAQEBAQAAAAAAAAAAAAAAAgQDAAEQAAIBAgQEAgcJAQAAAAAAAAECEQMAEiExBCIFYUFRE1JxgbGRwaLR4lOCoTPwQjRiEQADAQEBAQAAAAAAAAAAAAABABEhAhJx/8AAEQgAJQAYAwEiAAIRAAMRAP/aAAwDAQACEQMRAD8AzJOJXCjPUkDsO1t8sSiJas7KOFBhgwXOUj2W5y/bKrZ6vOYyjEPlfv2tB1LEIEmsr8eJAFDuJEkTIzAiLmtffM1k+aUTQrZwTIMzqOx9RFg426XoXOlxCmQNFWDrln3vPs/RslBGug7R+NdDGfwuzqV0qIkkHETijUSPDsLySkxI4eKPRwN78LW0lVKxiowWBJxK4zM6eWGA6zaONA0Fd3SKcEFYFNQoMdemkWL5S/8APwX7L5c8Qw1BCrAM4sXgBkv63xjqeJ/n5r6JRgiN/UXSbTYmrtndarIQdIxDLxBIsBPld9y7/HU9ZtdmT6jlh9vVQOwekrkSAwJUjrlanm0/wvr+7c9T/cf2++0LyJNdAH//2Q==";
 
 const fallbackHomepageVideos: HomepageVideoItem[] = [
   {
@@ -254,7 +258,10 @@ export async function getResolvedSiteContent(): Promise<ResolvedSiteContent> {
       src: useLocalPhotoPreview
         ? "/portfolio/o-mnie-lukasz-janiczek-final.webp"
         : imageUrl(content?.aboutImage) || "/portfolio/o-mnie-lukasz-janiczek-final.webp",
-      position: useLocalPhotoPreview ? undefined : positionFromImage(content?.aboutImage)
+      position: useLocalPhotoPreview ? undefined : positionFromImage(content?.aboutImage),
+      blurDataURL: useLocalPhotoPreview
+        ? fallbackAboutBlurDataURL
+        : content?.aboutImage?.asset?.metadata?.lqip || fallbackAboutBlurDataURL
     },
     homepageGallery: !useLocalPhotoPreview && cmsHomepage.length ? cmsHomepage.slice(0, 5) : fallbackHomepage(),
     homepageVideos: !useLocalPhotoPreview && cmsVideos.length ? cmsVideos : fallbackHomepageVideos,

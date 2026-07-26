@@ -42,10 +42,13 @@ export default async function AboutPage() {
               alt="Łukasz Janiczek, fotograf Janiczek Foto"
               fill
               priority
-              quality={82}
+              fetchPriority="high"
+              quality={75}
               sizes="(max-width: 1023px) 92vw, 40vw"
               className="object-cover object-center"
               style={aboutImage.position ? { objectPosition: aboutImage.position } : undefined}
+              placeholder="blur"
+              blurDataURL={aboutImage.blurDataURL}
             />
           </figure>
 

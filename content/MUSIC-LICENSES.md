@@ -1,6 +1,6 @@
 # Muzyka użyta w filmach
 
-Stan weryfikacji: 25 lipca 2026 r.
+Stan weryfikacji: 26 lipca 2026 r.
 
 Pliki źródłowe zostały pobrane bezpośrednio z Pixabay. Muzyka jest osadzona
 w filmach jako część większego utworu audiowizualnego i nie jest udostępniana
@@ -8,14 +8,12 @@ na stronie jako samodzielny plik audio.
 
 ## Film „Na parkiecie”
 
-- Utwór: `Party Dance`
-- Autor: `prettyjohn1`
-- Źródło: <https://pixabay.com/music/dance-party-dance-503315/>
-- Pobrany plik: `prettyjohn1-party-dance-503315.mp3`
-- SHA-256: `8c8d699c949c0a1cf362f21480cbbfd7ff37b54dc2812dbd789309486ea8290e`
+- Utwór: `Funky Summer House`
+- Autor: `BerryDeep`
+- Źródło: <https://pixabay.com/music/funk-funky-summer-house-565437/>
+- Pobrany plik: `berrydeep-funky-summer-house-565437.mp3`
+- SHA-256: `2360951367ce0e2e4bad582f6dde53415908682fb8e95bc219bb1f3c6947452f`
 - Karta utworu wskazywała: „Free for use under the Pixabay Content License”.
-- Na karcie utworu nie było oznaczenia `Content ID Registered` w dniu
-  weryfikacji.
 
 ## Film „Sesja plenerowa”
 

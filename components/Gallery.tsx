@@ -98,9 +98,8 @@ export function Gallery({ items, lightboxItems = items }: GalleryProps) {
                 aria-label={`Otwórz zdjęcie — ${item.category}`}
                 onClick={(event) => {
                   lightboxTriggerRef.current = event.currentTarget;
-                  void preparePhotoLightbox().finally(() =>
-                    setLightboxIndex(fullGalleryIndex >= 0 ? fullGalleryIndex : index)
-                  );
+                  void preparePhotoLightbox();
+                  setLightboxIndex(fullGalleryIndex >= 0 ? fullGalleryIndex : index);
                 }}
                 initial={reduceMotion ? false : { opacity: 0, y: 26, scale: 0.985 }}
                 whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}

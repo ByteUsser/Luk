@@ -12,7 +12,6 @@ import {
   galleryCategoryHref
 } from "@/lib/gallery-categories";
 
-const PERSONAL_PROJECT_CATEGORIES = new Set<GalleryCategory>(["Motoryzacja", "Podróże"]);
 const GALLERY_BATCH_SIZE = 12;
 const GALLERY_COLUMN_QUERIES = [
   "(min-width: 640px)",
@@ -97,12 +96,6 @@ export function PhotoGalleryGrid({
   const navigationCategories = GALLERY_CATEGORY_DEFINITIONS.filter(
     (category) => (!("navigation" in category) || category.navigation !== false) && categorySet.has(category.name)
   );
-  const commercialCategories = navigationCategories.filter(
-    (category) => !PERSONAL_PROJECT_CATEGORIES.has(category.name)
-  );
-  const personalProjectCategories = navigationCategories.filter(
-    (category) => PERSONAL_PROJECT_CATEGORIES.has(category.name)
-  );
 
   return (
     <section className="mx-auto max-w-[1500px]">
@@ -130,62 +123,35 @@ export function PhotoGalleryGrid({
       </motion.div>
 
       <div className="mt-5 border-b border-ink/12 pb-5">
-        <div className="flex flex-col gap-3" aria-label="Kategorie galerii">
-          <div className="flex flex-wrap gap-2">
-            <Link
-              href="/galeria-zdjec"
-              aria-current={activeCategory ? undefined : "page"}
-              className={`inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full border px-4 text-[0.76rem] font-normal uppercase tracking-[0.09em] transition ${
-                activeCategory
-                  ? "border-ink/18 bg-transparent text-ink/68 hover:border-sage hover:text-sageDark"
-                  : "border-espresso bg-espresso text-cream"
-              }`}
-            >
-              Wszystkie
-            </Link>
-            {commercialCategories.map((category) => {
-              const isActive = activeCategory === category.name;
-              return (
-                <Link
-                  key={category.slug}
-                  href={galleryCategoryHref(category.slug)}
-                  aria-current={isActive ? "page" : undefined}
-                  className={`inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full border px-4 text-[0.76rem] font-normal uppercase tracking-[0.09em] transition ${
-                    isActive
-                      ? "border-espresso bg-espresso text-cream"
-                      : "border-ink/18 bg-transparent text-ink/68 hover:border-sage hover:text-sageDark"
-                  }`}
-                >
-                  {category.label}
-                </Link>
-              );
-            })}
-          </div>
-
-          {personalProjectCategories.length ? (
-            <div className="flex flex-wrap items-center gap-2 border-t border-ink/10 pt-3">
-              <span className="mr-1 text-[0.68rem] uppercase tracking-[0.12em] text-ink/52">
-                Projekty własne
-              </span>
-              {personalProjectCategories.map((category) => {
-                const isActive = activeCategory === category.name;
-                return (
-                  <Link
-                    key={category.slug}
-                    href={galleryCategoryHref(category.slug)}
-                    aria-current={isActive ? "page" : undefined}
-                    className={`inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full border px-4 text-[0.72rem] font-normal uppercase tracking-[0.08em] transition ${
-                      isActive
-                        ? "border-espresso bg-espresso text-cream"
-                        : "border-ink/14 bg-transparent text-ink/58 hover:border-sage hover:text-sageDark"
-                    }`}
-                  >
-                    {category.label}
-                  </Link>
-                );
-              })}
-            </div>
-          ) : null}
+        <div className="flex flex-wrap gap-2" aria-label="Kategorie galerii">
+          <Link
+            href="/galeria-zdjec"
+            aria-current={activeCategory ? undefined : "page"}
+            className={`inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full border px-4 text-[0.76rem] font-normal uppercase tracking-[0.09em] transition ${
+              activeCategory
+                ? "border-ink/18 bg-transparent text-ink/68 hover:border-sage hover:text-sageDark"
+                : "border-espresso bg-espresso text-cream"
+            }`}
+          >
+            Wszystkie
+          </Link>
+          {navigationCategories.map((category) => {
+            const isActive = activeCategory === category.name;
+            return (
+              <Link
+                key={category.slug}
+                href={galleryCategoryHref(category.slug)}
+                aria-current={isActive ? "page" : undefined}
+                className={`inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full border px-4 text-[0.76rem] font-normal uppercase tracking-[0.09em] transition ${
+                  isActive
+                    ? "border-espresso bg-espresso text-cream"
+                    : "border-ink/18 bg-transparent text-ink/68 hover:border-sage hover:text-sageDark"
+                }`}
+              >
+                {category.label}
+              </Link>
+            );
+          })}
         </div>
       </div>
 
@@ -215,7 +181,8 @@ export function PhotoGalleryGrid({
                     className="group block w-full overflow-hidden rounded-[1.1rem] bg-sand shadow-[0_12px_30px_rgba(42,36,32,0.08)]"
                     onClick={(event) => {
                       lightboxTriggerRef.current = event.currentTarget;
-                      void preparePhotoLightbox().finally(() => setLightboxIndex(globalIndex));
+                      void preparePhotoLightbox();
+                      setLightboxIndex(globalIndex);
                     }}
                   >
                     <span className="relative block overflow-hidden">

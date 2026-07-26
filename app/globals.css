@@ -515,8 +515,7 @@ select {
   transition:
     color 180ms ease,
     background-color 180ms ease,
-    border-color 180ms ease,
-    transform 180ms ease;
+    border-color 180ms ease;
 }
 
 .photo-lightbox .yarl__toolbar .yarl__button {
@@ -562,13 +561,23 @@ select {
 }
 
 @media (hover: hover) {
-  .photo-lightbox .yarl__toolbar .yarl__button:hover,
+  .photo-lightbox .yarl__toolbar .yarl__button:hover {
+    border-color: rgba(255, 250, 242, 0.38);
+    background: rgba(255, 250, 242, 0.18);
+    transform: scale(1.025);
+  }
+
   .photo-lightbox .yarl__navigation_next:hover,
   .photo-lightbox .yarl__navigation_prev:hover {
     border-color: rgba(255, 250, 242, 0.38);
     background: rgba(255, 250, 242, 0.18);
-    transform: scale(1.035);
+    transform: translateY(-50%);
   }
+}
+
+.photo-lightbox .yarl__navigation_next:active,
+.photo-lightbox .yarl__navigation_prev:active {
+  transform: translateY(-50%);
 }
 
 .photo-lightbox .yarl__button:focus-visible {

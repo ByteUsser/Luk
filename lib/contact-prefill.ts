@@ -21,7 +21,7 @@ const cennikPrefills: Record<string, ContactPrefill> = {
     notice: "Masz gotowy szkic wiadomości.",
     message: `Cześć,
 
-Chcę umówić zdjęcie do dowodu z dojazdem.
+Chcę umówić zdjęcia do dokumentów z dojazdem.
 Miejscowość:
 Adres podam po potwierdzeniu terminu.
 Kiedy:`
