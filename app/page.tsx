@@ -93,7 +93,11 @@ export default async function HomePage() {
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
       <main>
-        <Hero imagePublicId={content.heroImage.src} imagePosition={content.heroImage.position} />
+        <Hero
+          imagePublicId={content.heroImage.src}
+          imagePosition={content.heroImage.position}
+          imageBlurDataURL={content.heroImage.blurDataURL}
+        />
         <Gallery items={galleryItems} lightboxItems={allGalleryItems} />
         <Services items={serviceItems} />
         <Reviews />

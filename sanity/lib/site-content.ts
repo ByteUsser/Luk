@@ -55,7 +55,7 @@ export type HomepageGalleryItem = {
 };
 
 export type ResolvedSiteContent = {
-  heroImage: { src: string; position?: string };
+  heroImage: { src: string; position?: string; blurDataURL?: string };
   aboutImage: { src: string; position?: string; blurDataURL?: string };
   homepageGallery: HomepageGalleryItem[];
   homepageVideos: HomepageVideoItem[];
@@ -100,6 +100,9 @@ const fallbackHomepageSources = [
 
 const fallbackAboutBlurDataURL =
   "data:image/jpeg;base64,/9j//gAQTGF2YzYyLjI4LjEwMQD/2wBDAAgQEBMQExYWFhYWFhoYGhsbGxoaGhobGxsdHR0iIiIdHR0bGx0dICAiIiUmJSMjIiMmJigoKDAwLi44ODpFRVP/xAB3AAEBAQEBAAAAAAAAAAAAAAAFBgcCBAEBAQEBAQAAAAAAAAAAAAAAAgQDAAEQAAIBAgQEAgcJAQAAAAAAAAECEQMAEiExBCIFYUFRE1JxgbGRwaLR4lOCoTPwQjRiEQADAQEBAQAAAAAAAAAAAAABABEhAhJx/8AAEQgAJQAYAwEiAAIRAAMRAP/aAAwDAQACEQMRAD8AzJOJXCjPUkDsO1t8sSiJas7KOFBhgwXOUj2W5y/bKrZ6vOYyjEPlfv2tB1LEIEmsr8eJAFDuJEkTIzAiLmtffM1k+aUTQrZwTIMzqOx9RFg426XoXOlxCmQNFWDrln3vPs/RslBGug7R+NdDGfwuzqV0qIkkHETijUSPDsLySkxI4eKPRwN78LW0lVKxiowWBJxK4zM6eWGA6zaONA0Fd3SKcEFYFNQoMdemkWL5S/8APwX7L5c8Qw1BCrAM4sXgBkv63xjqeJ/n5r6JRgiN/UXSbTYmrtndarIQdIxDLxBIsBPld9y7/HU9ZtdmT6jlh9vVQOwekrkSAwJUjrlanm0/wvr+7c9T/cf2++0LyJNdAH//2Q==";
+
+const fallbackHeroBlurDataURL =
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAAkABgDASIAAhEBAxEB/8QAGgAAAgMBAQAAAAAAAAAAAAAAAAUBAwQCBv/EACYQAAICAQQABQUAAAAAAAAAAAECAAMRBBIhMQUTIkFRJUJxkbH/xAAWAQEBAQAAAAAAAAAAAAAAAAACAQP/xAAaEQEAAwADAAAAAAAAAAAAAAAAAQIREhMx/9oADAMBAAIRAxEAPwBvqaVNYYAkY6WYtmRGQZFRqkwBX6cZ6GOJ5zV6zVaW3ZQqW19q3HK/vuStsW1dMPL+RCJLfFdU1JFgFZz9uP7CLsHib6g/UNa3mFdtec56PUS6hnp04etyQwxZ74aZdYupbV2G9nZl4YuecypGsFe3JCn2+ZnENXd97XbS23gccQk7ewB6l4AhHGIuY7haesknAlBJ25/EIQlKUYlQ2eTxCEIZ9F//2Q==";
 
 const fallbackHomepageVideos: HomepageVideoItem[] = [
   {
@@ -251,8 +254,15 @@ export async function getResolvedSiteContent(): Promise<ResolvedSiteContent> {
 
   return {
     heroImage: {
-      src: useLocalPhotoPreview ? "/portfolio/hero-final.jpg" : imageUrl(content?.heroImage) || "/portfolio/hero-final.jpg",
-      position: useLocalPhotoPreview ? undefined : positionFromImage(content?.heroImage)
+      src: useLocalPhotoPreview
+        ? "/portfolio/hero-lawenda-22.webp"
+        : imageUrl(content?.heroImage) || "/portfolio/hero-lawenda-22.webp",
+      position: useLocalPhotoPreview
+        ? "45% 61%"
+        : positionFromImage(content?.heroImage) || "45% 61%",
+      blurDataURL: useLocalPhotoPreview
+        ? fallbackHeroBlurDataURL
+        : content?.heroImage?.asset?.metadata?.lqip || fallbackHeroBlurDataURL
     },
     aboutImage: {
       src: useLocalPhotoPreview

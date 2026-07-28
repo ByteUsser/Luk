@@ -8,9 +8,10 @@ import { InPageLink } from "@/components/InPageLink";
 type HeroProps = {
   imagePublicId: string;
   imagePosition?: string;
+  imageBlurDataURL?: string;
 };
 
-export function Hero({ imagePublicId, imagePosition }: HeroProps) {
+export function Hero({ imagePublicId, imagePosition, imageBlurDataURL }: HeroProps) {
   const image = cloudinaryAsset(imagePublicId, { width: 1920, quality: 82 });
   const reduceMotion = useReducedMotion();
 
@@ -70,7 +71,7 @@ export function Hero({ imagePublicId, imagePosition }: HeroProps) {
 
       <div className="relative aspect-[2/3] min-h-0 overflow-hidden sm:aspect-[4/5] md:aspect-auto md:min-h-[100dvh]">
         <motion.div
-          className="absolute inset-0 md:inset-[-5%]"
+          className="absolute inset-0 md:inset-[-2%]"
           initial={reduceMotion ? false : { opacity: 0 }}
           animate={reduceMotion ? undefined : { opacity: 1 }}
           transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
@@ -81,15 +82,16 @@ export function Hero({ imagePublicId, imagePosition }: HeroProps) {
             fill
             priority
             fetchPriority="high"
-            quality={82}
+            quality={84}
             sizes="(max-width: 767px) 100vw, 58vw"
             className="object-cover object-center"
             style={imagePosition ? { objectPosition: imagePosition } : undefined}
-            placeholder="empty"
+            placeholder="blur"
+            blurDataURL={imageBlurDataURL || image.blurDataURL}
           />
         </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-t from-espresso/16 via-transparent to-transparent" />
-        <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-espresso/10 to-transparent md:hidden" />
+        <div className="absolute inset-0 bg-gradient-to-t from-espresso/20 via-transparent to-cream/[0.04]" />
+        <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-espresso/8 to-transparent md:hidden" />
       </div>
     </section>
   );
