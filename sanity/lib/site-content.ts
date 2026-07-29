@@ -91,11 +91,11 @@ const siteContentQuery = `*[_type == "siteContent" && _id == "siteContent"][0]{
 }`;
 
 const fallbackHomepageSources = [
-  "/portfolio/gallery/001-wiosenny-portret.webp",
+  "/portfolio/gallery/052-lekkosc-w-lawendzie.webp",
   "/portfolio/gallery/002-rodzinny-moment.webp",
   "/portfolio/gallery/003-parkiet-i-energia.webp",
-  "/portfolio/gallery/004-niebieski-kabriolet.webp",
-  "/portfolio/gallery/005-nadmorski-widok.webp"
+  "/portfolio/gallery/051-bliskosc-w-lawendzie.webp",
+  "/portfolio/gallery/001-wiosenny-portret.webp"
 ] as const;
 
 const fallbackAboutBlurDataURL =

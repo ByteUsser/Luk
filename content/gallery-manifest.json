@@ -1,5 +1,38 @@
 [
   {
+    "src": "/portfolio/gallery/052-lekkosc-w-lawendzie.webp",
+    "thumb": "/portfolio/gallery/052-lekkosc-w-lawendzie-thumb.webp",
+    "jpeg": "/portfolio/gallery/052-lekkosc-w-lawendzie.jpg",
+    "title": "Lekkość w lawendzie",
+    "alt": "Kobieta podrzucająca kapelusz podczas plenerowej sesji w lawendzie - Janiczek Foto",
+    "category": "Portrety",
+    "featured": true,
+    "width": 1600,
+    "height": 2400
+  },
+  {
+    "src": "/portfolio/gallery/051-bliskosc-w-lawendzie.webp",
+    "thumb": "/portfolio/gallery/051-bliskosc-w-lawendzie-thumb.webp",
+    "jpeg": "/portfolio/gallery/051-bliskosc-w-lawendzie.jpg",
+    "title": "Bliskość w lawendzie",
+    "alt": "Dłonie pary splecione podczas sesji wśród lawendy - Janiczek Foto",
+    "category": "Sesje dla par",
+    "featured": true,
+    "width": 1600,
+    "height": 2400
+  },
+  {
+    "src": "/portfolio/gallery/053-lawendowy-spacer.webp",
+    "thumb": "/portfolio/gallery/053-lawendowy-spacer-thumb.webp",
+    "jpeg": "/portfolio/gallery/053-lawendowy-spacer.jpg",
+    "title": "Lawendowy spacer",
+    "alt": "Kobiecy portret w kapeluszu podczas spaceru wśród lawendy - Janiczek Foto",
+    "category": "Portrety",
+    "featured": false,
+    "width": 1600,
+    "height": 2400
+  },
+  {
     "src": "/portfolio/gallery/001-wiosenny-portret.webp",
     "thumb": "/portfolio/gallery/001-wiosenny-portret-thumb.webp",
     "jpeg": "/portfolio/gallery/001-wiosenny-portret.jpg",
