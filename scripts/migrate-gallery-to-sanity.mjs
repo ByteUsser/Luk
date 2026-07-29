@@ -2,6 +2,7 @@ import { createReadStream, existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { getCliClient } from "sanity/cli";
+import { assertGalleryResolution } from "./check-gallery-resolution.mjs";
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(scriptDir, "..");
@@ -72,6 +73,8 @@ async function main() {
   if (!Array.isArray(manifest) || manifest.length === 0) {
     throw new Error("Galeria lokalna jest pusta.");
   }
+
+  assertGalleryResolution(manifest);
 
   const existingDocumentId = await client.fetch(`*[_id == "siteContent"][0]._id`);
   if (existingDocumentId && !process.argv.includes("--force")) {

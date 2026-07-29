@@ -5,11 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "gallery:build": "node scripts/build-gallery.mjs",
+    "gallery:check": "node scripts/check-gallery-resolution.mjs",
     "video:build": "node scripts/build-video.mjs",
     "cms:migrate": "sanity exec scripts/migrate-gallery-to-sanity.mjs --with-user-token",
     "cms:photos:replace": "sanity exec scripts/migrate-gallery-to-sanity.mjs --with-user-token -- --force",
     "cms:videos": "sanity exec scripts/import-videos-to-sanity.mjs --with-user-token",
-    "build": "next build",
+    "build": "npm run gallery:check && next build",
     "start": "next start",
     "lint": "eslint ."
   },

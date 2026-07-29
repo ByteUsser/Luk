@@ -132,17 +132,6 @@
     "height": 1467
   },
   {
-    "src": "/portfolio/gallery/010-portret-nad-woda.webp",
-    "thumb": "/portfolio/gallery/010-portret-nad-woda-thumb.webp",
-    "jpeg": "/portfolio/gallery/010-portret-nad-woda.jpg",
-    "title": "Portret nad wodą",
-    "alt": "Kobiecy portret na tle nadmorskiego krajobrazu - Janiczek Foto",
-    "category": "Portrety",
-    "featured": false,
-    "width": 1080,
-    "height": 1616
-  },
-  {
     "src": "/portfolio/gallery/011-moment-ceremonii.webp",
     "thumb": "/portfolio/gallery/011-moment-ceremonii-thumb.webp",
     "jpeg": "/portfolio/gallery/011-moment-ceremonii.jpg",
@@ -174,17 +163,6 @@
     "featured": false,
     "width": 2200,
     "height": 1467
-  },
-  {
-    "src": "/portfolio/gallery/014-nadmorski-krajobraz.webp",
-    "thumb": "/portfolio/gallery/014-nadmorski-krajobraz-thumb.webp",
-    "jpeg": "/portfolio/gallery/014-nadmorski-krajobraz.jpg",
-    "title": "Nadmorski krajobraz",
-    "alt": "Drzewo i nadmorski krajobraz w słoneczny dzień - Janiczek Foto",
-    "category": "Podróże",
-    "featured": false,
-    "width": 1119,
-    "height": 1400
   },
   {
     "src": "/portfolio/gallery/015-portret-w-cieplym-swietle.webp",
@@ -231,17 +209,6 @@
     "height": 1467
   },
   {
-    "src": "/portfolio/gallery/019-miasto-nad-morzem.webp",
-    "thumb": "/portfolio/gallery/019-miasto-nad-morzem-thumb.webp",
-    "jpeg": "/portfolio/gallery/019-miasto-nad-morzem.jpg",
-    "title": "Miasto nad morzem",
-    "alt": "Widok na nadmorskie miasto i zabudowę - Janiczek Foto",
-    "category": "Podróże",
-    "featured": false,
-    "width": 1080,
-    "height": 1616
-  },
-  {
     "src": "/portfolio/gallery/020-portret-na-pomoscie.webp",
     "thumb": "/portfolio/gallery/020-portret-na-pomoscie-thumb.webp",
     "jpeg": "/portfolio/gallery/020-portret-na-pomoscie.jpg",
@@ -286,17 +253,6 @@
     "height": 1467
   },
   {
-    "src": "/portfolio/gallery/024-portret-wsrod-kolumn.webp",
-    "thumb": "/portfolio/gallery/024-portret-wsrod-kolumn-thumb.webp",
-    "jpeg": "/portfolio/gallery/024-portret-wsrod-kolumn.jpg",
-    "title": "Portret wśród kolumn",
-    "alt": "Kobiecy portret wśród jasnych kolumn - Janiczek Foto",
-    "category": "Portrety",
-    "featured": false,
-    "width": 1080,
-    "height": 1616
-  },
-  {
     "src": "/portfolio/gallery/025-droga-do-oltarza.webp",
     "thumb": "/portfolio/gallery/025-droga-do-oltarza-thumb.webp",
     "jpeg": "/portfolio/gallery/025-droga-do-oltarza.jpg",
@@ -328,17 +284,6 @@
     "featured": false,
     "width": 2200,
     "height": 1467
-  },
-  {
-    "src": "/portfolio/gallery/028-nadmorska-wieza.webp",
-    "thumb": "/portfolio/gallery/028-nadmorska-wieza-thumb.webp",
-    "jpeg": "/portfolio/gallery/028-nadmorska-wieza.jpg",
-    "title": "Nadmorska wieża",
-    "alt": "Wieża i zabudowa widziane podczas podróży - Janiczek Foto",
-    "category": "Podróże",
-    "featured": false,
-    "width": 1016,
-    "height": 1520
   },
   {
     "src": "/portfolio/gallery/029-portret-o-zachodzie.webp",
@@ -383,17 +328,6 @@
     "featured": false,
     "width": 2200,
     "height": 1467
-  },
-  {
-    "src": "/portfolio/gallery/033-miedzy-kolumnami.webp",
-    "thumb": "/portfolio/gallery/033-miedzy-kolumnami-thumb.webp",
-    "jpeg": "/portfolio/gallery/033-miedzy-kolumnami.jpg",
-    "title": "Między kolumnami",
-    "alt": "Naturalny kobiecy portret między kamiennymi kolumnami - Janiczek Foto",
-    "category": "Portrety",
-    "featured": false,
-    "width": 724,
-    "height": 1084
   },
   {
     "src": "/portfolio/gallery/034-detal-ceremonii.webp",
@@ -484,17 +418,6 @@
     "height": 1467
   },
   {
-    "src": "/portfolio/gallery/042-miejski-portret.webp",
-    "thumb": "/portfolio/gallery/042-miejski-portret-thumb.webp",
-    "jpeg": "/portfolio/gallery/042-miejski-portret.jpg",
-    "title": "Miejski portret",
-    "alt": "Kobiecy portret podczas spaceru miejską ulicą - Janiczek Foto",
-    "category": "Portrety",
-    "featured": false,
-    "width": 724,
-    "height": 1084
-  },
-  {
     "src": "/portfolio/gallery/043-przyjecie-urodzinowe.webp",
     "thumb": "/portfolio/gallery/043-przyjecie-urodzinowe-thumb.webp",
     "jpeg": "/portfolio/gallery/043-przyjecie-urodzinowe.jpg",
@@ -515,17 +438,6 @@
     "featured": false,
     "width": 2200,
     "height": 1467
-  },
-  {
-    "src": "/portfolio/gallery/045-portret-w-zieleni.webp",
-    "thumb": "/portfolio/gallery/045-portret-w-zieleni-thumb.webp",
-    "jpeg": "/portfolio/gallery/045-portret-w-zieleni.jpg",
-    "title": "Portret w zieleni",
-    "alt": "Kobiecy portret w otoczeniu zieleni i ciepłego światła - Janiczek Foto",
-    "category": "Portrety",
-    "featured": false,
-    "width": 1066,
-    "height": 1600
   },
   {
     "src": "/portfolio/gallery/046-swiatla-samochodu.webp",
