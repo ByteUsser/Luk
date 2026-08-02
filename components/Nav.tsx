@@ -47,6 +47,7 @@ export function Nav() {
     if (!open) return;
 
     const previousOverflow = document.body.style.overflow;
+    const previousMobileMenuState = document.body.dataset.mobileMenuOpen;
     const backgroundElements = [
       document.querySelector<HTMLElement>("main"),
       document.querySelector<HTMLElement>("[data-site-footer]"),
@@ -59,6 +60,7 @@ export function Nav() {
     }));
 
     document.body.style.overflow = "hidden";
+    document.body.dataset.mobileMenuOpen = "true";
     backgroundElements.forEach((element) => {
       element.inert = true;
       element.setAttribute("aria-hidden", "true");
@@ -91,6 +93,11 @@ export function Nav() {
     return () => {
       window.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = previousOverflow;
+      if (previousMobileMenuState === undefined) {
+        delete document.body.dataset.mobileMenuOpen;
+      } else {
+        document.body.dataset.mobileMenuOpen = previousMobileMenuState;
+      }
       backgroundState.forEach(({ element, inert, ariaHidden }) => {
         element.inert = inert;
         if (ariaHidden === null) {
@@ -217,7 +224,7 @@ export function Nav() {
         aria-modal="true"
         aria-label="Menu nawigacyjne"
         aria-hidden={!open}
-        className={`fixed bottom-0 right-0 top-[82px] z-20 flex w-[88vw] max-w-[390px] flex-col bg-cream px-6 pb-8 pt-6 shadow-[-20px_0_50px_rgba(23,17,13,0.18)] transition-[transform,visibility] duration-500 sm:top-[94px] sm:px-8 ${
+        className={`fixed bottom-0 right-0 top-[82px] z-20 flex w-[80vw] max-w-[340px] flex-col bg-cream px-6 pb-8 pt-6 shadow-[-20px_0_50px_rgba(23,17,13,0.18)] transition-[transform,visibility] duration-500 sm:top-[94px] sm:px-8 ${
           open ? "visible translate-x-0" : "pointer-events-none invisible translate-x-full"
         } min-[1100px]:hidden`}
       >

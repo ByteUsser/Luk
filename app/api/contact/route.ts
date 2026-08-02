@@ -102,9 +102,38 @@ const SOURCE_LABELS: Record<string, string> = {
   "cennik-komunia-chrzest": "Cennik — komunia lub chrzest",
   "cennik-slub": "Cennik — ślub lub wesele",
   "cennik-event": "Cennik — event",
+  "cennik-sticky": "Cennik — stały przycisk",
+  "cennik-inna-opcja": "Cennik — inny rodzaj zdjęć",
+  "landing-bochnia": "Lokalizacja — Bochnia",
+  "landing-powiat-bochenski": "Lokalizacja — powiat bocheński",
+  "landing-trzciana": "Lokalizacja — Trzciana",
+  "landing-nowy-wisnicz": "Lokalizacja — Nowy Wiśnicz",
+  "landing-krakow": "Lokalizacja — Kraków",
+  "landing-tarnow": "Lokalizacja — Tarnów",
   dojazd: "Sekcja dojazdu",
   lokalizacje: "Strona lokalizacji",
+  "inna-lokalizacja": "Strona lokalizacji — inna miejscowość",
+  nawigacja: "Nawigacja",
+  "o-mnie": "Strona „O mnie”",
+  "404": "Strona nieznaleziona",
   "sticky-sitewide": "Stały przycisk „Sprawdź termin”"
+};
+
+const LEAD_TOPIC_LABELS: Record<string, string> = {
+  "cennik-portret": "Portret",
+  "galeria-portrety": "Portret",
+  "cennik-para": "Para",
+  "galeria-sesje-dla-par": "Para",
+  "cennik-komunia-chrzest": "Komunia lub chrzest",
+  "cennik-slub": "Ślub",
+  "cennik-event": "Event",
+  "galeria-eventy": "Event",
+  "galeria-event-i-reportaz": "Reportaż",
+  "cennik-dowod": "Zdjęcia do dokumentów",
+  "cennik-odbitki": "Odbitki",
+  "cennik-inna-opcja": "Inna usługa",
+  cennik: "Cennik",
+  "cennik-sticky": "Cennik"
 };
 
 function humanizeSource(rawSource: string): string {
@@ -118,6 +147,15 @@ function humanizeSource(rawSource: string): string {
   const normalized = rawSource.replace(/-(gora|dol)$/, "");
 
   return `${SOURCE_LABELS[normalized] ?? normalized.replaceAll("-", " ")}${position}`;
+}
+
+function leadTopic(rawSource: string): string {
+  const normalized = rawSource.replace(/-(gora|dol)$/, "");
+  return LEAD_TOPIC_LABELS[normalized] ?? "Zdjęcia";
+}
+
+function safeSubjectValue(value: string, fallback: string): string {
+  return value.replace(/[\r\n|]+/g, " ").trim().slice(0, 80) || fallback;
 }
 
 function phoneHref(phone: string): string {
@@ -199,19 +237,36 @@ export async function POST(request: Request) {
 
     const resend = new Resend(env.RESEND_API_KEY);
 
-    const campaign = [attribution.utmSource, attribution.utmMedium, attribution.utmCampaign]
-      .filter(Boolean)
-      .join(" / ");
     const sourceLabel = humanizeSource(attribution.source);
+    const subjectSource = safeSubjectValue(attribution.source, "formularz");
     const safeName = escapeHtml(name);
     const safeEmail = escapeHtml(email);
     const safePhone = escapeHtml(phone);
     const safeMessage = escapeHtml(message).replaceAll("\n", "<br />");
+    const attributionRows = [
+      ["Źródło CTA", attribution.source],
+      ["Pierwsza odwiedzona strona", attribution.landingPath],
+      ["Strona wysłania formularza", attribution.pagePath],
+      ["Wejście z", attribution.referrer],
+      ["UTM source", attribution.utmSource],
+      ["UTM medium", attribution.utmMedium],
+      ["UTM campaign", attribution.utmCampaign],
+      ["UTM content", attribution.utmContent],
+      ["UTM term", attribution.utmTerm]
+    ]
+      .map(
+        ([label, value]) => `
+          <tr>
+            <td style="padding:0 12px 6px 0;color:#76685c;vertical-align:top;white-space:nowrap">${label}</td>
+            <td style="padding:0 0 6px;overflow-wrap:anywhere">${escapeHtml(value || "brak")}</td>
+          </tr>`
+      )
+      .join("");
 
     const { error: resendError } = await resend.emails.send({
       from: env.RESEND_FROM,
       to: [env.CONTACT_TO],
-      subject: `Nowe zapytanie: ${sourceLabel} — ${name}`,
+      subject: `[LEAD] ${leadTopic(attribution.source)} | ${subjectSource}`,
       ...(email ? { replyTo: email } : {}),
       html: `
         <div style="margin:0;padding:28px 16px;background:#f5f0e9;color:#241f1b;font-family:Arial,sans-serif;line-height:1.6">
@@ -244,10 +299,10 @@ export async function POST(request: Request) {
               </div>
 
               <div style="margin-top:28px;padding:18px 20px;background:#f5f0e9;border-radius:12px;font-size:13px;color:#6f6257">
-                <p style="margin:0 0 6px"><strong style="color:#3b332c">Miejsce kontaktu:</strong> ${escapeHtml(sourceLabel)}</p>
-                <p style="margin:0${campaign || attribution.referrer ? " 0 6px" : ""}"><strong style="color:#3b332c">Pierwsza odwiedzona strona:</strong> ${escapeHtml(attribution.landingPath || "nieustalona")}</p>
-                ${campaign ? `<p style="margin:0${attribution.referrer ? " 0 6px" : ""}"><strong style="color:#3b332c">Kampania:</strong> ${escapeHtml(campaign)}</p>` : ""}
-                ${attribution.referrer ? `<p style="margin:0"><strong style="color:#3b332c">Wejście z:</strong> ${escapeHtml(attribution.referrer)}</p>` : ""}
+                <p style="margin:0 0 10px;font-weight:600;color:#3b332c">${escapeHtml(sourceLabel)}</p>
+                <table role="presentation" style="width:100%;border-collapse:collapse;font-size:13px">
+                  ${attributionRows}
+                </table>
               </div>
             </div>
           </div>

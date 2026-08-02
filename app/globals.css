@@ -68,6 +68,12 @@ body::after {
   background: linear-gradient(135deg, rgba(111, 118, 96, 0.08), transparent 34%, rgba(138, 98, 69, 0.08));
 }
 
+body[data-mobile-menu-open="true"] [data-mobile-sticky-cta] {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(0.75rem);
+}
+
 @keyframes grain-shift {
   0% {
     transform: translate(0, 0);

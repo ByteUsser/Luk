@@ -282,10 +282,10 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
         <MotionReveal className="max-w-[460px]">
           <span className="eyebrow text-[#b89d7a]">Kontakt</span>
           <HeadingTag className="section-title mt-5 max-w-[13ch] text-cream">
-            Napisz do mnie
+            Sprawdź termin i otrzymaj wycenę
           </HeadingTag>
           <p className="mt-5 max-w-[42ch] text-[0.98rem] leading-relaxed text-cream/78">
-            Podaj rodzaj zdjęć, miejsce i termin. Odpowiem mailem lub zadzwonię.
+            Podaj rodzaj zdjęć, miejsce i termin. Wycena jest bez zobowiązań — odpowiem mailem lub zadzwonię.
           </p>
 
           <div className="mt-7 max-w-[220px]">
@@ -313,7 +313,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
                 path: window.location.pathname
               });
             }}
-            className="space-y-5"
+            className="scroll-mt-24 space-y-5 md:scroll-mt-28"
             data-scroll-anchor
             noValidate
           >
@@ -406,6 +406,11 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
             />
           </label>
 
+          <p id="contact-method-help" className="text-[0.84rem] leading-relaxed text-cream/74">
+            <span className="uppercase tracking-[0.1em] text-cream/85">Dane kontaktowe *</span>
+            <span className="mt-1 block text-cream/68">Wpisz imię i podaj email lub telefon — wystarczy jedno.</span>
+          </p>
+
           <div className="grid gap-5 md:grid-cols-2">
             <label className="block">
               <span className="mb-2 block text-[0.82rem] uppercase tracking-[0.12em] text-cream/80">Imię *</span>
@@ -452,10 +457,6 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
               ) : null}
             </label>
           </div>
-
-          <p id="contact-method-help" className="-mt-2 text-[0.84rem] leading-relaxed text-cream/68">
-            Podaj email lub telefon — wystarczy jedno.
-          </p>
 
           <label className="block">
               <span className="mb-2 block text-[0.82rem] uppercase tracking-[0.12em] text-cream/80">
@@ -512,7 +513,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
               disabled={status === "loading"}
               className="button-dark-solid h-12 min-w-[180px] px-6 text-[0.82rem] uppercase tracking-[0.12em] disabled:cursor-not-allowed disabled:opacity-65"
             >
-              {status === "loading" ? "Wysyłam..." : "Wyślij wiadomość"}
+              {status === "loading" ? "Wysyłam..." : "Wyślij zapytanie"}
             </button>
 
             <p className="max-w-[32ch] text-[0.86rem] leading-relaxed text-cream/72 sm:text-right">

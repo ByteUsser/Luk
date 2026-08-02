@@ -3,7 +3,7 @@ export const SITE_CONFIG = {
   owner: "Janiczek Łukasz",
   domain: "janiczekfoto.pl",
   url: "https://janiczekfoto.pl",
-  updatedAt: "2026-07-22",
+  updatedAt: "2026-07-30",
   city: "Bochnia",
   email: "janiczek.office@gmail.com",
   phone: "+48733416675",

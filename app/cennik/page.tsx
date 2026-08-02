@@ -158,12 +158,28 @@ export default function PricingPage() {
               </p>
             </div>
             <Link
-              href="/kontakt?source=cennik-gora"
+              href="/kontakt?source=cennik-gora#formularz-kontaktowy"
               className="button-dark min-h-12 justify-center px-5 text-[0.78rem] uppercase tracking-[0.12em]"
             >
-              Sprawdź termin
+              Sprawdź termin i wycenę
             </Link>
           </header>
+
+          <section
+            className="mt-5 grid gap-3 rounded-[1.2rem] border border-ink/10 bg-surface px-5 py-5 text-[0.88rem] leading-relaxed text-ink/76 shadow-[0_10px_28px_rgba(36,31,27,0.04)] sm:grid-cols-3 sm:items-center sm:px-6"
+            aria-label="Informacje przed wysłaniem zapytania"
+          >
+            <p><span className="text-cognac" aria-hidden="true">—</span> Wycena bez zobowiązań</p>
+            <p><span className="text-cognac" aria-hidden="true">—</span> Odpowiedź zwykle do 24 godzin</p>
+            <Link
+              href={SITE_CONFIG.googleBusinessProfile}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center text-cognac underline decoration-cognac/30 underline-offset-4 transition hover:text-ink sm:justify-self-end"
+            >
+              Zobacz opinie w Google →
+            </Link>
+          </section>
 
           <PricingAccordion items={[...pricingItems, documentPricingItem, printPricingItem]} />
 
@@ -181,16 +197,21 @@ export default function PricingPage() {
             </div>
           </section>
 
-          <div className="mt-10 rounded-[1.4rem] bg-espresso p-6 text-cream md:flex md:items-center md:justify-between md:gap-8 md:p-8">
+          <div
+            data-sticky-cta-stop
+            className="mt-10 rounded-[1.4rem] bg-espresso p-6 text-cream md:flex md:items-center md:justify-between md:gap-8 md:p-8"
+          >
             <div>
-              <p className="eyebrow text-[#c8ad8d]">Inny temat?</p>
-              <p className="mt-3 max-w-[38ch] font-display text-[2.15rem] leading-[0.96]">Napisz do mnie</p>
+              <p className="eyebrow text-[#c8ad8d]">Masz inny pomysł?</p>
+              <p className="mt-3 max-w-[38ch] font-display text-[2.15rem] leading-[0.96]">
+                Opowiedz mi, czego potrzebujesz
+              </p>
             </div>
             <Link
-              href="/kontakt?source=cennik-inna-opcja"
+              href="/kontakt?source=cennik-inna-opcja#formularz-kontaktowy"
               className="button-dark mt-6 min-h-12 justify-center px-5 text-[0.78rem] uppercase tracking-[0.12em] md:mt-0"
             >
-              Sprawdź termin
+              Sprawdź termin i wycenę
             </Link>
           </div>
         </div>

@@ -57,9 +57,13 @@ Nie zapisuj prawdziwych kluczy w repozytorium.
 
 1. W projekcie Vercel włącz Web Analytics.
 2. Po wdrożeniu sprawdź rejestrowanie odsłon.
-3. Jeśli plan obsługuje Custom Events, sprawdź zdarzenia formularza, telefonu,
-   galerii, opinii Google i głównych przycisków kontaktowych.
-4. Do zdarzeń nie są wysyłane dane wpisywane przez klienta.
+3. Za konwersję uznawaj wiadomość z formularza, której temat zaczyna się od
+   `[LEAD]`. E-mail zawiera źródło CTA, stronę wejścia, stronę wysłania i UTM-y.
+4. Custom Events są pomocnicze i nie są wymagane, gdy plan Vercel ich nie pokazuje.
+5. Do analityki nie są wysyłane dane wpisywane przez klienta.
+
+Gotowe linki kampanii, miesięczna checklista i instrukcja Google Search Console
+znajdują się w [`docs/marketing-links.md`](docs/marketing-links.md).
 
 ## Zdjęcia i galeria
 

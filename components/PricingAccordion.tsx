@@ -92,10 +92,10 @@ export function PricingAccordion({ items }: PricingAccordionProps) {
                     </ul>
 
                     <Link
-                      href={`/kontakt?source=${item.source}`}
+                      href={`/kontakt?source=${item.source}#formularz-kontaktowy`}
                       className="button-primary mt-6 min-h-12 px-5 text-[0.76rem] uppercase tracking-[0.11em]"
                     >
-                      {item.ctaLabel ?? "Sprawdź termin"}
+                      {item.ctaLabel ?? "Sprawdź termin i wycenę"}
                     </Link>
                   </div>
                 </div>

@@ -18,7 +18,7 @@ export const LOCATION_LANDINGS: LocationLanding[] = [
     serviceSummary: "Portrety, zdjęcia par, uroczystości rodzinne i reportaże.",
     placeSummary: "Miasto, dom albo plener blisko Bochni — wybieramy miejsce, w którym czujesz się swobodnie.",
     travelSummary: "W Bochni i najbliższej okolicy dojazd zazwyczaj jest w cenie.",
-    nearbySlugs: ["powiat-bochenski", "krakow", "tarnow"]
+    nearbySlugs: ["trzciana", "nowy-wisnicz", "powiat-bochenski"]
   },
   {
     slug: "powiat-bochenski",
@@ -28,7 +28,27 @@ export const LOCATION_LANDINGS: LocationLanding[] = [
     serviceSummary: "Portrety, zdjęcia par, rodzinne uroczystości i wydarzenia.",
     placeSummary: "Możemy spotkać się u Ciebie albo wybrać prosty plener niedaleko Twojej miejscowości.",
     travelSummary: "Godzinę i ewentualny koszt dojazdu ustalamy przy umawianiu terminu.",
-    nearbySlugs: ["bochnia", "krakow", "tarnow"]
+    nearbySlugs: ["bochnia", "trzciana", "nowy-wisnicz"]
+  },
+  {
+    slug: "trzciana",
+    name: "Trzciana",
+    regionLabel: "powiat bocheński",
+    lead: "Do Trzciany i okolic dojeżdżam na portrety, sesje par i rodzinne uroczystości.",
+    serviceSummary: "Portrety, zdjęcia par, uroczystości rodzinne i reportaże.",
+    placeSummary: "Sesję możemy zrobić w domu, ogrodzie albo w spokojnym plenerze wybranym wspólnie przed zdjęciami.",
+    travelSummary: "Dojazd z Bochni i ewentualny koszt potwierdzam przed rezerwacją.",
+    nearbySlugs: ["bochnia", "powiat-bochenski", "nowy-wisnicz"]
+  },
+  {
+    slug: "nowy-wisnicz",
+    name: "Nowy Wiśnicz",
+    regionLabel: "powiat bocheński",
+    lead: "Do Nowego Wiśnicza dojeżdżam na portrety, zdjęcia par i rodzinne uroczystości.",
+    serviceSummary: "Portrety, zdjęcia par, uroczystości rodzinne i reportaże.",
+    placeSummary: "Miejsce ustalamy przed sesją — może to być dom, ogród albo prosty plener w okolicy.",
+    travelSummary: "Dojazd z Bochni i ewentualny koszt potwierdzam przed rezerwacją.",
+    nearbySlugs: ["bochnia", "powiat-bochenski", "trzciana"]
   },
   {
     slug: "krakow",
@@ -53,13 +73,15 @@ export const LOCATION_LANDINGS: LocationLanding[] = [
 ];
 
 export const PRIMARY_LOCATIONS = LOCATION_LANDINGS.filter((location) =>
-  ["bochnia", "powiat-bochenski", "krakow", "tarnow"].includes(location.slug)
+  ["bochnia", "powiat-bochenski", "trzciana", "nowy-wisnicz", "krakow", "tarnow"].includes(location.slug)
 );
 
 // Indeksujemy tylko lokalizacje zgodne z aktualnym kierunkiem biznesowym.
 export const SEARCH_INDEXABLE_LOCATION_SLUGS = [
   "bochnia",
   "powiat-bochenski",
+  "trzciana",
+  "nowy-wisnicz",
   "krakow",
   "tarnow"
 ] as const;

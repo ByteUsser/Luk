@@ -24,8 +24,8 @@ const serviceItems: Service[] = [
     href: "/cennik#cennik-portret",
   },
   {
-    eyebrow: "Ślub • komunia • chrzest",
-    title: "Śluby i uroczystości",
+    eyebrow: "Komunia • chrzest • ślub",
+    title: "Uroczystości rodzinne",
     publicId: "/portfolio/gallery/007-wnetrze-kosciola.webp",
     href: "/cennik#cennik-komunia-chrzest"
   },

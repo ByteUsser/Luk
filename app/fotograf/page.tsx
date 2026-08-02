@@ -24,6 +24,16 @@ const primaryLocations = [
     note: "Portrety, pary i uroczystości."
   },
   {
+    name: "Trzciana",
+    href: "/fotograf/trzciana",
+    note: "Portrety, pary i rodzinne uroczystości."
+  },
+  {
+    name: "Nowy Wiśnicz",
+    href: "/fotograf/nowy-wisnicz",
+    note: "Sesje, uroczystości i reportaże."
+  },
+  {
     name: "Kraków",
     href: "/fotograf/krakow",
     note: "Portrety, pary i reportaże."
@@ -36,17 +46,17 @@ const primaryLocations = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "Dojazd na sesje – Bochnia, Kraków i Tarnów",
+  title: "Dojazd fotografa – Bochnia i okolice",
   description:
-    "Obszar działania Janiczek Foto: Bochnia i okolice oraz dojazd do Krakowa i Tarnowa. Sprawdź warunki dojazdu i wolny termin.",
+    "Obszar działania Janiczek Foto: Bochnia, Trzciana, Nowy Wiśnicz i okolice oraz dojazd do Krakowa i Tarnowa.",
   alternates: {
     canonical: "/fotograf"
   },
   openGraph: {
     url: `${SITE_CONFIG.url}/fotograf`,
-    title: `Dojazd na sesje – Bochnia, Kraków i Tarnów | ${SITE_CONFIG.name}`,
+    title: `Dojazd fotografa – Bochnia i okolice | ${SITE_CONFIG.name}`,
     description:
-      "Bochnia i okolice oraz dojazd do Krakowa i Tarnowa. Sprawdź warunki dojazdu i wolny termin.",
+      "Bochnia, Trzciana, Nowy Wiśnicz i okolice oraz dojazd do Krakowa i Tarnowa.",
     images: [
       {
         url: SITE_CONFIG.ogImage,
@@ -117,12 +127,12 @@ export default function PhotographerAreasPage() {
           <section className="mt-10">
             <p className="eyebrow text-cognac">Lokalizacje</p>
             <h2 className="mt-4 font-display text-[2.35rem] leading-none md:text-[3rem]">Najważniejsze kierunki</h2>
-            <nav className="mt-6 grid border-y border-ink/12 md:grid-cols-3 md:divide-x md:divide-ink/12" aria-label="Główny obszar działania">
+            <nav className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5" aria-label="Główny obszar działania">
               {primaryLocations.map((location) => (
                 <Link
                   key={location.href}
                   href={location.href}
-                  className="group border-b border-ink/12 py-5 last:border-b-0 md:border-b-0 md:px-6 md:first:pl-0"
+                  className="group rounded-[1rem] border border-ink/12 bg-surface p-5 shadow-[0_10px_24px_rgba(36,31,27,0.04)]"
                 >
                   <span className="block font-display text-[1.9rem] leading-none">{location.name}</span>
                   <span className="mt-2 block text-[0.9rem] leading-relaxed text-ink/66">{location.note}</span>

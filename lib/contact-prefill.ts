@@ -56,6 +56,14 @@ Co warto wiedzieć:`
     notice: "Masz gotowy szkic wiadomości.",
     message: messageTemplate("zdjęcia")
   },
+  "cennik-sticky": {
+    notice: "Masz gotowy szkic wiadomości.",
+    message: messageTemplate("zdjęcia z cennika")
+  },
+  "cennik-inna-opcja": {
+    notice: "Masz gotowy szkic wiadomości.",
+    message: messageTemplate("inny rodzaj zdjęć")
+  },
   galeria: {
     notice: "Masz gotowy szkic wiadomości.",
     message: messageTemplate("zdjęcia")
