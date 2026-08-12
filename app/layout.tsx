@@ -10,15 +10,15 @@ import "./globals.css";
 const cormorant = Cormorant_Garamond({
   subsets: ["latin", "latin-ext"],
   variable: "--font-cormorant",
-  weight: ["400", "600"],
-  style: ["normal", "italic"],
+  weight: "400",
+  style: "normal",
   display: "swap"
 });
 
 const jost = Jost({
   subsets: ["latin", "latin-ext"],
   variable: "--font-jost",
-  weight: ["300", "400"],
+  weight: "400",
   display: "swap"
 });
 
@@ -28,15 +28,15 @@ export const metadata: Metadata = {
     canonical: "./"
   },
   title: {
-    default: `${SITE_CONFIG.name} | Naturalne zdjęcia w Bochni`,
+    default: `Fotograf Bochnia – naturalne zdjęcia | ${SITE_CONFIG.name}`,
     template: `%s | ${SITE_CONFIG.name}`
   },
   description:
-    "Portrety, sesje dla par, śluby, komunie i reportaże w Bochni i okolicy. Zobacz portfolio i sprawdź wolny termin.",
+    "Portrety, sesje dla par, śluby, komunie i reportaże w Bochni i okolicy. Zobacz portfolio i zapytaj o wolny termin.",
   openGraph: {
-    title: `${SITE_CONFIG.name} | Naturalne zdjęcia w Bochni`,
+    title: `Fotograf Bochnia – naturalne zdjęcia | ${SITE_CONFIG.name}`,
     description:
-      "Portrety, sesje dla par, śluby, komunie i reportaże w Bochni i okolicy. Zobacz portfolio i sprawdź wolny termin.",
+      "Portrety, sesje dla par, śluby, komunie i reportaże w Bochni i okolicy. Zobacz portfolio i zapytaj o wolny termin.",
     url: SITE_CONFIG.url,
     siteName: SITE_CONFIG.name,
     locale: "pl_PL",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_CONFIG.name} | Naturalne zdjęcia w Bochni`,
+    title: `Fotograf Bochnia – naturalne zdjęcia | ${SITE_CONFIG.name}`,
     description:
       "Portrety, sesje dla par, śluby, komunie i reportaże w Bochni i okolicy.",
     images: [SITE_CONFIG.ogImage]

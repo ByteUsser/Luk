@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { ContactIcon } from "@/components/ContactIcon";
 import { MotionReveal } from "@/components/MotionReveal";
-import { getContactPrefill } from "@/lib/contact-prefill";
+import { applyLocationToContactMessage, getContactPrefill } from "@/lib/contact-prefill";
 import { getLeadAttribution } from "@/lib/lead-attribution";
 import { trackMarketingEvent } from "@/lib/marketing-analytics";
 import { SITE_CONFIG } from "@/lib/site-config";
@@ -44,10 +44,36 @@ function hasValidPhoneNumber(phone: string): boolean {
 }
 
 const quickTopics = [
-  { label: "Portret", icon: "portrait", message: "Interesuje mnie sesja portretowa. Miejsce:  Termin:  " },
-  { label: "Para", icon: "couple", message: "Interesuje mnie sesja dla pary. Miejsce:  Termin:  " },
-  { label: "Ślub / uroczystość", icon: "celebration", message: "Szukam fotografa na ślub lub uroczystość. Rodzaj wydarzenia:  Miejsce:  Data:  " },
-  { label: "Event", icon: "business", message: "Potrzebuję zdjęć z eventu lub dla firmy. Zakres:  Miejsce:  Termin:  " }
+  {
+    label: "Portret",
+    icon: "portrait",
+    message: `Interesuje mnie sesja portretowa.
+Miejsce:
+Termin:`
+  },
+  {
+    label: "Para",
+    icon: "couple",
+    message: `Interesuje mnie sesja dla pary.
+Miejsce:
+Termin:`
+  },
+  {
+    label: "Ślub / uroczystość",
+    icon: "celebration",
+    message: `Szukam fotografa na ślub lub uroczystość.
+Rodzaj wydarzenia:
+Miejsce:
+Data:`
+  },
+  {
+    label: "Event",
+    icon: "business",
+    message: `Potrzebuję zdjęć z eventu lub dla firmy.
+Zakres:
+Miejsce:
+Termin:`
+  }
 ] as const;
 
 function normalizeLocation(raw: string): string {
@@ -137,7 +163,9 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
   const prefillAppliedRef = useRef(false);
   const prefillMessageRef = useRef("");
+  const locationContextRef = useRef("");
   const formStartedRef = useRef(false);
+  const formRef = useRef<HTMLFormElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
   const phoneInputRef = useRef<HTMLInputElement>(null);
@@ -186,6 +214,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
     const locationFromQuery = searchParams.get("lokalizacja") ?? searchParams.get("location") ?? "";
     const sourceFromQuery = searchParams.get("source");
     const normalizedLocation = normalizeLocation(locationFromQuery);
+    locationContextRef.current = normalizedLocation;
     const prefill = getContactPrefill(sourceFromQuery, normalizedLocation);
     if (!prefill) {
       return;
@@ -207,6 +236,18 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
 
     return () => window.cancelAnimationFrame(frame);
   }, [allowQueryPrefill]);
+
+  useEffect(() => {
+    if (window.location.hash !== "#formularz-kontaktowy") {
+      return;
+    }
+
+    const frame = window.requestAnimationFrame(() => {
+      formRef.current?.focus({ preventScroll: true });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -282,16 +323,16 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
         <MotionReveal className="max-w-[460px]">
           <span className="eyebrow text-[#b89d7a]">Kontakt</span>
           <HeadingTag className="section-title mt-5 max-w-[13ch] text-cream">
-            Sprawdź termin i otrzymaj wycenę
+            Zapytaj o termin i otrzymaj wycenę
           </HeadingTag>
-          <p className="mt-5 max-w-[42ch] text-[0.98rem] leading-relaxed text-cream/78">
-            Podaj rodzaj zdjęć, miejsce i termin. Wycena jest bez zobowiązań — odpowiem mailem lub zadzwonię.
+          <p className="type-body mt-5 max-w-[38ch] text-cream/78">
+            Napisz, czego potrzebujesz. Odpowiem z wyceną.
           </p>
 
           <div className="mt-7 max-w-[220px]">
             <a
               href={`tel:${SITE_CONFIG.phone}`}
-              className="group flex min-h-14 items-center gap-3 rounded-2xl border border-cream/14 bg-cream/[0.035] px-3.5 text-[0.76rem] uppercase tracking-[0.1em] text-cream/84 transition hover:border-[#c8ad8d]/55 hover:bg-cream/[0.07] hover:text-[#dfccb3]"
+              className="type-action group flex min-h-14 items-center gap-3 rounded-2xl border border-cream/14 bg-cream/[0.035] px-3.5 text-cream/84 transition hover:border-[#c8ad8d]/55 hover:bg-cream/[0.07] hover:text-[#dfccb3]"
             >
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-cream/18 text-[#c8ad8d] transition group-hover:border-[#c8ad8d]/55">
                 <ContactIcon name="phone" className="h-[17px] w-[17px]" />
@@ -304,7 +345,9 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
 
         <MotionReveal delay={0.08}>
           <form
+            ref={formRef}
             id="formularz-kontaktowy"
+            tabIndex={-1}
             onSubmit={handleSubmit}
             onFocusCapture={() => {
               if (formStartedRef.current) return;
@@ -318,13 +361,13 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
             noValidate
           >
           {prefillNotice ? (
-            <p className="rounded-2xl border border-cognac/35 bg-cream/10 px-4 py-3 text-[0.9rem] leading-relaxed text-cream/90">
+            <p className="type-body rounded-2xl border border-cognac/35 bg-cream/10 px-4 py-3 text-cream/90">
               {prefillNotice} Dopisz szczegóły albo napisz po swojemu.
             </p>
           ) : null}
 
           <fieldset>
-            <legend className="mb-3 text-[0.72rem] uppercase tracking-[0.12em] text-cream/62">
+            <legend className="type-meta mb-3 text-cream/62">
               Wybierz temat
             </legend>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -335,7 +378,19 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
                   aria-pressed={activeTopic === topic.label}
                   onClick={() => {
                     setFormState((prev) => {
-                      const activeTemplate = quickTopics.find((item) => item.label === activeTopic)?.message.trim();
+                      const nextTemplate = applyLocationToContactMessage(
+                        topic.message,
+                        locationContextRef.current
+                      );
+                      const activeTopicTemplate = quickTopics.find(
+                        (item) => item.label === activeTopic
+                      )?.message;
+                      const activeTemplate = activeTopicTemplate
+                        ? applyLocationToContactMessage(
+                            activeTopicTemplate,
+                            locationContextRef.current
+                          ).trim()
+                        : undefined;
                       const currentMessage = prev.message.trim();
                       const untouchedPrefill = prefillMessageRef.current;
 
@@ -344,20 +399,22 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
                         currentMessage === activeTemplate ||
                         (untouchedPrefill && currentMessage === untouchedPrefill)
                       ) {
-                        return { ...prev, message: topic.message };
+                        return { ...prev, message: nextTemplate };
                       }
 
                       if (activeTemplate && currentMessage.startsWith(activeTemplate)) {
                         const ownText = currentMessage.slice(activeTemplate.length).trim();
                         return {
                           ...prev,
-                          message: ownText ? `${topic.message.trim()}\n\n${ownText}` : topic.message
+                          message: ownText
+                            ? `${nextTemplate.trim()}\n\n${ownText}`
+                            : nextTemplate
                         };
                       }
 
                       return {
                         ...prev,
-                        message: `${topic.message.trim()}\n\n${prev.message}`
+                        message: `${nextTemplate.trim()}\n\n${prev.message}`
                       };
                     });
                     setActiveTopic(topic.label);
@@ -369,7 +426,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
                       window.requestAnimationFrame(() => nameInputRef.current?.focus());
                     }
                   }}
-                  className={`group flex min-h-[88px] flex-col items-center justify-center gap-2 rounded-2xl border px-2 py-2.5 text-center text-[0.75rem] uppercase leading-tight tracking-[0.06em] transition ${
+                  className={`type-action group flex min-h-[88px] flex-col items-center justify-center gap-2 rounded-2xl border px-2 py-2.5 text-center transition ${
                     activeTopic === topic.label
                       ? "border-cream/16 bg-cream/[0.08] text-cream shadow-[0_10px_24px_rgba(0,0,0,0.1)]"
                       : "border-transparent bg-transparent text-cream/68 hover:border-cream/10 hover:bg-cream/[0.04] hover:text-[#dfccb3]"
@@ -406,14 +463,14 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
             />
           </label>
 
-          <p id="contact-method-help" className="text-[0.84rem] leading-relaxed text-cream/74">
-            <span className="uppercase tracking-[0.1em] text-cream/85">Dane kontaktowe *</span>
-            <span className="mt-1 block text-cream/68">Wpisz imię i podaj email lub telefon — wystarczy jedno.</span>
+          <p id="contact-method-help" className="type-body text-cream/74">
+            <span className="type-meta text-cream/85">Dane kontaktowe *</span>
+            <span className="mt-1 block text-cream/68">Imię oraz email lub telefon.</span>
           </p>
 
           <div className="grid gap-5 md:grid-cols-2">
             <label className="block">
-              <span className="mb-2 block text-[0.82rem] uppercase tracking-[0.12em] text-cream/80">Imię *</span>
+              <span className="type-meta mb-2 block text-cream/80">Imię *</span>
               <input
                 ref={nameInputRef}
                 value={formState.name}
@@ -425,18 +482,18 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
                 autoComplete="given-name"
                 aria-invalid={Boolean(fieldErrors.name)}
                 aria-describedby={fieldErrors.name ? "contact-name-error" : undefined}
-                className="h-11 w-full border-0 border-b border-cream/35 bg-transparent text-base text-cream outline-none transition-colors focus:border-cognac"
+                className="type-body h-11 w-full border-0 border-b border-cream/35 bg-transparent text-cream outline-none transition-colors focus:border-cognac"
                 placeholder="Np. Ola"
               />
               {fieldErrors.name ? (
-                <p id="contact-name-error" className="mt-2 text-[0.8rem] text-[#f6c9b2]">
+                <p id="contact-name-error" className="type-body mt-2 text-[#f6c9b2]">
                   {fieldErrors.name}
                 </p>
               ) : null}
             </label>
 
             <label className="block">
-              <span className="mb-2 block text-[0.82rem] uppercase tracking-[0.12em] text-cream/80">Email</span>
+              <span className="type-meta mb-2 block text-cream/80">Email</span>
               <input
                 ref={emailInputRef}
                 value={formState.email}
@@ -447,11 +504,11 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
                 autoComplete="email"
                 aria-invalid={Boolean(fieldErrors.email)}
                 aria-describedby={fieldErrors.email ? "contact-email-error contact-method-help" : "contact-method-help"}
-                className="h-11 w-full border-0 border-b border-cream/35 bg-transparent text-base text-cream outline-none transition-colors focus:border-cognac"
+                className="type-body h-11 w-full border-0 border-b border-cream/35 bg-transparent text-cream outline-none transition-colors focus:border-cognac"
                 placeholder="np@email.com"
               />
               {fieldErrors.email ? (
-                <p id="contact-email-error" className="mt-2 text-[0.8rem] text-[#f6c9b2]">
+                <p id="contact-email-error" className="type-body mt-2 text-[#f6c9b2]">
                   {fieldErrors.email}
                 </p>
               ) : null}
@@ -459,7 +516,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
           </div>
 
           <label className="block">
-              <span className="mb-2 block text-[0.82rem] uppercase tracking-[0.12em] text-cream/80">
+              <span className="type-meta mb-2 block text-cream/80">
                 Telefon
               </span>
               <input
@@ -474,18 +531,18 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
                 maxLength={20}
                 aria-invalid={Boolean(fieldErrors.phone)}
                 aria-describedby={fieldErrors.phone ? "contact-phone-error contact-method-help" : "contact-method-help"}
-                className="h-11 w-full border-0 border-b border-cream/35 bg-transparent text-base text-cream outline-none transition-colors focus:border-cognac"
+                className="type-body h-11 w-full border-0 border-b border-cream/35 bg-transparent text-cream outline-none transition-colors focus:border-cognac"
                 placeholder="Np. 500 000 000"
               />
               {fieldErrors.phone ? (
-                <p id="contact-phone-error" className="mt-2 text-[0.8rem] text-[#f6c9b2]">
+                <p id="contact-phone-error" className="type-body mt-2 text-[#f6c9b2]">
                   {fieldErrors.phone}
                 </p>
               ) : null}
           </label>
 
           <label className="block">
-            <span className="mb-2 block text-[0.82rem] uppercase tracking-[0.12em] text-cream/80">Wiadomość *</span>
+            <span className="type-meta mb-2 block text-cream/80">Wiadomość *</span>
             <textarea
               ref={messageInputRef}
               value={formState.message}
@@ -497,11 +554,11 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
               rows={5}
               aria-invalid={Boolean(fieldErrors.message)}
               aria-describedby={fieldErrors.message ? "contact-message-error" : undefined}
-              className="min-h-[170px] w-full resize-y border-0 border-b border-cream/35 bg-transparent py-2 text-base text-cream outline-none transition-colors focus:border-cognac"
+              className="type-body min-h-[170px] w-full resize-y border-0 border-b border-cream/35 bg-transparent py-2 text-cream outline-none transition-colors focus:border-cognac"
               placeholder="Napisz, jakich zdjęć potrzebujesz, gdzie i w jakim terminie."
             />
             {fieldErrors.message ? (
-              <p id="contact-message-error" className="mt-2 text-[0.8rem] text-[#f6c9b2]">
+              <p id="contact-message-error" className="type-body mt-2 text-[#f6c9b2]">
                 {fieldErrors.message}
               </p>
             ) : null}
@@ -511,12 +568,12 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
             <button
               type="submit"
               disabled={status === "loading"}
-              className="button-dark-solid h-12 min-w-[180px] px-6 text-[0.82rem] uppercase tracking-[0.12em] disabled:cursor-not-allowed disabled:opacity-65"
+              className="type-action button-dark-solid h-12 min-w-[180px] px-6 disabled:cursor-not-allowed disabled:opacity-65"
             >
               {status === "loading" ? "Wysyłam..." : "Wyślij zapytanie"}
             </button>
 
-            <p className="max-w-[32ch] text-[0.86rem] leading-relaxed text-cream/72 sm:text-right">
+            <p className="type-body max-w-[32ch] text-cream/72 sm:text-right">
               Zwykle odpisuję w ciągu 24 godzin.
             </p>
           </div>
@@ -525,7 +582,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
             <div
               role="status"
               aria-live="polite"
-              className={`rounded-2xl border px-4 py-3 text-sm leading-relaxed ${
+              className={`type-body rounded-2xl border px-4 py-3 ${
                 status === "success"
                   ? "border-cognac/40 bg-cognac/10 text-cream"
                   : status === "error"
@@ -549,13 +606,13 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
             href={SITE_CONFIG.googleBusinessProfile}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex min-h-11 items-center text-[0.84rem] text-cream/72 underline decoration-cream/25 underline-offset-4 transition hover:text-[#dfccb3]"
+            className="type-action inline-flex min-h-11 items-center text-cream/72 underline decoration-cream/25 underline-offset-4 transition hover:text-[#dfccb3]"
           >
             Opinie klientów w Google →
           </a>
 
-          <p className="text-[0.82rem] leading-relaxed text-cream/64">
-            Dane wykorzystam wyłącznie, żeby odpowiedzieć na zapytanie — mailem lub telefonicznie.{" "}
+          <p className="type-body text-cream/64">
+            Dane wykorzystam tylko do odpowiedzi.{" "}
             <a href="/polityka-prywatnosci" className="text-link">
               Polityka prywatności
             </a>

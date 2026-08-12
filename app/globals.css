@@ -100,6 +100,30 @@ a {
   text-decoration: none;
 }
 
+.skip-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 200;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  border-radius: 9999px;
+  background: var(--espresso);
+  color: var(--cream);
+  padding: 0.75rem 1.1rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: translateY(calc(-100% - 2rem));
+  transition: transform 180ms ease;
+}
+
+.skip-link:focus-visible {
+  outline-color: var(--espresso);
+  transform: translateY(0);
+}
+
 button,
 input,
 textarea,
@@ -172,32 +196,61 @@ select {
   transform: rotate(45deg);
 }
 
-.eyebrow {
+.eyebrow,
+.type-meta {
+  font-family: var(--font-jost), sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.22em;
-  font-size: clamp(0.8rem, 1.35vw, 0.9rem);
-  line-height: 1.15;
-  font-weight: 300;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  line-height: 1.25;
+  font-weight: 400;
 }
 
-.hero-title {
+.hero-title,
+.type-hero {
   font-family: var(--font-cormorant), serif;
-  font-size: clamp(2.45rem, 7.2vw, 6.5rem);
+  font-size: clamp(2.8rem, 7vw, 5.25rem);
+  line-height: 0.9;
+  letter-spacing: -0.025em;
+  font-weight: 400;
+}
+
+.section-title,
+.type-section {
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
   line-height: 0.94;
   letter-spacing: 0;
+  font-weight: 400;
 }
 
-.section-title {
+.type-card,
+.brand-title {
   font-family: var(--font-cormorant), serif;
-  font-size: clamp(2.2rem, 6.4vw, 5.3rem);
-  line-height: 0.95;
+  font-size: clamp(1.6rem, 2.6vw, 2rem);
+  line-height: 1;
   letter-spacing: 0;
+  font-weight: 400;
+}
+
+.type-body {
+  font-family: var(--font-jost), sans-serif;
+  font-size: 0.96rem;
+  line-height: 1.65;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.type-action {
+  font-family: var(--font-jost), sans-serif;
+  font-size: 0.76rem;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 400;
 }
 
 .brand-title {
-  font-family: var(--font-cormorant), serif;
-  font-size: clamp(1.35rem, 4.6vw, 1.95rem);
-  line-height: 1;
   letter-spacing: 0.02em;
 }
 
@@ -227,8 +280,12 @@ select {
 .button-panel,
 .button-sticky-primary,
 .button-sticky-secondary {
-  font-size: clamp(0.82rem, 1.45vw, 0.9rem);
+  font-family: var(--font-jost), sans-serif;
+  font-size: 0.76rem;
+  font-weight: 400;
   line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .button-primary {
@@ -464,8 +521,13 @@ select {
 }
 
 :focus-visible {
-  outline: 1px solid rgba(79, 87, 71, 0.72);
+  outline: 2px solid var(--sage-dark);
   outline-offset: 3px;
+}
+
+:where(.bg-espresso, [class*="bg-espresso/"], [data-focus-theme="dark"]) :focus-visible,
+:where(.bg-espresso, [class*="bg-espresso/"], [data-focus-theme="dark"]):focus-visible {
+  outline-color: var(--cream);
 }
 
 .cursor-dot {
@@ -556,7 +618,7 @@ select {
   background: rgba(20, 15, 12, 0.48);
   color: rgba(255, 250, 242, 0.76);
   padding: 8px 13px;
-  font-family: var(--font-sans), sans-serif;
+  font-family: var(--font-jost), sans-serif;
   font-size: 0.72rem;
   font-weight: 400;
   line-height: 1;
@@ -587,7 +649,7 @@ select {
 }
 
 .photo-lightbox .yarl__button:focus-visible {
-  outline: 1px solid rgba(255, 250, 242, 0.9);
+  outline: 2px solid rgba(255, 250, 242, 0.95);
   outline-offset: 3px;
 }
 

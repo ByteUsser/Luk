@@ -60,14 +60,14 @@ export function Gallery({ items, lightboxItems = items }: GalleryProps) {
           transition={{ duration: 0.68, ease: [0.22, 1, 0.36, 1] }}
         >
           <div>
-            <p className="eyebrow text-cognac">Galeria</p>
+            <p className="eyebrow text-cognac">Portfolio</p>
             <h2 className="section-title mt-4 max-w-[12ch]">Wybrane zdjęcia</h2>
           </div>
           <Link
             href="/galeria-zdjec"
-            className="text-link inline-flex min-h-11 w-fit items-center pb-1 text-[0.78rem] uppercase tracking-[0.12em] text-ink/72"
+            className="type-action text-link inline-flex min-h-11 w-fit items-center pb-1 text-ink/72"
           >
-            Cała galeria <span aria-hidden="true">→</span>
+            Zobacz całe portfolio <span aria-hidden="true">→</span>
           </Link>
         </motion.div>
 
@@ -95,7 +95,7 @@ export function Gallery({ items, lightboxItems = items }: GalleryProps) {
               <motion.button
                 key={`${item.publicId}-${item.title}`}
                 type="button"
-                aria-label={`Otwórz zdjęcie — ${item.category}`}
+                aria-label={`Otwórz zdjęcie: ${item.alt || item.title}`}
                 onClick={(event) => {
                   lightboxTriggerRef.current = event.currentTarget;
                   void preparePhotoLightbox();
@@ -130,7 +130,7 @@ export function Gallery({ items, lightboxItems = items }: GalleryProps) {
                 />
                 <span className="absolute inset-0 bg-gradient-to-t from-espresso/48 via-transparent to-transparent opacity-55 transition-opacity group-hover:opacity-75" />
                 <span className="absolute inset-x-0 bottom-0 p-4 text-cream md:p-5">
-                  <span className="block text-[0.69rem] uppercase tracking-[0.15em] text-cream/82">{item.category}</span>
+                  <span className="type-meta block text-cream/82">{item.category}</span>
                 </span>
               </motion.button>
             );

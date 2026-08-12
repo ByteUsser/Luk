@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PhotoGalleryGrid } from "@/components/PhotoGalleryGrid";
+import { GalleryServiceDetails } from "@/components/GalleryServiceDetails";
 import { PublicPageShell } from "@/components/PublicPageShell";
 import {
   GALLERY_CATEGORY_DEFINITIONS,
   findGalleryCategoryBySlug,
   galleryCategoryHref
 } from "@/lib/gallery-categories";
-import { SITE_CONFIG } from "@/lib/site-config";
+import { SITE_CONFIG, SITE_ENTITY_IDS } from "@/lib/site-config";
+import { GALLERY_SERVICE_SEO } from "@/lib/gallery-service-seo";
 import { getResolvedSiteContent } from "@/sanity/lib/site-content";
 
 type Params = {
@@ -69,6 +71,7 @@ export default async function GalleryCategoryPage({ params }: GalleryCategoryPag
 
   const { gallery } = await getResolvedSiteContent();
   const categoryItems = gallery.filter((item) => item.category === category.name);
+  const serviceContent = GALLERY_SERVICE_SEO[category.slug];
   const pageUrl = `${SITE_CONFIG.url}${galleryCategoryHref(category.slug)}`;
   const galleryJsonLd = {
     "@context": "https://schema.org",
@@ -88,12 +91,26 @@ export default async function GalleryCategoryPage({ params }: GalleryCategoryPag
       {
         "@type": "ListItem",
         position: 2,
-        name: "Galeria zdjęć",
+        name: "Portfolio",
         item: `${SITE_CONFIG.url}/galeria-zdjec`
       },
       { "@type": "ListItem", position: 3, name: category.heading, item: pageUrl }
     ]
   };
+  const serviceJsonLd = serviceContent
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: serviceContent.serviceType,
+        serviceType: serviceContent.serviceType,
+        url: pageUrl,
+        provider: { "@id": SITE_ENTITY_IDS.business },
+        areaServed: SITE_CONFIG.primaryAreas.slice(0, 4).map((name) => ({
+          "@type": "AdministrativeArea",
+          name
+        }))
+      }
+    : null;
 
   return (
     <PublicPageShell>
@@ -102,6 +119,9 @@ export default async function GalleryCategoryPage({ params }: GalleryCategoryPag
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {serviceJsonLd ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }} />
+      ) : null}
       <main className="px-5 pb-20 pt-28 md:px-10 md:pb-24 md:pt-32">
         <PhotoGalleryGrid
           items={categoryItems}
@@ -109,10 +129,11 @@ export default async function GalleryCategoryPage({ params }: GalleryCategoryPag
           activeCategory={category.name}
           eyebrow={category.eyebrow}
           heading={category.heading}
-          description={category.description}
+          description={category.intro}
           emptyMessage={category.emptyMessage}
           contactSource={`galeria-${category.slug}`}
         />
+        {serviceContent ? <GalleryServiceDetails content={serviceContent} /> : null}
       </main>
     </PublicPageShell>
   );

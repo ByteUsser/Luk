@@ -3,7 +3,7 @@ export const SITE_CONFIG = {
   owner: "Janiczek Łukasz",
   domain: "janiczekfoto.pl",
   url: "https://janiczekfoto.pl",
-  updatedAt: "2026-07-30",
+  updatedAt: "2026-08-12",
   city: "Bochnia",
   email: "janiczek.office@gmail.com",
   phone: "+48733416675",
@@ -18,15 +18,28 @@ export const SITE_CONFIG = {
   primaryAreas: [
     "Bochnia",
     "powiat bocheński",
+    "Nowy Wiśnicz",
+    "Trzciana",
+    "Żegocina"
+  ],
+  secondaryAreas: [
     "Kraków",
     "Tarnów",
     "Małopolska"
-  ],
-  secondaryAreas: [
-    "Brzesko",
-    "Rzezawa",
-    "Nowy Wiśnicz"
   ]
 } as const;
 
-export const STATIC_ROUTES = ["/", "/galeria-zdjec", "/fotograf", "/cennik", "/o-mnie", "/kontakt", "/polityka-prywatnosci"] as const;
+export const SITE_ENTITY_IDS = {
+  business: `${SITE_CONFIG.url}/#business`,
+  website: `${SITE_CONFIG.url}/#website`
+} as const;
+
+export const STATIC_ROUTES = [
+  "/",
+  "/galeria-zdjec",
+  "/fotograf",
+  "/cennik",
+  "/o-mnie",
+  "/kontakt",
+  "/polityka-prywatnosci"
+] as const;

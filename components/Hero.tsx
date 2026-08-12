@@ -7,11 +7,12 @@ import { InPageLink } from "@/components/InPageLink";
 
 type HeroProps = {
   imagePublicId: string;
+  imageAlt: string;
   imagePosition?: string;
   imageBlurDataURL?: string;
 };
 
-export function Hero({ imagePublicId, imagePosition, imageBlurDataURL }: HeroProps) {
+export function Hero({ imagePublicId, imageAlt, imagePosition, imageBlurDataURL }: HeroProps) {
   const image = cloudinaryAsset(imagePublicId, { width: 1920, quality: 82 });
   const reduceMotion = useReducedMotion();
 
@@ -41,29 +42,29 @@ export function Hero({ imagePublicId, imagePosition, imageBlurDataURL }: HeroPro
         <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[7vw] translate-x-[98%] bg-cream md:block" />
 
         <motion.p variants={itemVariants} className="eyebrow text-cognac">
-          Łukasz Janiczek • fotograf
+          Łukasz Janiczek · fotograf
         </motion.p>
 
-        <motion.h1 variants={itemVariants} className="mt-4 max-w-[12ch] font-display text-[clamp(2.85rem,11vw,4.1rem)] leading-[0.9] tracking-[-0.035em] text-ink md:mt-6 md:text-[clamp(3.7rem,5.1vw,5.8rem)]">
-          Naturalnie
+        <motion.h1 variants={itemVariants} className="type-hero mt-4 max-w-[11ch] text-ink md:mt-6">
+          Naturalne zdjęcia w Bochni
         </motion.h1>
 
-        <motion.p variants={itemVariants} className="mt-4 max-w-[43ch] text-[0.96rem] leading-relaxed text-ink/78 md:mt-6 md:text-[1.03rem]">
-          Portrety, pary, uroczystości i reportaże. Bochnia i okolice, Kraków oraz Tarnów.
+        <motion.p variants={itemVariants} className="type-body mt-4 max-w-[43ch] text-ink/78 md:mt-6">
+          Portrety, pary, uroczystości i eventy — spokojnie, bez sztywnego pozowania.
         </motion.p>
 
         <motion.div variants={itemVariants} className="mt-5 flex flex-col gap-3 min-[390px]:flex-row md:mt-7">
           <InPageLink
             targetId="wybrane-prace"
-            className="button-primary min-h-12 justify-center px-5 text-[0.8rem] uppercase tracking-[0.12em] min-[390px]:flex-1 min-[390px]:whitespace-nowrap min-[390px]:px-3 min-[390px]:text-[0.72rem] min-[390px]:tracking-[0.08em] md:flex-none md:px-5 md:text-[0.8rem] md:tracking-[0.12em]"
+            className="type-action button-primary min-h-12 justify-center px-5 min-[390px]:flex-1 min-[390px]:whitespace-nowrap min-[390px]:px-3 md:flex-none md:px-5"
           >
-            Zobacz zdjęcia
+            Zobacz portfolio
           </InPageLink>
           <InPageLink
             targetId="kontakt"
-            className="button-outline min-h-12 justify-center px-5 text-[0.8rem] uppercase tracking-[0.12em] min-[390px]:flex-1 min-[390px]:whitespace-nowrap min-[390px]:px-3 min-[390px]:text-[0.72rem] min-[390px]:tracking-[0.08em] md:flex-none md:px-5 md:text-[0.8rem] md:tracking-[0.12em]"
+            className="type-action button-outline min-h-12 justify-center px-5 min-[390px]:flex-1 min-[390px]:whitespace-nowrap min-[390px]:px-3 md:flex-none md:px-5"
           >
-            Sprawdź termin
+            Zapytaj o termin
           </InPageLink>
         </motion.div>
 
@@ -78,7 +79,7 @@ export function Hero({ imagePublicId, imagePosition, imageBlurDataURL }: HeroPro
         >
           <Image
             src={image.src}
-            alt="Zdjęcie z portfolio Janiczek Foto"
+            alt={imageAlt}
             fill
             priority
             fetchPriority="high"

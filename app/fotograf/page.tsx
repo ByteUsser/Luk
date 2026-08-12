@@ -24,53 +24,48 @@ const primaryLocations = [
     note: "Portrety, pary i uroczystości."
   },
   {
-    name: "Trzciana",
-    href: "/fotograf/trzciana",
-    note: "Portrety, pary i rodzinne uroczystości."
-  },
-  {
     name: "Nowy Wiśnicz",
     href: "/fotograf/nowy-wisnicz",
     note: "Sesje, uroczystości i reportaże."
   },
   {
-    name: "Kraków",
-    href: "/fotograf/krakow",
-    note: "Portrety, pary i reportaże."
+    name: "Trzciana",
+    href: "/fotograf/trzciana",
+    note: "Portrety, pary i rodzinne uroczystości."
   },
   {
-    name: "Tarnów",
-    href: "/fotograf/tarnow",
-    note: "Sesje, uroczystości i wydarzenia."
+    name: "Żegocina",
+    href: "/fotograf/zegocina",
+    note: "Sesje, uroczystości i reportaże."
   }
 ] as const;
 
 export const metadata: Metadata = {
-  title: "Dojazd fotografa – Bochnia i okolice",
+  title: "Fotograf Bochnia i okolice – dojazd",
   description:
-    "Obszar działania Janiczek Foto: Bochnia, Trzciana, Nowy Wiśnicz i okolice oraz dojazd do Krakowa i Tarnowa.",
+    "Fotograf w Bochni i okolicy: Nowy Wiśnicz, Trzciana, Żegocina i powiat bocheński. Dalszy dojazd ustalam indywidualnie.",
   alternates: {
     canonical: "/fotograf"
   },
   openGraph: {
     url: `${SITE_CONFIG.url}/fotograf`,
-    title: `Dojazd fotografa – Bochnia i okolice | ${SITE_CONFIG.name}`,
+    title: `Fotograf Bochnia i okolice – dojazd | ${SITE_CONFIG.name}`,
     description:
-      "Bochnia, Trzciana, Nowy Wiśnicz i okolice oraz dojazd do Krakowa i Tarnowa.",
+      "Bochnia, Nowy Wiśnicz, Trzciana, Żegocina i powiat bocheński.",
     images: [
       {
         url: SITE_CONFIG.ogImage,
         width: 1200,
         height: 630,
-        alt: `Dojazd na sesje | ${SITE_CONFIG.name}`
+        alt: `Obszar działania | ${SITE_CONFIG.name}`
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: `Dojazd na sesje – Bochnia, Kraków i Tarnów | ${SITE_CONFIG.name}`,
+    title: `Fotograf Bochnia i okolice – dojazd | ${SITE_CONFIG.name}`,
     description:
-      "Bochnia i okolice oraz dojazd do Krakowa i Tarnowa.",
+      "Bochnia, Nowy Wiśnicz, Trzciana, Żegocina i powiat bocheński.",
     images: [SITE_CONFIG.ogImage]
   }
 };
@@ -94,71 +89,98 @@ export default function PhotographerAreasPage() {
       <main className="px-5 pb-20 pt-28 md:px-10 md:pb-24 md:pt-32">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
         <div className="mx-auto max-w-[1220px]">
-          <section className="grid gap-7 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
-            <div>
-              <p className="eyebrow text-cognac">Dojazd</p>
-              <h1 className="section-title mt-4 max-w-[11ch]">
-                Dojazd na sesje fotograficzne
-              </h1>
-              <p className="mt-6 max-w-[64ch] text-[1rem] leading-relaxed text-ink/80">
-                Najczęściej pracuję w Bochni i okolicy. Do Krakowa, Tarnowa i innych miejsc
-                w Małopolsce dojeżdżam po ustaleniu terminu.
-              </p>
+          <header className="overflow-hidden rounded-[1.5rem] border border-ink/10 bg-surface shadow-[0_18px_50px_rgba(36,31,27,0.07)]">
+            <div className="grid gap-7 p-6 md:p-9 lg:grid-cols-[1fr_auto] lg:items-end">
+              <div>
+                <p className="eyebrow text-cognac">Obszar działania</p>
+                <h1 className="section-title mt-4 max-w-[11ch]">
+                  Fotograf w Bochni i okolicy
+                </h1>
+                <p className="type-body mt-6 max-w-[62ch] text-ink/80">
+                  Najczęściej pracuję w powiecie bocheńskim. Dalszy dojazd, również do Krakowa
+                  lub Tarnowa, potwierdzam wraz z pełną wyceną przed rezerwacją.
+                </p>
+              </div>
 
-              <div className="mt-7 flex flex-wrap gap-3">
+              <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
                 <Link
-                  href="/kontakt?source=lokalizacje"
-                  className="button-primary px-5 text-[0.82rem] uppercase tracking-[0.14em]"
+                  href="/kontakt?source=lokalizacje#formularz-kontaktowy"
+                  className="type-action button-primary min-h-12 justify-center px-5"
                 >
-                  Sprawdź termin
+                  Zapytaj o termin
                 </Link>
                 <a
                   href={`tel:${SITE_CONFIG.phone}`}
-                  className="button-outline px-5 text-[0.82rem] uppercase tracking-[0.14em]"
+                  className="type-action button-outline min-h-12 justify-center px-5"
                 >
                   Zadzwoń
                 </a>
               </div>
             </div>
 
-            <ServiceAreaMap />
-          </section>
+            <dl className="grid gap-px border-t border-ink/10 bg-ink/10 sm:grid-cols-3">
+              <div className="bg-cream px-5 py-4 md:px-7">
+                <dt className="type-meta text-cognac">Baza</dt>
+                <dd className="type-body mt-1 text-ink/78">Bochnia</dd>
+              </div>
+              <div className="bg-cream px-5 py-4 md:px-7">
+                <dt className="type-meta text-cognac">Najczęściej</dt>
+                <dd className="type-body mt-1 text-ink/78">Powiat bocheński</dd>
+              </div>
+              <div className="bg-cream px-5 py-4 md:px-7">
+                <dt className="type-meta text-cognac">Dalszy dojazd</dt>
+                <dd className="type-body mt-1 text-ink/78">Po wcześniejszym ustaleniu</dd>
+              </div>
+            </dl>
+          </header>
 
-          <section className="mt-10">
-            <p className="eyebrow text-cognac">Lokalizacje</p>
-            <h2 className="mt-4 font-display text-[2.35rem] leading-none md:text-[3rem]">Najważniejsze kierunki</h2>
-            <nav className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5" aria-label="Główny obszar działania">
+          <section className="mt-12" aria-labelledby="nearby-locations-heading">
+            <p className="eyebrow text-cognac">Najbliższe miejscowości</p>
+            <h2 id="nearby-locations-heading" className="type-section mt-4">Wybierz swoją okolicę</h2>
+            <nav className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" aria-label="Główny obszar działania">
               {primaryLocations.map((location) => (
                 <Link
                   key={location.href}
                   href={location.href}
-                  className="group rounded-[1rem] border border-ink/12 bg-surface p-5 shadow-[0_10px_24px_rgba(36,31,27,0.04)]"
+                  className="group rounded-[1rem] border border-ink/12 bg-surface p-5 shadow-[0_10px_24px_rgba(36,31,27,0.04)] transition duration-500 hover:-translate-y-1 hover:border-cognac/35 hover:shadow-[0_18px_38px_rgba(36,31,27,0.09)]"
                 >
-                  <span className="block font-display text-[1.9rem] leading-none">{location.name}</span>
-                  <span className="mt-2 block text-[0.9rem] leading-relaxed text-ink/66">{location.note}</span>
-                  <span className="mt-4 inline-block text-[0.72rem] uppercase tracking-[0.1em] text-cognac transition-transform group-hover:translate-x-1">
-                    Zobacz <span aria-hidden="true">→</span>
+                  <span className="type-card block">{location.name}</span>
+                  <span className="type-body mt-2 block text-ink/68">{location.note}</span>
+                  <span className="type-action mt-4 inline-block text-cognac transition-transform group-hover:translate-x-1">
+                    Szczegóły <span aria-hidden="true">→</span>
                   </span>
                 </Link>
               ))}
             </nav>
             <Link
-              href="/kontakt?source=inna-lokalizacja"
-              className="text-link mt-5 inline-flex min-h-11 items-center pb-1 text-[0.76rem] uppercase tracking-[0.1em] text-ink/68"
+              href="/kontakt?source=inna-lokalizacja#formularz-kontaktowy"
+              className="type-action text-link mt-5 inline-flex min-h-11 items-center pb-1 text-ink/72"
             >
-              Inna miejscowość? Napisz <span className="ml-2" aria-hidden="true">→</span>
+              Inna miejscowość? Zapytaj o dojazd <span className="ml-2" aria-hidden="true">→</span>
             </Link>
           </section>
 
-          <section className="mt-10 space-y-4 border-t border-ink/12 pt-8">
-            <h2 className="font-display text-[2rem] leading-none">Dojazd</h2>
+          <section className="mt-12 grid gap-7 border-t border-ink/12 pt-10 lg:grid-cols-[0.68fr_1.32fr] lg:items-center" aria-labelledby="service-area-map-heading">
+            <div>
+              <p className="eyebrow text-cognac">Mapa</p>
+              <h2 id="service-area-map-heading" className="type-section mt-4 max-w-[12ch]">Zobacz orientacyjny zasięg</h2>
+              <p className="type-body mt-5 max-w-[42ch] text-ink/76">
+                Nie widzisz swojej miejscowości? To nie wyklucza dojazdu. Podaj miejsce w zapytaniu,
+                a potwierdzę możliwość realizacji i pełny koszt.
+              </p>
+            </div>
+            <ServiceAreaMap />
+          </section>
+
+          <section className="mt-12 space-y-4 border-t border-ink/12 pt-8" aria-labelledby="travel-faq-heading">
+            <h2 id="travel-faq-heading" className="type-section">Pytania o dojazd</h2>
             <div className="space-y-3">
               {faqItems.map((item) => (
                 <details key={item.question} className="border-b border-ink/12 py-4">
-                  <summary className="flex min-h-11 cursor-pointer items-center text-[0.94rem] leading-relaxed text-ink">
+                  <summary className="type-body flex min-h-11 cursor-pointer items-center text-ink">
                     {item.question}
                   </summary>
-                  <p className="mt-3 text-[0.95rem] leading-relaxed text-ink/80">{item.answer}</p>
+                  <p className="type-body mt-3 max-w-[70ch] text-ink/80">{item.answer}</p>
                 </details>
               ))}
             </div>

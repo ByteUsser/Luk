@@ -3,6 +3,36 @@ type ContactPrefill = {
   message: string;
 };
 
+const CONTACT_FORM_HASH = "formularz-kontaktowy";
+
+export function buildContactHref(source: string, locationName?: string): string {
+  const searchParams = new URLSearchParams({ source });
+  const normalizedLocation = locationName?.trim();
+
+  if (normalizedLocation) {
+    searchParams.set("lokalizacja", normalizedLocation);
+  }
+
+  return `/kontakt?${searchParams.toString()}#${CONTACT_FORM_HASH}`;
+}
+
+export function applyLocationToContactMessage(message: string, locationName?: string): string {
+  const normalizedLocation = locationName?.trim();
+  if (!normalizedLocation) {
+    return message;
+  }
+
+  const lines = message.split("\n");
+  const placeLineIndex = lines.findIndex((line) => /^Miejsce:\s*/i.test(line));
+
+  if (placeLineIndex >= 0) {
+    lines[placeLineIndex] = `Miejsce: ${normalizedLocation}`;
+    return lines.join("\n");
+  }
+
+  return `${message.trim()}\nMiejsce: ${normalizedLocation}`;
+}
+
 function messageTemplate(topic: string) {
   return `Cześć,
 
@@ -117,7 +147,7 @@ Chcę zapytać o zdjęcia.
 Miejscowość:
 Kiedy:
 Co mam sfotografować:`
-  }
+  },
 };
 
 export function getContactPrefill(source: string | null, locationName?: string): ContactPrefill | null {

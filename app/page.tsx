@@ -7,7 +7,7 @@ import { PublicPageShell } from "@/components/PublicPageShell";
 import { Reviews } from "@/components/Reviews";
 import { Services, type Service } from "@/components/Services";
 import { VideoShowcase } from "@/components/VideoShowcase";
-import { SITE_CONFIG } from "@/lib/site-config";
+import { SITE_CONFIG, SITE_ENTITY_IDS } from "@/lib/site-config";
 import { getResolvedSiteContent } from "@/sanity/lib/site-content";
 
 export const metadata: Metadata = {
@@ -47,10 +47,13 @@ export default async function HomePage() {
     publicId: item.src,
     fullSrc: item.fullSrc
   }));
-  const photographerJsonLd = {
+  const businessJsonLd = {
     "@context": "https://schema.org",
-    "@type": "Photographer",
+    "@type": "LocalBusiness",
+    "@id": SITE_ENTITY_IDS.business,
     name: SITE_CONFIG.name,
+    description:
+      "Naturalne portrety, sesje dla par, uroczystości i reportaże w Bochni oraz okolicy.",
     url: SITE_CONFIG.url,
     logo: {
       "@type": "ImageObject",
@@ -73,28 +76,45 @@ export default async function HomePage() {
       name
     })),
     hasMap: SITE_CONFIG.googleBusinessProfile,
-    sameAs: [SITE_CONFIG.social.instagram, SITE_CONFIG.social.facebook]
+    sameAs: [
+      SITE_CONFIG.googleBusinessProfile,
+      SITE_CONFIG.social.instagram,
+      SITE_CONFIG.social.facebook
+    ],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Usługi fotograficzne",
+      itemListElement: [
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Sesja portretowa" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Sesja zdjęciowa dla pary" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Fotografia uroczystości" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Fotografia eventowa" } }
+      ]
+    }
   };
 
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": SITE_ENTITY_IDS.website,
     name: SITE_CONFIG.name,
     alternateName: ["JaniczekFoto", SITE_CONFIG.domain],
-    url: SITE_CONFIG.url
+    url: SITE_CONFIG.url,
+    publisher: { "@id": SITE_ENTITY_IDS.business }
   };
 
   return (
     <PublicPageShell>
       <script
         type="application/ld+json"
-        // JSON-LD for rich results and business entity understanding.
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(photographerJsonLd) }}
+        // JSON-LD for business entity understanding.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd) }}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
       <main>
         <Hero
           imagePublicId={content.heroImage.src}
+          imageAlt={content.heroImage.alt}
           imagePosition={content.heroImage.position}
           imageBlurDataURL={content.heroImage.blurDataURL}
         />

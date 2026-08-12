@@ -30,6 +30,14 @@ export const siteContent = defineType({
       description: "Ustaw punkt kadrowania na twarzy lub najważniejszym elemencie zdjęcia."
     }),
     defineField({
+      name: "heroAlt",
+      title: "Opis głównego zdjęcia",
+      type: "string",
+      group: "home",
+      description: "Jedno naturalne zdanie opisujące to, co naprawdę widać na zdjęciu.",
+      validation: (rule) => rule.max(180)
+    }),
+    defineField({
       name: "homepageGallery",
       title: "Zdjęcia na stronie głównej",
       type: "array",

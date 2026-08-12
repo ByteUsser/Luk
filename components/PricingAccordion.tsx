@@ -38,7 +38,8 @@ export function PricingAccordion({ items }: PricingAccordionProps) {
   }, []);
 
   return (
-    <section className="mt-6" aria-label="Usługi i ceny startowe">
+    <section className="mt-6" aria-labelledby="pricing-services-heading">
+      <h2 id="pricing-services-heading" className="sr-only">Usługi i ceny startowe</h2>
       <div className="space-y-3">
         {items.map((item, index) => (
           <MotionReveal key={item.source} delay={Math.min(index * 0.035, 0.16)} distance={18}>
@@ -57,7 +58,11 @@ export function PricingAccordion({ items }: PricingAccordionProps) {
                       {item.label}
                     </span>
                   ) : null}
-                  <span className="block font-display text-[1.7rem] leading-[0.95] text-ink sm:text-[2rem]">
+                  <span
+                    role="heading"
+                    aria-level={3}
+                    className="block font-display text-[1.7rem] leading-[0.95] text-ink sm:text-[2rem]"
+                  >
                     {item.name}
                   </span>
                   <span className="mt-3 block max-w-[58ch] text-[0.9rem] leading-relaxed text-ink/68 sm:text-[0.95rem]">
@@ -95,7 +100,7 @@ export function PricingAccordion({ items }: PricingAccordionProps) {
                       href={`/kontakt?source=${item.source}#formularz-kontaktowy`}
                       className="button-primary mt-6 min-h-12 px-5 text-[0.76rem] uppercase tracking-[0.11em]"
                     >
-                      {item.ctaLabel ?? "Sprawdź termin i wycenę"}
+                      {item.ctaLabel ?? "Zapytaj o termin i wycenę"}
                     </Link>
                   </div>
                 </div>

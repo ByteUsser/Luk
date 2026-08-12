@@ -52,8 +52,9 @@ export default async function PhotoGalleryPage() {
       <main className="px-5 pb-20 pt-28 md:px-10 md:pb-24 md:pt-32">
         <PhotoGalleryGrid
           items={gallery}
+          eyebrow="Portfolio"
           heading="Portfolio"
-          description="Wybrane portrety, reportaże, sesje i projekty własne. Wybierz temat, aby zobaczyć osobną, uporządkowaną galerię."
+          description="Zobacz portrety, sesje dla par, uroczystości i eventy. Motoryzację oraz podróże znajdziesz niżej jako projekty własne."
         />
       </main>
     </PublicPageShell>

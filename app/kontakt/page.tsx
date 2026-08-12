@@ -5,7 +5,7 @@ import { SITE_CONFIG } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Kontakt",
-  description: "Sprawdź termin sesji portretowej, zdjęć dla pary, rodzinnej uroczystości lub reportażu w Bochni i okolicy.",
+  description: "Zapytaj o termin sesji portretowej, zdjęć dla pary, rodzinnej uroczystości lub reportażu w Bochni i okolicy.",
   alternates: {
     canonical: "/kontakt"
   },

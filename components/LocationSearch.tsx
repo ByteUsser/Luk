@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { buildContactHref } from "@/lib/contact-prefill";
 import { FEATURED_SERVICE_AREA_LOCATIONS, SERVICE_AREA_LOCATIONS } from "@/lib/service-area-locations";
 
 const MAX_RESULTS = 8;
@@ -18,7 +19,7 @@ function normalize(value: string) {
 }
 
 function locationHref(name: string) {
-  return `/kontakt?source=lokalizacje&lokalizacja=${encodeURIComponent(name)}`;
+  return buildContactHref("lokalizacje", name);
 }
 
 export function LocationSearch() {

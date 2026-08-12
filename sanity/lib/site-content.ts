@@ -39,6 +39,7 @@ type ManagedVideo = {
 
 type SiteContentDocument = {
   heroImage?: SanityImage;
+  heroAlt?: string;
   aboutImage?: SanityImage;
   homepageGallery?: ManagedPhoto[];
   homepageVideos?: ManagedVideo[];
@@ -55,7 +56,7 @@ export type HomepageGalleryItem = {
 };
 
 export type ResolvedSiteContent = {
-  heroImage: { src: string; position?: string; blurDataURL?: string };
+  heroImage: { src: string; alt: string; position?: string; blurDataURL?: string };
   aboutImage: { src: string; position?: string; blurDataURL?: string };
   homepageGallery: HomepageGalleryItem[];
   homepageVideos: HomepageVideoItem[];
@@ -73,6 +74,7 @@ export type HomepageVideoItem = {
 
 const siteContentQuery = `*[_type == "siteContent" && _id == "siteContent"][0]{
   heroImage{..., asset->{url, metadata{dimensions, lqip}}},
+  heroAlt,
   aboutImage{..., asset->{url, metadata{dimensions, lqip}}},
   homepageGallery[]{
     _key, title, alt, category, visible,
@@ -262,7 +264,8 @@ export async function getResolvedSiteContent(): Promise<ResolvedSiteContent> {
         : positionFromImage(content?.heroImage) || "45% 61%",
       blurDataURL: useLocalPhotoPreview
         ? fallbackHeroBlurDataURL
-        : content?.heroImage?.asset?.metadata?.lqip || fallbackHeroBlurDataURL
+        : content?.heroImage?.asset?.metadata?.lqip || fallbackHeroBlurDataURL,
+      alt: content?.heroAlt?.trim() || "Portret z portfolio Janiczek Foto"
     },
     aboutImage: {
       src: useLocalPhotoPreview

@@ -108,6 +108,7 @@ const SOURCE_LABELS: Record<string, string> = {
   "landing-powiat-bochenski": "Lokalizacja — powiat bocheński",
   "landing-trzciana": "Lokalizacja — Trzciana",
   "landing-nowy-wisnicz": "Lokalizacja — Nowy Wiśnicz",
+  "landing-zegocina": "Lokalizacja — Żegocina",
   "landing-krakow": "Lokalizacja — Kraków",
   "landing-tarnow": "Lokalizacja — Tarnów",
   dojazd: "Sekcja dojazdu",
@@ -116,7 +117,7 @@ const SOURCE_LABELS: Record<string, string> = {
   nawigacja: "Nawigacja",
   "o-mnie": "Strona „O mnie”",
   "404": "Strona nieznaleziona",
-  "sticky-sitewide": "Stały przycisk „Sprawdź termin”"
+  "sticky-sitewide": "Stały przycisk „Zapytaj o termin”"
 };
 
 const LEAD_TOPIC_LABELS: Record<string, string> = {
@@ -133,7 +134,7 @@ const LEAD_TOPIC_LABELS: Record<string, string> = {
   "cennik-odbitki": "Odbitki",
   "cennik-inna-opcja": "Inna usługa",
   cennik: "Cennik",
-  "cennik-sticky": "Cennik"
+  "cennik-sticky": "Cennik",
 };
 
 function humanizeSource(rawSource: string): string {

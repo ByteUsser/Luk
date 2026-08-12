@@ -37,14 +37,25 @@ function ArrowDownIcon() {
   );
 }
 
-function VideoPreview({ item, onOpen }: { item: HomepageVideoItem; onOpen: () => void }) {
+function VideoPreview({
+  item,
+  onOpen,
+  paused
+}: {
+  item: HomepageVideoItem;
+  onOpen: () => void;
+  paused: boolean;
+}) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     const video = videoRef.current;
     const saveData = (navigator as NavigatorWithConnection).connection?.saveData;
-    if (!video || reduceMotion || saveData) return;
+    if (!video || reduceMotion || saveData || paused) {
+      video?.pause();
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -62,7 +73,7 @@ function VideoPreview({ item, onOpen }: { item: HomepageVideoItem; onOpen: () =>
       observer.disconnect();
       video.pause();
     };
-  }, [reduceMotion]);
+  }, [paused, reduceMotion]);
 
   return (
     <button
@@ -85,8 +96,8 @@ function VideoPreview({ item, onOpen }: { item: HomepageVideoItem; onOpen: () =>
       <span className="absolute inset-0 bg-gradient-to-t from-espresso/82 via-espresso/5 to-espresso/12" />
       <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 text-cream md:p-6">
         <span>
-          <span className="block text-[0.65rem] uppercase tracking-[0.17em] text-cream/72">{item.label}</span>
-          <span className="mt-1.5 block font-display text-[1.9rem] leading-none md:text-[2.15rem]">{item.title}</span>
+          <span className="type-meta block text-cream/72">{item.label}</span>
+          <span className="type-card mt-1.5 block text-cream">{item.title}</span>
         </span>
         <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-cream/48 bg-cream/14 text-cream backdrop-blur-sm transition duration-500 group-hover:scale-105 group-hover:bg-cream group-hover:text-espresso">
           <PlayIcon />
@@ -285,7 +296,7 @@ function VideoModal({
         <div className="flex min-h-0 items-center justify-center gap-2.5 sm:gap-4">
           <div className="flex min-h-0 flex-col items-center">
             <div className="mb-3 w-full text-center text-cream sm:mb-4" aria-live="polite">
-              <p className="text-[0.62rem] uppercase tracking-[0.19em] text-cream/55">{item.label}</p>
+              <p className="text-[0.68rem] uppercase tracking-[0.17em] text-cream/76">{item.label}</p>
               <p className="mt-1 font-display text-[1.45rem] leading-none sm:text-[1.7rem]">{item.title}</p>
             </div>
 
@@ -326,7 +337,7 @@ function VideoModal({
               </motion.div>
             </AnimatePresence>
 
-            <p className="mt-3 text-center text-[0.62rem] uppercase tracking-[0.14em] text-cream/45 sm:mt-4">
+            <p className="mt-3 text-center text-[0.68rem] uppercase tracking-[0.12em] text-cream/72 sm:mt-4">
               Przesuń pionowo lub użyj ↑ ↓
             </p>
           </div>
@@ -345,7 +356,7 @@ function VideoModal({
               >
                 <ArrowUpIcon />
               </button>
-              <span className="min-w-10 text-center text-[0.68rem] tracking-[0.12em] text-cream/60">
+              <span className="min-w-10 text-center text-[0.68rem] tracking-[0.12em] text-cream/76">
                 {activeIndex + 1} / {items.length}
               </span>
               <button
@@ -488,6 +499,7 @@ export function VideoShowcase({ items }: VideoShowcaseProps) {
             >
               <VideoPreview
                 item={item}
+                paused={modalIndex !== null}
                 onOpen={() => {
                   setActiveIndex(index);
                   setModalIndex(index);

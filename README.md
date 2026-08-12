@@ -65,6 +65,10 @@ Nie zapisuj prawdziwych kluczy w repozytorium.
 Gotowe linki kampanii, miesięczna checklista i instrukcja Google Search Console
 znajdują się w [`docs/marketing-links.md`](docs/marketing-links.md).
 
+Zasady lokalnego SEO opartego na danych znajdują się w
+[`docs/local-seo.md`](docs/local-seo.md), a punkt odniesienia z GSC i Vercela w
+[`docs/seo-baseline-2026-08-11.md`](docs/seo-baseline-2026-08-11.md).
+
 ## Zdjęcia i galeria
 
 ### Panel właściciela

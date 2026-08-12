@@ -74,16 +74,16 @@ export default async function AboutPage() {
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href="/kontakt?source=o-mnie"
-                className="button-primary min-h-12 px-5 text-[0.78rem] uppercase tracking-[0.12em]"
+                href="/kontakt?source=o-mnie#formularz-kontaktowy"
+                className="type-action button-primary min-h-12 px-5"
               >
-                Sprawdź termin
+                Zapytaj o termin
               </Link>
               <Link
                 href={SITE_CONFIG.googleBusinessProfile}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="button-outline min-h-12 px-5 text-[0.78rem] uppercase tracking-[0.12em]"
+                className="type-action button-outline min-h-12 px-5"
               >
                 Opinie w Google
               </Link>

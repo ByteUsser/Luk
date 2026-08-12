@@ -58,3 +58,13 @@ Nie dodawaj usługi ani mapy ponownie. Raz w miesiącu sprawdzaj zapytania,
 kliknięcia, wyświetlenia i indeksowanie. Strony dla Trzciany i Nowego Wiśnicza
 powstały na podstawie faktycznych wyświetleń w Search Console, bez deklarowania
 niepotwierdzonych realizacji w tych miejscowościach.
+
+## Profil Firmy Google
+
+- nazwa pozostaje zgodna z marką: `Janiczek Foto`, bez dopisywania miejscowości
+  i fraz usługowych,
+- link do strony używa przygotowanego wariantu UTM dla profilu firmy,
+- usługi i obszar działania muszą zgadzać się z informacjami na stronie,
+- publikuj tylko prawdziwe zdjęcia własnych realizacji lub rekonesansów,
+- odpowiadaj naturalnie na opinie, bez kopiowania tej samej odpowiedzi,
+- raz w miesiącu zestaw dane profilu z leadami oznaczonymi `[LEAD]`.

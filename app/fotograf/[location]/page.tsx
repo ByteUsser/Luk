@@ -4,8 +4,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PublicPageShell } from "@/components/PublicPageShell";
 import { cloudinaryAsset } from "@/lib/cloudinary";
+import { buildContactHref } from "@/lib/contact-prefill";
 import { LOCATION_LANDINGS, findLocationBySlug, isSearchIndexableLocation } from "@/lib/location-pages";
-import { SITE_CONFIG } from "@/lib/site-config";
+import { SITE_CONFIG, SITE_ENTITY_IDS } from "@/lib/site-config";
 
 type Params = {
   location: string;
@@ -34,9 +35,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   const title = isBochnia
     ? "Fotograf Bochnia – portrety, śluby i reportaże"
     : `Fotograf ${location.name}`;
-  const description = isBochnia
-    ? "Naturalne portrety, sesje dla par, śluby, komunie i reportaże w Bochni. Zobacz portfolio, ceny i sprawdź wolny termin."
-    : location.lead;
+  const description = location.metaDescription;
 
   return {
     title,
@@ -78,8 +77,8 @@ export default async function PhotographerLocationPage({ params }: LocationPageP
     notFound();
   }
 
-  const contactHref = `/kontakt?lokalizacja=${encodeURIComponent(location.name)}&source=landing-${location.slug}`;
-  const portfolioImage = cloudinaryAsset("/portfolio/gallery/001-wiosenny-portret.webp", {
+  const contactHref = buildContactHref(`landing-${location.slug}`, location.name);
+  const portfolioImage = cloudinaryAsset(location.portfolioImage.src, {
     width: 1100,
     quality: 72
   });
@@ -91,11 +90,7 @@ export default async function PhotographerLocationPage({ params }: LocationPageP
     "@type": "Service",
     serviceType: "Usługi fotograficzne",
     provider: {
-      "@type": "Photographer",
-      name: SITE_CONFIG.name,
-      url: SITE_CONFIG.url,
-      email: SITE_CONFIG.email,
-      telephone: SITE_CONFIG.phone
+      "@id": SITE_ENTITY_IDS.business
     },
     areaServed: {
       "@type": "AdministrativeArea",
@@ -124,7 +119,7 @@ export default async function PhotographerLocationPage({ params }: LocationPageP
       {
         "@type": "ListItem",
         position: 2,
-        name: "Fotograf",
+        name: "Obszar działania",
         item: `${SITE_CONFIG.url}/fotograf`
       },
       {
@@ -158,42 +153,41 @@ export default async function PhotographerLocationPage({ params }: LocationPageP
               <p className="mt-5 max-w-[52ch] text-[1rem] leading-relaxed text-cream/76">
                 {location.lead}
               </p>
+              <p className="type-meta mt-5 text-[#dfccb3]">
+                Sesja portretowa od 300 zł · odpowiedź zwykle do 24 godzin
+              </p>
               <nav aria-label={`Najważniejsze linki — ${location.name}`} className="mt-7 flex flex-wrap gap-x-2 gap-y-3">
                 <Link
                   href={contactHref}
                   className="button-dark-solid min-h-12 px-2.5 text-[0.76rem] uppercase tracking-[0.1em] sm:px-5 sm:text-[0.78rem] sm:tracking-[0.12em]"
                 >
-                  Sprawdź termin
+                  Zapytaj o termin
                 </Link>
-                {location.slug === "bochnia" ? (
-                  <>
-                    <Link
-                      href="/galeria-zdjec"
-                      className="text-link inline-flex min-h-12 items-center text-[0.72rem] uppercase tracking-[0.12em] text-cream/78"
-                    >
-                      Portfolio
-                    </Link>
-                    <Link
-                      href="/cennik"
-                      className="text-link inline-flex min-h-12 items-center text-[0.72rem] uppercase tracking-[0.12em] text-cream/78"
-                    >
-                      Cennik
-                    </Link>
-                  </>
-                ) : (
-                  <Link
-                    href="/galeria-zdjec"
-                    className="button-dark min-h-12 px-5 text-[0.78rem] uppercase tracking-[0.12em]"
-                  >
-                    Portfolio
-                  </Link>
-                )}
+                <a
+                  href={`tel:${SITE_CONFIG.phone}`}
+                  aria-label={`Zadzwoń: ${SITE_CONFIG.phoneDisplay}`}
+                  className="type-action inline-flex min-h-12 items-center justify-center rounded-full border border-cream/24 px-4 text-cream/86 transition hover:border-[#c8ad8d]/65 hover:text-cream sm:px-5"
+                >
+                  Zadzwoń
+                </a>
+                <Link
+                  href="/galeria-zdjec"
+                  className="text-link inline-flex min-h-12 items-center text-[0.72rem] uppercase tracking-[0.12em] text-cream/78"
+                >
+                  Portfolio
+                </Link>
+                <Link
+                  href="/cennik"
+                  className="text-link inline-flex min-h-12 items-center text-[0.72rem] uppercase tracking-[0.12em] text-cream/78"
+                >
+                  Cennik
+                </Link>
               </nav>
             </div>
             <figure className="relative min-h-[300px] lg:min-h-[520px]">
               <Image
                 src={portfolioImage.src}
-                alt="Portret wykonany przez Janiczek Foto"
+                alt={location.portfolioImage.alt}
                 fill
                 priority
                 quality={72}
@@ -203,6 +197,9 @@ export default async function PhotographerLocationPage({ params }: LocationPageP
                 placeholder="blur"
                 blurDataURL={portfolioImage.blurDataURL}
               />
+              <figcaption className="type-meta absolute bottom-4 left-4 rounded-full bg-espresso/72 px-3 py-2 text-cream/88 backdrop-blur-sm">
+                Przykład stylu · portfolio
+              </figcaption>
             </figure>
           </header>
 

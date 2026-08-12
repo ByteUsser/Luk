@@ -9,17 +9,7 @@ const nextConfig = {
         permanent: true
       },
       {
-        source: "/fotograf/nowy-wisnicz",
-        destination: "/fotograf/powiat-bochenski",
-        permanent: true
-      },
-      {
         source: "/fotograf/krolowka",
-        destination: "/fotograf/powiat-bochenski",
-        permanent: true
-      },
-      {
-        source: "/fotograf/trzciana",
         destination: "/fotograf/powiat-bochenski",
         permanent: true
       },
@@ -35,11 +25,6 @@ const nextConfig = {
       },
       {
         source: "/fotograf/lakta-gorna",
-        destination: "/fotograf/powiat-bochenski",
-        permanent: true
-      },
-      {
-        source: "/fotograf/zegocina",
         destination: "/fotograf/powiat-bochenski",
         permanent: true
       },

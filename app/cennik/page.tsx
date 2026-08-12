@@ -80,9 +80,9 @@ const documentPricingItem = {
 } as const;
 
 const printPricingItem = {
-  name: "Odbitki 10 × 15 cm",
+  name: "Odbitki możliwe od ręki",
   price: "od 7 zł / szt.",
-  summary: "Odbitki termosublimacyjne na papierze fotograficznym. Jedna sztuka kosztuje 10 zł, od 2 sztuk — 7 zł za sztukę.",
+  summary: "Odbitki 10 × 15 cm na papierze fotograficznym. Jedna sztuka kosztuje 10 zł, od 2 sztuk — 7 zł za sztukę.",
   facts: [
     "Paczkomat 18 zł • kurier 20 zł",
     "wysyłka do 2 dni roboczych od otrzymania lub wyboru zdjęć",
@@ -157,12 +157,20 @@ export default function PricingPage() {
                 Wybierz rodzaj zdjęć. Pełną wycenę dostaniesz przed potwierdzeniem terminu.
               </p>
             </div>
-            <Link
-              href="/kontakt?source=cennik-gora#formularz-kontaktowy"
-              className="button-dark min-h-12 justify-center px-5 text-[0.78rem] uppercase tracking-[0.12em]"
-            >
-              Sprawdź termin i wycenę
-            </Link>
+            <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
+              <Link
+                href="/kontakt?source=cennik-gora#formularz-kontaktowy"
+                className="button-dark min-h-12 justify-center px-5 text-[0.78rem] uppercase tracking-[0.12em]"
+              >
+                Zapytaj o termin i wycenę
+              </Link>
+              <a
+                href={`tel:${SITE_CONFIG.phone}`}
+                className="type-action inline-flex min-h-12 items-center justify-center rounded-full border border-cream/24 px-5 text-cream/86 transition hover:border-[#c8ad8d]/65 hover:text-cream"
+              >
+                Zadzwoń
+              </a>
+            </div>
           </header>
 
           <section
@@ -211,7 +219,7 @@ export default function PricingPage() {
               href="/kontakt?source=cennik-inna-opcja#formularz-kontaktowy"
               className="button-dark mt-6 min-h-12 justify-center px-5 text-[0.78rem] uppercase tracking-[0.12em] md:mt-0"
             >
-              Sprawdź termin i wycenę
+              Zapytaj o termin i wycenę
             </Link>
           </div>
         </div>

@@ -31,8 +31,8 @@ export function Services({ items }: ServicesProps) {
           transition={{ duration: 0.68, ease: [0.22, 1, 0.36, 1] }}
         >
           <div>
-            <p className="eyebrow text-[#c8ad8d]">Oferta</p>
-            <h2 className="section-title mt-4 max-w-[13ch] text-cream">Portrety, uroczystości i reportaże</h2>
+            <p className="eyebrow text-[#c8ad8d]">Rodzaje sesji</p>
+            <h2 className="section-title mt-4 max-w-[13ch] text-cream">Portrety i reportaże</h2>
           </div>
         </motion.div>
 
@@ -70,30 +70,19 @@ export function Services({ items }: ServicesProps) {
                     blurDataURL={image.blurDataURL}
                   />
                   <span className="absolute inset-0 bg-gradient-to-t from-espresso via-espresso/24 to-transparent" />
-                  <span className="absolute inset-x-0 bottom-0 block p-4 md:p-6">
-                    <span className="block text-[0.66rem] uppercase tracking-[0.14em] text-[#c8ad8d]">{item.eyebrow}</span>
-                    <span className="mt-2 block max-w-[13ch] font-display text-[1.9rem] leading-[0.94] text-cream md:text-[2.3rem]">{item.title}</span>
-                    <span className="mt-3 inline-flex items-center border-b border-cream/38 pb-1 text-[0.7rem] uppercase tracking-[0.12em] text-cream md:mt-5">
-                      Zobacz szczegóły <span className="ml-3 text-base" aria-hidden="true">→</span>
+                  <div className="absolute inset-x-0 bottom-0 p-4 md:p-6">
+                    <span className="type-meta block text-[#c8ad8d]">{item.eyebrow}</span>
+                    <h3 className="type-card mt-2 block max-w-[13ch] text-cream">{item.title}</h3>
+                    <span className="type-action mt-3 inline-flex items-center border-b border-cream/38 pb-1 text-cream md:mt-5">
+                      Zobacz cenę i zakres <span className="ml-3 text-base" aria-hidden="true">→</span>
                     </span>
-                  </span>
+                  </div>
                 </Link>
               </motion.article>
             );
           })}
         </div>
 
-        <motion.div
-          className="mt-8"
-          initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.6, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <Link href="/cennik" className="button-dark min-h-12 px-5 text-[0.78rem] uppercase tracking-[0.12em]">
-            Zobacz cały cennik
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

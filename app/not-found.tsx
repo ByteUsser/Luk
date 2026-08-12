@@ -34,7 +34,7 @@ export default function NotFoundPage() {
               Strona główna
             </Link>
             <Link
-              href="/kontakt?source=404"
+              href="/kontakt?source=404#formularz-kontaktowy"
               className="button-outline px-5 text-[0.82rem] uppercase tracking-[0.12em]"
             >
               Napisz wiadomość

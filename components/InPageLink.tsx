@@ -18,7 +18,8 @@ export function InPageLink({ targetId, className, children, onNavigate, ariaLabe
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const didScroll = scrollToAnchor(targetId, prefersReducedMotion ? "auto" : "smooth", {
-      stabilize: true
+      stabilize: true,
+      focus: true
     });
     if (!didScroll) {
       return;

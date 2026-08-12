@@ -5,11 +5,11 @@ import { SITE_CONFIG } from "@/lib/site-config";
 export function Footer() {
   const year = new Date().getFullYear();
   const quickLinks = [
-    { href: "/galeria-zdjec", label: "Galeria" },
-    { href: "/#oferta", label: "Oferta" },
+    { href: "/galeria-zdjec", label: "Portfolio" },
     { href: "/cennik", label: "Cennik" },
+    { href: "/fotograf", label: "Obszar działania" },
     { href: "/o-mnie", label: "O mnie" },
-    { href: "/kontakt", label: "Kontakt" }
+    { href: "/kontakt#formularz-kontaktowy", label: "Kontakt" }
   ] as const;
 
   return (
@@ -58,7 +58,7 @@ export function Footer() {
           </div>
         </div>
 
-        <nav className="mt-6 flex flex-wrap gap-x-6 gap-y-1 text-[0.74rem] uppercase tracking-[0.12em] text-ink/70">
+        <nav className="type-action mt-6 flex flex-wrap gap-x-6 gap-y-1 text-ink/70">
           {quickLinks.map((item) => (
             <Link
               key={item.href}
@@ -70,7 +70,7 @@ export function Footer() {
           ))}
         </nav>
 
-        <div className="mt-4 flex flex-col border-t border-ink/10 pt-3 text-[0.72rem] leading-relaxed text-ink/48 sm:mt-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="type-body mt-4 flex flex-col border-t border-ink/10 pt-3 text-ink/48 sm:mt-5 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} {SITE_CONFIG.name}. Wszelkie prawa zastrzeżone.
           </p>

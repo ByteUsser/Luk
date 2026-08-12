@@ -2,6 +2,7 @@ type ScrollBehaviorOption = "auto" | "smooth";
 
 type ScrollToAnchorOptions = {
   stabilize?: boolean;
+  focus?: boolean;
 };
 
 function getHeaderOffset() {
@@ -10,14 +11,45 @@ function getHeaderOffset() {
   return Math.max(headerBottom + 18, 92);
 }
 
-function getAnchorTop(targetId: string) {
+function getAnchorElement(targetId: string) {
   const target = document.getElementById(targetId);
   if (!target) {
     return null;
   }
 
-  const anchor = target.querySelector<HTMLElement>("[data-scroll-anchor]") ?? target;
-  return anchor.getBoundingClientRect().top + window.scrollY - getHeaderOffset();
+  if (targetId === "main-content") {
+    return target;
+  }
+
+  return target.querySelector<HTMLElement>("[data-scroll-anchor]") ?? target;
+}
+
+function getAnchorTop(targetId: string) {
+  const anchor = getAnchorElement(targetId);
+  return anchor
+    ? anchor.getBoundingClientRect().top + window.scrollY - getHeaderOffset()
+    : null;
+}
+
+function focusAnchor(targetId: string) {
+  const anchor = getAnchorElement(targetId);
+  if (!anchor) {
+    return;
+  }
+
+  const previousTabIndex = anchor.getAttribute("tabindex");
+  if (previousTabIndex === null) {
+    anchor.setAttribute("tabindex", "-1");
+    anchor.addEventListener(
+      "blur",
+      () => {
+        anchor.removeAttribute("tabindex");
+      },
+      { once: true }
+    );
+  }
+
+  anchor.focus({ preventScroll: true });
 }
 
 function scrollToTop(top: number, behavior: ScrollBehaviorOption) {
@@ -39,6 +71,10 @@ export function scrollToAnchor(
   }
 
   scrollToTop(initialTop, behavior);
+
+  if (options.focus) {
+    window.requestAnimationFrame(() => focusAnchor(targetId));
+  }
 
   if (options.stabilize) {
     [120, 320, 700].forEach((delay) => {
