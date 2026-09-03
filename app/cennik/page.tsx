@@ -52,7 +52,7 @@ const pricingItems = [
   },
   {
     name: "Ślub i wesele",
-    price: "od 2 000 zł",
+    price: "od 2 900 zł",
     summary: "Zakres reportażu ustalamy na podstawie planu dnia.",
     facts: ["ustalenie harmonogramu", "reportaż i portrety pary", "gotowe pliki w galerii online"],
     icon: "wedding",
@@ -118,7 +118,7 @@ const pricingFaq = [
   {
     question: "Czy można zamówić krótkie filmy?",
     answer:
-      "Tak. Dodatkowa osoba do krótkich filmów kosztuje od 300 zł przy komunii lub chrzcie i od 800 zł przy ślubie."
+      "Tak. Dodatkowa osoba do krótkich filmów kosztuje od 300 zł przy komunii lub chrzcie i od 1 200 zł przy ślubie."
   }
 ] as const;
 
