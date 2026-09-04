@@ -317,7 +317,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
   return (
     <section
       id="kontakt"
-      className="relative overflow-hidden bg-espresso px-5 py-16 text-cream md:px-10 md:py-20"
+      className="relative scroll-mt-28 overflow-hidden bg-espresso px-5 py-14 text-cream md:scroll-mt-32 md:px-10 md:py-20"
     >
       <div className="mx-auto grid max-w-[1180px] gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-12">
         <MotionReveal className="max-w-[460px]">
@@ -367,8 +367,8 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
           ) : null}
 
           <fieldset>
-            <legend className="type-meta mb-3 text-cream/62">
-              Wybierz temat
+            <legend className="type-meta mb-3 text-cream/74">
+              Wybierz temat <span className="normal-case tracking-normal text-cream/56">(opcjonalnie)</span>
             </legend>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {quickTopics.map((topic) => (
@@ -428,7 +428,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
                   }}
                   className={`type-action group flex min-h-[88px] flex-col items-center justify-center gap-2 rounded-2xl border px-2 py-2.5 text-center transition ${
                     activeTopic === topic.label
-                      ? "border-cream/16 bg-cream/[0.08] text-cream shadow-[0_10px_24px_rgba(0,0,0,0.1)]"
+                      ? "border-[#dfccb3] bg-cream/[0.12] text-cream shadow-[0_12px_28px_rgba(0,0,0,0.18)]"
                       : "border-transparent bg-transparent text-cream/68 hover:border-cream/10 hover:bg-cream/[0.04] hover:text-[#dfccb3]"
                   }`}
                 >
@@ -445,6 +445,9 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
                 </button>
               ))}
             </div>
+            <p className="sr-only" aria-live="polite">
+              {activeTopic ? `Wybrano temat: ${activeTopic}. Szablon wiadomości został uzupełniony.` : ""}
+            </p>
           </fieldset>
 
           <label className="hidden" aria-hidden="true">

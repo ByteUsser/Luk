@@ -10,6 +10,7 @@ export type Service = {
   eyebrow: string;
   publicId: string;
   href: string;
+  price: string;
   fit?: "cover" | "contain";
 };
 
@@ -36,7 +37,7 @@ export function Services({ items }: ServicesProps) {
           </div>
         </motion.div>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {items.map((item, index) => {
             const image = cloudinaryAsset(item.publicId, { width: 1200, quality: 80 });
             const fitClass = item.fit === "contain" ? "object-contain bg-sand p-3" : "object-cover";
@@ -70,12 +71,15 @@ export function Services({ items }: ServicesProps) {
                     blurDataURL={image.blurDataURL}
                   />
                   <span className="absolute inset-0 bg-gradient-to-t from-espresso via-espresso/24 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-4 md:p-6">
+                  <div className="absolute inset-x-0 bottom-0 p-4 md:p-5">
                     <span className="type-meta block text-[#c8ad8d]">{item.eyebrow}</span>
                     <h3 className="type-card mt-2 block max-w-[13ch] text-cream">{item.title}</h3>
-                    <span className="type-action mt-3 inline-flex items-center border-b border-cream/38 pb-1 text-cream md:mt-5">
-                      Zobacz cenę i zakres <span className="ml-3 text-base" aria-hidden="true">→</span>
-                    </span>
+                    <div className="mt-3 flex items-end justify-between gap-3 md:mt-4">
+                      <span className="type-meta text-cream/78">{item.price}</span>
+                      <span className="type-action inline-flex items-center border-b border-cream/38 pb-1 text-cream">
+                        Szczegóły <span className="ml-2 text-base" aria-hidden="true">→</span>
+                      </span>
+                    </div>
                   </div>
                 </Link>
               </motion.article>

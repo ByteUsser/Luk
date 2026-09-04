@@ -8,7 +8,7 @@ type ScrollToAnchorOptions = {
 function getHeaderOffset() {
   const header = document.querySelector("header");
   const headerBottom = header?.getBoundingClientRect().bottom ?? 0;
-  return Math.max(headerBottom + 18, 92);
+  return Math.max(headerBottom + 24, 108);
 }
 
 function getAnchorElement(targetId: string) {

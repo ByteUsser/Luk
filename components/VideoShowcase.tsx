@@ -438,8 +438,8 @@ export function VideoShowcase({ items }: VideoShowcaseProps) {
       <div className="mx-auto max-w-[1320px]" data-scroll-anchor>
         <motion.div
           className="flex items-end justify-between gap-5 border-b border-ink/12 pb-8"
-          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+          initial={reduceMotion ? false : { y: 20 }}
+          whileInView={reduceMotion ? undefined : { y: 0 }}
           viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.68, ease: [0.22, 1, 0.36, 1] }}
         >
@@ -488,8 +488,8 @@ export function VideoShowcase({ items }: VideoShowcaseProps) {
             <motion.article
               key={item.id}
               className="snap-start"
-              initial={reduceMotion ? false : { opacity: 0, y: 28, scale: 0.985 }}
-              whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+              initial={reduceMotion ? false : { y: 28, scale: 0.985 }}
+              whileInView={reduceMotion ? undefined : { y: 0, scale: 1 }}
               viewport={{ once: true, amount: 0.16 }}
               transition={{
                 duration: 0.72,

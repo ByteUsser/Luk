@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
 import { cloudinaryAsset } from "@/lib/cloudinary";
 import { InPageLink } from "@/components/InPageLink";
 
@@ -14,46 +13,30 @@ type HeroProps = {
 
 export function Hero({ imagePublicId, imageAlt, imagePosition, imageBlurDataURL }: HeroProps) {
   const image = cloudinaryAsset(imagePublicId, { width: 1920, quality: 82 });
-  const reduceMotion = useReducedMotion();
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.68, ease: [0.22, 1, 0.36, 1] as const }
-    }
-  };
 
   return (
     <section
       id="start"
       className="relative grid min-h-[100svh] grid-rows-[auto_auto] overflow-hidden bg-cream pt-[86px] md:min-h-[100dvh] md:grid-cols-[48%_52%] md:grid-rows-1 md:pt-0"
     >
-      <motion.div
+      <div
         className="relative z-10 flex flex-col justify-center px-5 pb-7 pt-6 sm:px-8 md:min-h-[100dvh] md:px-12 md:pb-12 md:pt-28 lg:px-16 xl:px-[7vw]"
-        initial={reduceMotion ? false : "hidden"}
-        animate="visible"
-        variants={{
-          hidden: {},
-          visible: { transition: { staggerChildren: 0.09, delayChildren: 0.08 } }
-        }}
       >
         <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[7vw] translate-x-[98%] bg-cream md:block" />
 
-        <motion.p variants={itemVariants} className="eyebrow text-cognac">
+        <p className="eyebrow text-cognac">
           Łukasz Janiczek · fotograf
-        </motion.p>
+        </p>
 
-        <motion.h1 variants={itemVariants} className="type-hero mt-4 max-w-[11ch] text-ink md:mt-6">
+        <h1 className="type-hero mt-4 max-w-[11ch] text-ink md:mt-6">
           Naturalne zdjęcia w Bochni
-        </motion.h1>
+        </h1>
 
-        <motion.p variants={itemVariants} className="type-body mt-4 max-w-[43ch] text-ink/78 md:mt-6">
+        <p className="type-body mt-4 max-w-[43ch] text-ink/78 md:mt-6">
           Portrety, pary, uroczystości i eventy — spokojnie, bez sztywnego pozowania.
-        </motion.p>
+        </p>
 
-        <motion.div variants={itemVariants} className="mt-5 flex flex-col gap-3 min-[390px]:flex-row md:mt-7">
+        <div className="mt-5 flex flex-col gap-3 min-[390px]:flex-row md:mt-7">
           <InPageLink
             targetId="wybrane-prace"
             className="type-action button-primary min-h-12 justify-center px-5 min-[390px]:flex-1 min-[390px]:whitespace-nowrap min-[390px]:px-3 md:flex-none md:px-5"
@@ -66,17 +49,12 @@ export function Hero({ imagePublicId, imageAlt, imagePosition, imageBlurDataURL 
           >
             Zapytaj o termin
           </InPageLink>
-        </motion.div>
+        </div>
 
-      </motion.div>
+      </div>
 
       <div className="relative aspect-[2/3] min-h-0 overflow-hidden sm:aspect-[4/5] md:aspect-auto md:min-h-[100dvh]">
-        <motion.div
-          className="absolute inset-0 md:inset-[-2%]"
-          initial={reduceMotion ? false : { opacity: 0 }}
-          animate={reduceMotion ? undefined : { opacity: 1 }}
-          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-        >
+        <div className="absolute inset-0 md:inset-[-2%]">
           <Image
             src={image.src}
             alt={imageAlt}
@@ -90,7 +68,7 @@ export function Hero({ imagePublicId, imageAlt, imagePosition, imageBlurDataURL 
             placeholder="blur"
             blurDataURL={imageBlurDataURL || image.blurDataURL}
           />
-        </motion.div>
+        </div>
         <div className="absolute inset-0 bg-gradient-to-t from-espresso/20 via-transparent to-cream/[0.04]" />
         <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-espresso/8 to-transparent md:hidden" />
       </div>

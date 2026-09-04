@@ -18,22 +18,32 @@ export const metadata: Metadata = {
 
 const serviceItems: Service[] = [
   {
-    eyebrow: "Portret • para • wizerunek",
-    title: "Portret i para",
+    eyebrow: "Naturalnie • bez presji",
+    title: "Portret",
     publicId: "/portfolio/gallery/006-portret-przy-drzwiach.webp",
     href: "/cennik#cennik-portret",
+    price: "od 300 zł"
+  },
+  {
+    eyebrow: "We dwoje • w Waszym rytmie",
+    title: "Para",
+    publicId: "/portfolio/gallery/016-bliskosc.webp",
+    href: "/cennik#cennik-para",
+    price: "od 350 zł"
   },
   {
     eyebrow: "Komunia • chrzest • ślub",
     title: "Uroczystości rodzinne",
     publicId: "/portfolio/gallery/007-wnetrze-kosciola.webp",
-    href: "/cennik#cennik-komunia-chrzest"
+    href: "/cennik#cennik-komunia-chrzest",
+    price: "od 550 zł"
   },
   {
     eyebrow: "Event • firma • backstage",
     title: "Event i firma",
     publicId: "/portfolio/gallery/008-ruch-na-parkiecie.webp",
-    href: "/cennik#cennik-event"
+    href: "/cennik#cennik-event",
+    price: "od 600 zł"
   }
 ];
 

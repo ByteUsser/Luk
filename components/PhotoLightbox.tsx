@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import type { RefObject } from "react";
+import { useEffect, type RefObject } from "react";
 import { Counter, Zoom } from "yet-another-react-lightbox/plugins";
 
 const Lightbox = dynamic(() => import("yet-another-react-lightbox"), {
@@ -36,12 +36,26 @@ type PhotoLightboxProps = {
 };
 
 export function PhotoLightbox({ slides, index, onClose, returnFocusRef }: PhotoLightboxProps) {
-  if (index < 0) return null;
-
   const closeLightbox = () => {
     onClose();
     window.requestAnimationFrame(() => returnFocusRef?.current?.focus({ preventScroll: true }));
   };
+
+  useEffect(() => {
+    if (index < 0) return;
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      onClose();
+      window.requestAnimationFrame(() => returnFocusRef?.current?.focus({ preventScroll: true }));
+    };
+
+    window.addEventListener("keydown", closeOnEscape, true);
+    return () => window.removeEventListener("keydown", closeOnEscape, true);
+  }, [index, onClose, returnFocusRef]);
+
+  if (index < 0) return null;
 
   return (
     <Lightbox
