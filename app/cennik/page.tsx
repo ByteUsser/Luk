@@ -116,6 +116,11 @@ const pricingFaq = [
       "Termin zależy głównie od ilości materiału i aktualnego obłożenia. Konkretną datę oddania ustalamy przed zdjęciami."
   },
   {
+    question: "Jak długo dostępne są zdjęcia i czy mogę zamówić poprawki?",
+    answer:
+      "Galeria online jest dostępna przez 3 miesiące, dlatego pobierz zdjęcia i zapisz własną kopię. Gotowe pliki JPG archiwizuję przez 12 miesięcy, a pliki źródłowe RAW przez 6 miesięcy. W tym czasie możesz zamówić dodatkową obróbkę, wycenianą zależnie od zakresu. Poprawki wynikające z mojego błędu wykonuję bezpłatnie."
+  },
+  {
     question: "Czy można zamówić krótkie filmy?",
     answer:
       "Tak. Dodatkowa osoba do krótkich filmów kosztuje od 300 zł przy komunii lub chrzcie i od 1 200 zł przy ślubie."
@@ -143,10 +148,24 @@ export default function PricingPage() {
     }))
   };
 
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: pricingFaq.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer
+      }
+    }))
+  };
+
   return (
     <PublicPageShell>
       <main className="px-5 pb-20 pt-28 md:px-10 md:pb-24 md:pt-32">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(offerJsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
         <div className="mx-auto max-w-[1180px]">
           <header className="grid gap-7 rounded-[1.5rem] bg-espresso p-6 text-cream md:p-9 lg:grid-cols-[1fr_auto] lg:items-end">
