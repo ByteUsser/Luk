@@ -175,11 +175,11 @@ export function PhotoGalleryGrid({
         ) : null}
       </nav>
 
-      <div className="mt-8 columns-1 gap-4 sm:columns-2 lg:columns-3 2xl:columns-4">
+      <div className="mt-8 columns-2 gap-2 sm:gap-4 lg:columns-3 2xl:columns-4">
         {visibleItems.map((item, globalIndex) => (
           <motion.article
             key={`${item.src}-${item.category}`}
-            className="mb-4 min-w-0 break-inside-avoid"
+            className="mb-2 min-w-0 break-inside-avoid sm:mb-4"
             initial={reduceMotion ? false : { opacity: 0, y: 20, scale: 0.99 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{
@@ -193,7 +193,7 @@ export function PhotoGalleryGrid({
             <button
               type="button"
               aria-label={`Otwórz zdjęcie: ${item.alt}`}
-              className="group block w-full overflow-hidden rounded-[1.1rem] bg-sand shadow-[0_12px_30px_rgba(42,36,32,0.08)]"
+              className="group block w-full overflow-hidden rounded-xl bg-sand shadow-[0_12px_30px_rgba(42,36,32,0.08)] transition-transform active:scale-[0.985] sm:rounded-[1.1rem]"
               onClick={(event) => {
                 lightboxTriggerRef.current = event.currentTarget;
                 void preparePhotoLightbox();
@@ -206,7 +206,7 @@ export function PhotoGalleryGrid({
                   alt={item.alt}
                   width={item.width}
                   height={item.height}
-                  sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, (max-width: 1536px) 31vw, 23vw"
+                  sizes="(max-width: 640px) 46vw, (max-width: 1024px) 46vw, (max-width: 1536px) 31vw, 23vw"
                   loading={globalIndex < GALLERY_BATCH_SIZE ? "eager" : "lazy"}
                   fetchPriority={globalIndex === 0 ? "high" : "auto"}
                   decoding="async"
