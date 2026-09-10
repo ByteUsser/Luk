@@ -53,9 +53,6 @@ export function PhotoGalleryGrid({
   );
 
   const visibleItems = items.slice(0, visibleBatchCount * GALLERY_BATCH_SIZE);
-  const initialSecondColumnIndex = Math.ceil(
-    Math.min(items.length, GALLERY_BATCH_SIZE) / 2
-  );
   const categorySet = new Set<GalleryCategory>(availableCategories || items.map((item) => item.category));
   if (activeCategory) {
     categorySet.add(activeCategory);
@@ -178,15 +175,14 @@ export function PhotoGalleryGrid({
         ) : null}
       </nav>
 
-      <div className="mt-8 columns-2 gap-2 sm:gap-4 lg:columns-3 2xl:columns-4">
+      <div className="mt-8 grid grid-cols-2 gap-2 sm:gap-4 lg:block lg:columns-3 2xl:columns-4">
         {visibleItems.map((item, globalIndex) => {
-          const isInitialColumnLead =
-            globalIndex === 0 || globalIndex === initialSecondColumnIndex;
+          const isInitialMobileRow = globalIndex < 2;
 
           return (
             <article
               key={`${item.src}-${item.category}`}
-              className="mb-2 min-w-0 break-inside-avoid sm:mb-4"
+              className="min-w-0 lg:mb-4 lg:break-inside-avoid"
             >
               <button
                 type="button"
@@ -198,18 +194,18 @@ export function PhotoGalleryGrid({
                   setLightboxIndex(globalIndex);
                 }}
               >
-                <span className="relative block overflow-hidden">
+                <span className="relative block aspect-[4/5] overflow-hidden lg:aspect-auto">
                   <Image
                     src={item.src}
                     alt={item.alt}
                     width={item.width}
                     height={item.height}
                     sizes="(max-width: 640px) 46vw, (max-width: 1024px) 46vw, (max-width: 1536px) 31vw, 23vw"
-                    loading={isInitialColumnLead ? "eager" : "lazy"}
-                    fetchPriority={isInitialColumnLead ? "high" : "auto"}
+                    loading={isInitialMobileRow ? "eager" : "lazy"}
+                    fetchPriority={isInitialMobileRow ? "high" : "auto"}
                     decoding="async"
                     quality={82}
-                    className="h-auto w-full object-cover transition duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[1.025] group-hover:saturate-[1.04]"
+                    className="h-full w-full object-cover transition duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[1.025] group-hover:saturate-[1.04] lg:h-auto"
                   />
                   <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-espresso/44 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 </span>
