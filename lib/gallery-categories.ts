@@ -28,6 +28,20 @@ export const GALLERY_CATEGORY_DEFINITIONS = [
       "Ta część portfolio czeka na pierwszą publikację. Zdjęcia przypisane w Sanity do kategorii Sesje dla par pojawią się tutaj automatycznie."
   },
   {
+    name: "Śluby",
+    label: "Śluby",
+    slug: "sluby",
+    eyebrow: "Reportaż pełen emocji",
+    heading: "Śluby",
+    portfolioGroup: "services",
+    metaTitle: "Fotograf ślubny Bochnia",
+    description:
+      "Reportaże ślubne w Bochni i okolicy — od przygotowań po parkiet, z uwagą na ludzi, światło i momenty, których nie da się powtórzyć.",
+    intro: "Naturalny reportaż ślubny — ważne momenty, bliscy i atmosfera całego dnia.",
+    emptyMessage:
+      "Ta część portfolio czeka na pierwszą publikację. Zdjęcia przypisane w Sanity do kategorii Śluby pojawią się tutaj automatycznie."
+  },
+  {
     name: "Uroczystości",
     label: "Uroczystości",
     slug: "uroczystosci",

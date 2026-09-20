@@ -39,7 +39,7 @@ export function Reviews() {
           </h2>
           <p className="mt-5 flex items-baseline gap-2 text-ink">
             <span className="font-display text-[3rem] leading-none">5,0</span>
-            <span className="type-meta text-cognac">★★★★★ · 6 opinii Google</span>
+            <span className="type-meta text-cognac" aria-label="5 gwiazdek">★★★★★</span>
           </p>
           <Link
             href={SITE_CONFIG.googleBusinessProfile}

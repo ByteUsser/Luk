@@ -13,8 +13,6 @@ import {
   galleryCategoryHref
 } from "@/lib/gallery-categories";
 
-const GALLERY_BATCH_SIZE = 12;
-
 type PhotoGalleryGridProps = {
   items: PhotoGalleryItem[];
   activeCategory?: GalleryCategory;
@@ -37,7 +35,6 @@ export function PhotoGalleryGrid({
   availableCategories
 }: PhotoGalleryGridProps) {
   const [lightboxIndex, setLightboxIndex] = useState(-1);
-  const [visibleBatchCount, setVisibleBatchCount] = useState(1);
   const lightboxTriggerRef = useRef<HTMLButtonElement | null>(null);
   const reduceMotion = useReducedMotion();
 
@@ -52,7 +49,7 @@ export function PhotoGalleryGrid({
     [items]
   );
 
-  const visibleItems = items.slice(0, visibleBatchCount * GALLERY_BATCH_SIZE);
+  const visibleItems = items;
   const categorySet = new Set<GalleryCategory>(availableCategories || items.map((item) => item.category));
   if (activeCategory) {
     categorySet.add(activeCategory);
@@ -214,22 +211,6 @@ export function PhotoGalleryGrid({
           );
         })}
       </div>
-
-      <p className="sr-only" aria-live="polite" aria-atomic="true">
-        Widoczne zdjęcia: {visibleItems.length} z {items.length}.
-      </p>
-
-      {visibleItems.length < items.length ? (
-        <div className="mt-8 flex justify-center">
-          <button
-            type="button"
-            onClick={() => setVisibleBatchCount((current) => current + 1)}
-            className="type-action button-outline min-h-12 px-5"
-          >
-            Pokaż więcej zdjęć
-          </button>
-        </div>
-      ) : null}
 
       {items.length === 0 ? (
         <div className="mt-8 rounded-[1.2rem] border border-ink/12 bg-surface p-6 md:p-8">

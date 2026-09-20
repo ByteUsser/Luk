@@ -95,9 +95,7 @@ const siteContentQuery = `*[_type == "siteContent" && _id == "siteContent"][0]{
 const fallbackHomepageSources = [
   "/portfolio/gallery/052-lekkosc-w-lawendzie.webp",
   "/portfolio/gallery/002-rodzinny-moment.webp",
-  "/portfolio/gallery/003-parkiet-i-energia.webp",
-  "/portfolio/gallery/051-bliskosc-w-lawendzie.webp",
-  "/portfolio/gallery/001-wiosenny-portret.webp"
+  "/portfolio/gallery/003-parkiet-i-energia.webp"
 ] as const;
 
 const fallbackAboutBlurDataURL =
@@ -213,7 +211,7 @@ function mapHomepageVideo(item: ManagedVideo, index: number): HomepageVideoItem 
 }
 
 function fallbackHomepage(): HomepageGalleryItem[] {
-  return fallbackHomepageSources
+  const existingPortfolioItems = fallbackHomepageSources
     .map((src) => photoGalleryItems.find((item) => item.src === src))
     .filter((item): item is PhotoGalleryItem => Boolean(item))
     .map((item) => ({
@@ -223,6 +221,23 @@ function fallbackHomepage(): HomepageGalleryItem[] {
       publicId: item.src,
       fullSrc: item.fullSrc
     }));
+
+  return [
+    {
+      title: "Reportaż ślubny",
+      alt: "Para młoda podczas ceremonii ślubnej",
+      category: "Śluby",
+      publicId: "/portfolio/homepage/wedding-ceremony-dsc00156.jpg"
+    },
+    existingPortfolioItems[0],
+    {
+      title: "Sesja dla par",
+      alt: "Dłonie pary podczas reportażu ślubnego",
+      category: "Sesje dla par",
+      publicId: "/portfolio/homepage/session-pair-dsc02546.jpg"
+    },
+    ...existingPortfolioItems.slice(1)
+  ].filter((item): item is HomepageGalleryItem => Boolean(item));
 }
 
 async function fetchSiteContent(): Promise<SiteContentDocument | null> {
@@ -257,10 +272,10 @@ export async function getResolvedSiteContent(): Promise<ResolvedSiteContent> {
   return {
     heroImage: {
       src: useLocalPhotoPreview
-        ? "/portfolio/hero-lawenda-22.webp"
+        ? "/portfolio/homepage/wedding-reportage-dsc01972.jpg"
         : imageUrl(content?.heroImage) || "/portfolio/hero-lawenda-22.webp",
       position: useLocalPhotoPreview
-        ? "45% 61%"
+        ? "50% 50%"
         : positionFromImage(content?.heroImage) || "45% 61%",
       blurDataURL: useLocalPhotoPreview
         ? fallbackHeroBlurDataURL

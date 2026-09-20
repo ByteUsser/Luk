@@ -50,13 +50,6 @@ const serviceItems: Service[] = [
 export default async function HomePage() {
   const content = await getResolvedSiteContent();
   const galleryItems: GalleryItem[] = content.homepageGallery;
-  const allGalleryItems: GalleryItem[] = content.gallery.map((item) => ({
-    title: item.title,
-    alt: item.alt,
-    category: item.category,
-    publicId: item.src,
-    fullSrc: item.fullSrc
-  }));
   const businessJsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -128,7 +121,7 @@ export default async function HomePage() {
           imagePosition={content.heroImage.position}
           imageBlurDataURL={content.heroImage.blurDataURL}
         />
-        <Gallery items={galleryItems} lightboxItems={allGalleryItems} />
+        <Gallery items={galleryItems} />
         <Services items={serviceItems} />
         <Reviews />
         <VideoShowcase items={content.homepageVideos} />

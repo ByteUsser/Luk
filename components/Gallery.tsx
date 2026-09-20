@@ -3,14 +3,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { useMemo, useRef, useState } from "react";
-import { PhotoLightbox, preparePhotoLightbox } from "@/components/PhotoLightbox";
-import { cloudinaryAsset, cloudinaryUrl } from "@/lib/cloudinary";
+import { cloudinaryAsset } from "@/lib/cloudinary";
+import {
+  GALLERY_CATEGORY_DEFINITIONS,
+  galleryCategoryHref,
+  type GalleryCategory
+} from "@/lib/gallery-categories";
 
 export type GalleryItem = {
   title: string;
   alt?: string;
-  category: string;
+  category: GalleryCategory;
   publicId: string;
   fullSrc?: string;
   imagePosition?: string;
@@ -22,7 +25,6 @@ export type GalleryItem = {
 
 type GalleryProps = {
   items: GalleryItem[];
-  lightboxItems?: GalleryItem[];
 };
 
 const cardLayouts = [
@@ -33,21 +35,8 @@ const cardLayouts = [
   "xl:col-span-4 xl:aspect-auto xl:min-h-[600px]"
 ] as const;
 
-function lightboxSrc(item: GalleryItem) {
-  if (item.fullSrc) return item.fullSrc;
-  return item.publicId.startsWith("/")
-    ? item.publicId
-    : cloudinaryUrl(item.publicId, { width: 2200, quality: 90 });
-}
-
-export function Gallery({ items, lightboxItems = items }: GalleryProps) {
-  const [lightboxIndex, setLightboxIndex] = useState(-1);
-  const lightboxTriggerRef = useRef<HTMLButtonElement | null>(null);
+export function Gallery({ items }: GalleryProps) {
   const reduceMotion = useReducedMotion();
-  const slides = useMemo(
-    () => lightboxItems.map((item) => ({ src: lightboxSrc(item), alt: item.alt || item.title })),
-    [lightboxItems]
-  );
 
   return (
     <section id="wybrane-prace" className="px-5 py-14 md:px-10 md:py-20">
@@ -61,7 +50,7 @@ export function Gallery({ items, lightboxItems = items }: GalleryProps) {
         >
           <div>
             <p className="eyebrow text-cognac">Portfolio</p>
-            <h2 className="section-title mt-4 max-w-[12ch]">Wybrane zdjęcia</h2>
+            <h2 className="section-title mt-4 max-w-[14ch]">Zobacz, co fotografuję</h2>
           </div>
           <Link
             href="/galeria-zdjec"
@@ -74,6 +63,10 @@ export function Gallery({ items, lightboxItems = items }: GalleryProps) {
         <div className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-12 xl:grid-rows-[272px_272px_600px] xl:gap-4">
           {items.map((item, index) => {
             const isLargeCard = index === 0 || index === 3;
+            const category = GALLERY_CATEGORY_DEFINITIONS.find(
+              (definition) => definition.name === item.category
+            );
+            const categoryHref = category ? galleryCategoryHref(category.slug) : "/galeria-zdjec";
             const image = cloudinaryAsset(item.publicId, {
               width: isLargeCard ? 1900 : 1200,
               quality: isLargeCard ? 84 : 82
@@ -87,20 +80,9 @@ export function Gallery({ items, lightboxItems = items }: GalleryProps) {
                   : index === 4
                     ? "32vw"
                     : "(max-width: 639px) 92vw, (max-width: 1279px) 46vw, 40vw";
-            const fullGalleryIndex = lightboxItems.findIndex(
-              (lightboxItem) => lightboxItem.publicId === item.publicId
-            );
-
             return (
-              <motion.button
+              <motion.div
                 key={`${item.publicId}-${item.title}`}
-                type="button"
-                aria-label={`Otwórz zdjęcie: ${item.alt || item.title}`}
-                onClick={(event) => {
-                  lightboxTriggerRef.current = event.currentTarget;
-                  void preparePhotoLightbox();
-                  setLightboxIndex(fullGalleryIndex >= 0 ? fullGalleryIndex : index);
-                }}
                 initial={reduceMotion ? false : { opacity: 0, y: 26, scale: 0.985 }}
                 whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
                 whileHover={reduceMotion ? undefined : { y: -4 }}
@@ -116,34 +98,36 @@ export function Gallery({ items, lightboxItems = items }: GalleryProps) {
                   cardLayouts[index] ?? "aspect-[4/3] xl:col-span-4 xl:min-h-[310px]"
                 }`}
               >
-                <Image
-                  src={image.src}
-                  alt={item.alt || `${item.title} — ${item.category}`}
-                  fill
-                  loading={index < 2 ? "eager" : "lazy"}
-                  quality={isLargeCard ? 84 : 82}
-                  sizes={imageSizes}
-                  placeholder="blur"
-                  blurDataURL={image.blurDataURL}
-                  className={`${fitClass} transition duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[1.025] group-hover:saturate-[1.04] ${item.imageClassName ?? ""}`}
-                  style={item.imagePosition ? { objectPosition: item.imagePosition } : undefined}
-                />
-                <span className="absolute inset-0 bg-gradient-to-t from-espresso/48 via-transparent to-transparent opacity-55 transition-opacity group-hover:opacity-75" />
-                <span className="absolute inset-x-0 bottom-0 p-4 text-cream md:p-5">
-                  <span className="type-meta block text-cream/82">{item.category}</span>
-                </span>
-              </motion.button>
+                <Link
+                  href={categoryHref}
+                  aria-label={`Zobacz galerię: ${item.category}`}
+                  className="group relative block h-full overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sage"
+                >
+                  <Image
+                    src={image.src}
+                    alt={item.alt || `${item.title} — ${item.category}`}
+                    fill
+                    loading={index < 2 ? "eager" : "lazy"}
+                    quality={isLargeCard ? 84 : 82}
+                    sizes={imageSizes}
+                    placeholder="blur"
+                    blurDataURL={image.blurDataURL}
+                    className={`${fitClass} transition duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[1.025] group-hover:saturate-[1.04] ${item.imageClassName ?? ""}`}
+                    style={item.imagePosition ? { objectPosition: item.imagePosition } : undefined}
+                  />
+                  <span className="absolute inset-0 bg-gradient-to-t from-espresso/48 via-transparent to-transparent opacity-55 transition-opacity group-hover:opacity-75" />
+                  <span className="absolute inset-x-0 bottom-0 p-4 text-cream md:p-5">
+                    <span className="type-meta block text-cream/82">
+                      {item.category} <span aria-hidden="true">→</span>
+                    </span>
+                  </span>
+                </Link>
+              </motion.div>
             );
           })}
         </div>
       </div>
 
-      <PhotoLightbox
-        slides={slides}
-        index={lightboxIndex}
-        onClose={() => setLightboxIndex(-1)}
-        returnFocusRef={lightboxTriggerRef}
-      />
     </section>
   );
 }

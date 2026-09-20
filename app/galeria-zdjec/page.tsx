@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PhotoGalleryGrid } from "@/components/PhotoGalleryGrid";
+import { PortfolioNavigator } from "@/components/PortfolioNavigator";
 import { PublicPageShell } from "@/components/PublicPageShell";
 import { SITE_CONFIG } from "@/lib/site-config";
 import { getResolvedSiteContent } from "@/sanity/lib/site-content";
@@ -50,12 +50,7 @@ export default async function PhotoGalleryPage() {
     <PublicPageShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(galleryJsonLd) }} />
       <main className="px-5 pb-20 pt-28 md:px-10 md:pb-24 md:pt-32">
-        <PhotoGalleryGrid
-          items={gallery}
-          eyebrow="Portfolio"
-          heading="Portfolio"
-          description="Zobacz portrety, sesje dla par, uroczystości i eventy. Motoryzację oraz podróże znajdziesz niżej jako projekty własne."
-        />
+        <PortfolioNavigator items={gallery} />
       </main>
     </PublicPageShell>
   );

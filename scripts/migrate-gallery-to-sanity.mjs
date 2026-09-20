@@ -12,12 +12,37 @@ const manifest = JSON.parse(
 );
 const client = getCliClient({ apiVersion: "2026-07-01" });
 
-const homepageSources = [
-  "/portfolio/gallery/001-wiosenny-portret.webp",
-  "/portfolio/gallery/002-rodzinny-moment.webp",
-  "/portfolio/gallery/003-parkiet-i-energia.webp",
-  "/portfolio/gallery/004-niebieski-kabriolet.webp",
-  "/portfolio/gallery/005-nadmorski-widok.webp"
+const homepageItems = [
+  {
+    src: "/portfolio/homepage/wedding-ceremony-dsc00156.jpg",
+    title: "Reportaż ślubny",
+    alt: "Para młoda podczas ceremonii ślubnej",
+    category: "Śluby"
+  },
+  {
+    src: "/portfolio/gallery/052-lekkosc-w-lawendzie.webp",
+    title: "Portret w lawendzie",
+    alt: "Naturalny portret w lawendzie — Janiczek Foto",
+    category: "Portrety"
+  },
+  {
+    src: "/portfolio/homepage/session-pair-dsc02546.jpg",
+    title: "Sesja dla par",
+    alt: "Dłonie pary podczas reportażu ślubnego",
+    category: "Sesje dla par"
+  },
+  {
+    src: "/portfolio/gallery/002-rodzinny-moment.webp",
+    title: "Rodzinny moment",
+    alt: "Rodzinny moment podczas uroczystości — Janiczek Foto",
+    category: "Uroczystości"
+  },
+  {
+    src: "/portfolio/gallery/003-parkiet-i-energia.webp",
+    title: "Parkiet i energia",
+    alt: "Dynamiczny reportaż z eventu — Janiczek Foto",
+    category: "Eventy"
+  }
 ];
 
 function stableKey(value) {
@@ -84,7 +109,10 @@ async function main() {
     return;
   }
 
-  const heroAssetId = await uploadOnce("/portfolio/hero-final.jpg", "hero-final");
+  const heroAssetId = await uploadOnce(
+    "/portfolio/homepage/wedding-reportage-dsc01972.jpg",
+    "homepage-wedding-hero"
+  );
   const aboutAssetId = await uploadOnce(
     "/portfolio/o-mnie-lukasz-janiczek-final.webp",
     "o-mnie-final"
@@ -97,10 +125,15 @@ async function main() {
     assetIds.set(item.src, assetId);
   }
 
+  for (const item of homepageItems) {
+    if (!assetIds.has(item.src)) {
+      const assetId = await uploadOnce(item.src, `homepage-${stableKey(item.src)}`);
+      assetIds.set(item.src, assetId);
+    }
+  }
+
   const gallery = manifest.map((item) => photoObject(item, assetIds.get(item.src)));
-  const homepageGallery = homepageSources
-    .map((src) => manifest.find((item) => item.src === src))
-    .filter(Boolean)
+  const homepageGallery = homepageItems
     .map((item) => photoObject(item, assetIds.get(item.src)));
 
   await client.createIfNotExists({
@@ -114,6 +147,7 @@ async function main() {
       _type: "image",
       asset: { _type: "reference", _ref: heroAssetId }
     },
+    heroAlt: "Para młoda podczas sesji ślubnej — Janiczek Foto",
     homepageGallery,
     gallery,
     aboutImage: {
