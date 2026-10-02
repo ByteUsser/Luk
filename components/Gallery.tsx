@@ -47,10 +47,10 @@ export function Gallery({ items }: GalleryProps) {
             <h2 className="section-title mt-4 max-w-[14ch]">Zobacz, co fotografuję</h2>
           </div>
           <Link
-            href="/cennik"
+            href="/galeria-zdjec#wszystkie-zdjecia"
             className="type-action text-link inline-flex min-h-11 w-fit items-center pb-1 text-ink/72"
           >
-            Zobacz pełny cennik <span aria-hidden="true">→</span>
+            Zobacz wszystkie zdjęcia <span aria-hidden="true" className="ml-2">→</span>
           </Link>
         </div>
 

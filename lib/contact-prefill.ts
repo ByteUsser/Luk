@@ -98,6 +98,16 @@ Co warto wiedzieć:`
     notice: "Masz gotowy szkic wiadomości.",
     message: messageTemplate("zdjęcia")
   },
+  wideo: {
+    notice: "Masz gotowy szkic wiadomości o filmie.",
+    message: `Cześć,
+
+Chcę zapytać o krótki film do reportażu.
+Rodzaj wydarzenia:
+Miejsce:
+Termin:
+Co warto wiedzieć:`
+  },
   "galeria-portrety": {
     notice: "Masz gotowy szkic wiadomości o sesji portretowej.",
     message: messageTemplate("sesję portretową")

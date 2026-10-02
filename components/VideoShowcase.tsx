@@ -1,8 +1,10 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { buildContactHref } from "@/lib/contact-prefill";
 import type { HomepageVideoItem } from "@/sanity/lib/site-content";
 
 type VideoShowcaseProps = {
@@ -465,6 +467,15 @@ export function VideoShowcase({ items }: VideoShowcaseProps) {
           <div>
             <p className="eyebrow text-cognac">Wideo</p>
             <h2 className="section-title mt-4 max-w-[10ch]">W ruchu</h2>
+            <p className="type-body mt-4 max-w-[45ch] text-ink/75">
+              Chcesz dodać krótki film do reportażu? Zapytaj o dostępność i zakres.
+            </p>
+            <Link
+              href={buildContactHref("wideo")}
+              className="type-action text-link mt-4 inline-flex min-h-11 w-fit items-center pb-1 text-ink/72"
+            >
+              Zapytaj o film <span aria-hidden="true" className="ml-2">→</span>
+            </Link>
           </div>
           {canScroll ? (
             <div className="hidden gap-2 sm:flex" aria-label="Sterowanie listą filmów">
