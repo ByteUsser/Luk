@@ -325,7 +325,7 @@ export async function getResolvedSiteContent(): Promise<ResolvedSiteContent> {
         : content?.aboutImage?.asset?.metadata?.lqip || fallbackAboutBlurDataURL
     },
     homepageGallery: !useLocalPhotoPreview && cmsHomepage.length ? cmsHomepage.slice(0, 5) : fallbackHomepage(),
-    homepageVideos: !useLocalPhotoPreview && cmsVideos.length ? cmsVideos : fallbackHomepageVideos,
+    homepageVideos: cmsVideos.length ? cmsVideos : fallbackHomepageVideos,
     gallery: !useLocalPhotoPreview && cmsGallery.length ? galleryWithLocalWeddingPhotos : photoGalleryItems
   };
 }
