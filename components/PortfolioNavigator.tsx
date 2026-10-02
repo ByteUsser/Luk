@@ -83,7 +83,7 @@ export function PortfolioNavigator({ items }: PortfolioNavigatorProps) {
         ) : null}
       </header>
 
-      <div className="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-4">
+      <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4">
         {serviceCategories.map((category, index) => {
           const cover = findCategoryCover(items, category.name);
 
@@ -92,7 +92,7 @@ export function PortfolioNavigator({ items }: PortfolioNavigatorProps) {
               key={category.slug}
               href={galleryCategoryHref(category.slug)}
               aria-label={`Zobacz portfolio: ${category.label}`}
-              className="group relative min-h-64 overflow-hidden rounded-xl bg-sand sm:min-h-80 sm:rounded-[1rem]"
+              className="group relative min-h-44 overflow-hidden rounded-xl bg-sand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cognac sm:min-h-80 sm:rounded-[1rem]"
             >
               {cover ? (
                 <Image
@@ -109,9 +109,9 @@ export function PortfolioNavigator({ items }: PortfolioNavigatorProps) {
                 />
               ) : null}
               <span className="absolute inset-0 bg-gradient-to-t from-espresso/75 via-espresso/10 to-transparent" />
-              <span className="type-section absolute inset-x-5 bottom-5 text-cream sm:inset-x-7 sm:bottom-6">
+              <span className="absolute inset-x-2 bottom-4 font-display text-[1.25rem] font-normal leading-tight text-cream sm:inset-x-7 sm:bottom-6 sm:text-[clamp(2.2rem,5vw,3.5rem)] sm:leading-[0.94]">
                 {category.label}
-                <span className="ml-3 inline-block text-[0.75em] transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
+                <span className="ml-3 hidden text-[0.75em] transition-transform duration-300 group-hover:translate-x-1 sm:inline-block" aria-hidden="true">
                   →
                 </span>
               </span>
@@ -123,7 +123,7 @@ export function PortfolioNavigator({ items }: PortfolioNavigatorProps) {
       {personalCategories.length > 0 ? (
         <nav className="mt-10 border-t border-ink/10 pt-6" aria-label="Projekty własne">
           <p className="type-meta text-ink/70">Projekty własne</p>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 sm:gap-4">
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:gap-4">
             {personalCategories.map((category) => {
               const cover = findCategoryCover(items, category.name);
 
@@ -132,7 +132,7 @@ export function PortfolioNavigator({ items }: PortfolioNavigatorProps) {
                   key={category.slug}
                   href={galleryCategoryHref(category.slug)}
                   aria-label={`Zobacz portfolio: ${category.label}`}
-                  className="group relative min-h-48 overflow-hidden rounded-xl bg-sand sm:min-h-56 sm:rounded-[1rem]"
+                  className="group relative min-h-40 overflow-hidden rounded-xl bg-sand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cognac sm:min-h-56 sm:rounded-[1rem]"
                 >
                   {cover ? (
                     <Image
@@ -148,9 +148,9 @@ export function PortfolioNavigator({ items }: PortfolioNavigatorProps) {
                     />
                   ) : null}
                   <span className="absolute inset-0 bg-gradient-to-t from-espresso/75 via-espresso/10 to-transparent" />
-                  <span className="type-card absolute inset-x-5 bottom-5 text-cream sm:inset-x-6 sm:bottom-6">
+                  <span className="absolute inset-x-2 bottom-4 font-display text-[1.25rem] font-normal leading-tight text-cream sm:inset-x-6 sm:bottom-6 sm:text-[clamp(1.6rem,2.6vw,2rem)] sm:leading-none">
                     {category.label}
-                    <span className="ml-3 inline-block text-[0.75em] transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
+                    <span className="ml-3 hidden text-[0.75em] transition-transform duration-300 group-hover:translate-x-1 sm:inline-block" aria-hidden="true">
                       →
                     </span>
                   </span>

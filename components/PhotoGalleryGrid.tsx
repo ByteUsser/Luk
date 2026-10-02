@@ -26,7 +26,7 @@ type PhotoGalleryGridProps = {
 
 const INITIAL_GALLERY_SIZE = 24;
 const INITIAL_OVERVIEW_SIZE = 12;
-const OVERVIEW_BATCH_SIZE = 24;
+const GALLERY_BATCH_SIZE = 24;
 const LIGHTBOX_WIDTHS = [640, 1080, 1280, 1920] as const;
 
 function optimizedLightboxSrc(src: string, width: number) {
@@ -211,39 +211,38 @@ export function PhotoGalleryGrid({
         </>
       )}
 
-      <div className="mt-8 columns-1 gap-4 sm:columns-2 lg:columns-3 2xl:columns-4">
+      <div className="mt-8 grid grid-cols-2 gap-2.5 sm:gap-4 lg:grid-cols-3 2xl:grid-cols-4">
         {visibleItems.map((item, globalIndex) => {
           const isPrimaryImage = !isOverview && globalIndex === 0;
 
           return (
             <article
               key={`${item.src}-${item.category}`}
-              className="mb-4 min-w-0 break-inside-avoid"
+              className="min-w-0"
             >
               <button
                 type="button"
                 aria-label={`Otwórz zdjęcie ${globalIndex + 1} z ${items.length}: ${item.alt}`}
-                className="group block w-full overflow-hidden rounded-xl bg-sand shadow-[0_12px_30px_rgba(42,36,32,0.08)] transition-transform active:scale-[0.985] sm:rounded-[1.1rem]"
+                className="group block w-full overflow-hidden rounded-xl bg-sand shadow-[0_12px_30px_rgba(42,36,32,0.08)] transition-transform active:scale-[0.985] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cognac motion-reduce:transition-none sm:rounded-[1.1rem]"
                 onClick={(event) => {
                   lightboxTriggerRef.current = event.currentTarget;
                   void preparePhotoLightbox();
                   setLightboxIndex(globalIndex);
                 }}
               >
-                <span className="relative block overflow-hidden">
+                <span className="relative block aspect-[4/5] overflow-hidden">
                   <Image
                     src={item.src}
                     alt={item.alt}
-                    width={item.width}
-                    height={item.height}
-                    sizes="(max-width: 639px) 100vw, (max-width: 1023px) 46vw, (max-width: 1535px) 31vw, 23vw"
+                    fill
+                    sizes="(max-width: 639px) 46vw, (max-width: 1023px) 46vw, (max-width: 1535px) 31vw, 23vw"
                     loading={isPrimaryImage ? "eager" : "lazy"}
                     fetchPriority={isPrimaryImage ? "high" : "auto"}
                     decoding="async"
                     quality={82}
                     placeholder={item.blurDataURL ? "blur" : "empty"}
                     blurDataURL={item.blurDataURL}
-                    className="h-auto w-full object-cover transition duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[1.025] group-hover:saturate-[1.04]"
+                    className="object-cover transition duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[1.025] group-hover:saturate-[1.04] motion-reduce:transition-none"
                   />
                   <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-espresso/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 </span>
@@ -255,21 +254,17 @@ export function PhotoGalleryGrid({
 
       {hasMoreItems ? (
         <div className="mt-7 flex flex-col items-center gap-3">
-          {isOverview ? (
-            <p className="type-meta text-ink/70" aria-live="polite">
-              Pokazano {visibleItems.length} z {items.length} zdjęć
-            </p>
-          ) : null}
+          <p className="type-meta text-ink/70" aria-live="polite">
+            Pokazano {visibleItems.length} z {items.length} zdjęć
+          </p>
           <button
             type="button"
             className="type-action button-outline min-h-12 justify-center px-6"
             onClick={() =>
-              setVisibleCount((current) =>
-                isOverview ? Math.min(items.length, current + OVERVIEW_BATCH_SIZE) : items.length
-              )
+              setVisibleCount((current) => Math.min(items.length, current + GALLERY_BATCH_SIZE))
             }
           >
-            {isOverview ? "Pokaż kolejne zdjęcia" : `Pokaż wszystkie zdjęcia (${items.length})`}
+            Pokaż kolejne zdjęcia
           </button>
         </div>
       ) : null}
