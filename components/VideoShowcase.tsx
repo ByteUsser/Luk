@@ -1,9 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { useEffect, useRef, useState } from "react";
 import { buildContactHref } from "@/lib/contact-prefill";
 import type { HomepageVideoItem } from "@/sanity/lib/site-content";
 
@@ -15,6 +14,8 @@ type NavigatorWithConnection = Navigator & {
   connection?: { saveData?: boolean };
 };
 
+const INITIAL_VIDEO_COUNT = 3;
+
 function PlayIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 fill-current">
@@ -23,38 +24,37 @@ function PlayIcon() {
   );
 }
 
-function ArrowUpIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 fill-none stroke-current" strokeWidth="1.7">
-      <path d="m6.5 14.5 5.5-5 5.5 5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function ArrowDownIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 fill-none stroke-current" strokeWidth="1.7">
-      <path d="m6.5 9.5 5.5 5 5.5-5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function VideoPreview({
+function VideoCard({
   item,
+  active,
   onOpen,
-  paused
+  onClose
 }: {
   item: HomepageVideoItem;
+  active: boolean;
   onOpen: () => void;
-  paused: boolean;
+  onClose: () => void;
 }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const previewRef = useRef<HTMLVideoElement>(null);
+  const playbackRef = useRef<HTMLVideoElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const restoreTriggerFocusRef = useRef(false);
   const reduceMotion = useReducedMotion();
   const [posterReady, setPosterReady] = useState(false);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    if (active) {
+      closeButtonRef.current?.focus();
+    } else if (restoreTriggerFocusRef.current) {
+      triggerRef.current?.focus();
+      restoreTriggerFocusRef.current = false;
+    }
+  }, [active]);
+
+  useEffect(() => {
+    const preview = previewRef.current;
+    if (!preview) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -66,45 +66,96 @@ function VideoPreview({
       { rootMargin: "600px 0px" }
     );
 
-    observer.observe(video);
+    observer.observe(preview);
     return () => observer.disconnect();
-  }, []);
+  }, [active]);
 
   useEffect(() => {
-    const video = videoRef.current;
+    const preview = previewRef.current;
     const saveData = (navigator as NavigatorWithConnection).connection?.saveData;
-    if (!video || reduceMotion || saveData || paused) {
-      video?.pause();
+    if (!preview || reduceMotion || saveData || active) {
+      preview?.pause();
       return;
     }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          void video.play().catch(() => undefined);
+          void preview.play().catch(() => undefined);
         } else {
-          video.pause();
+          preview.pause();
         }
       },
       { threshold: 0.55 }
     );
 
-    observer.observe(video);
+    observer.observe(preview);
     return () => {
       observer.disconnect();
-      video.pause();
+      preview.pause();
     };
-  }, [paused, reduceMotion]);
+  }, [active, reduceMotion]);
+
+  useEffect(() => {
+    const playback = playbackRef.current;
+    if (!active || !playback) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) playback.pause();
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(playback);
+    return () => observer.disconnect();
+  }, [active]);
+
+  const cardClassName =
+    "relative aspect-[4/5] w-full overflow-hidden rounded-[1.15rem] bg-espresso text-left shadow-[0_22px_55px_rgba(36,31,27,0.16)] sm:aspect-[9/16]";
+
+  if (active) {
+    return (
+      <div className={cardClassName}>
+        <video
+          ref={playbackRef}
+          src={item.videoUrl}
+          poster={item.posterUrl}
+          controls
+          autoPlay
+          playsInline
+          preload="metadata"
+          aria-label={`Film: ${item.title}`}
+          className="h-full w-full bg-black object-contain"
+        >
+          Twoja przeglądarka nie obsługuje odtwarzania filmu.
+        </video>
+        <button
+          ref={closeButtonRef}
+          type="button"
+          onClick={() => {
+            restoreTriggerFocusRef.current = true;
+            onClose();
+          }}
+          aria-label={`Zamknij film: ${item.title}`}
+          className="type-action absolute right-3 top-3 z-10 min-h-11 rounded-full border border-cream/50 bg-espresso/85 px-4 text-cream transition-colors hover:bg-espresso focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
+        >
+          Zamknij
+        </button>
+      </div>
+    );
+  }
 
   return (
     <button
+      ref={triggerRef}
       type="button"
       onClick={onOpen}
       aria-label={`Odtwórz film: ${item.title}`}
-      className="group relative block aspect-[9/16] w-full overflow-hidden rounded-[1.15rem] bg-espresso text-left shadow-[0_22px_55px_rgba(36,31,27,0.16)] focus-visible:outline-2"
+      className={`${cardClassName} group block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cognac`}
     >
       <video
-        ref={videoRef}
+        ref={previewRef}
         src={item.previewUrl}
         poster={posterReady ? item.posterUrl : undefined}
         muted
@@ -115,7 +166,7 @@ function VideoPreview({
         className="pointer-events-none h-full w-full object-cover transition duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[1.025]"
       />
       <span className="absolute inset-0 bg-gradient-to-t from-espresso/82 via-espresso/5 to-espresso/12" />
-      <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 text-cream md:p-6">
+      <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 text-cream sm:p-5 md:p-6">
         <span>
           <span className="type-meta block text-cream/72">{item.label}</span>
           <span className="type-card mt-1.5 block text-cream">{item.title}</span>
@@ -128,448 +179,55 @@ function VideoPreview({
   );
 }
 
-function VideoModal({
-  items,
-  activeIndex,
-  onChange,
-  onClose
-}: {
-  items: HomepageVideoItem[];
-  activeIndex: number;
-  onChange: (index: number) => void;
-  onClose: () => void;
-}) {
-  const item = items[activeIndex];
-  const closeRef = useRef<HTMLButtonElement>(null);
-  const dialogRef = useRef<HTMLDivElement>(null);
-  const gestureStartRef = useRef<{ x: number; y: number } | null>(null);
-  const wheelStateRef = useRef({ accumulated: 0, lastEvent: 0, lockedUntil: 0 });
-  const [direction, setDirection] = useState(1);
-  const reduceMotion = useReducedMotion();
-  const hasMultiple = items.length > 1;
-
-  const navigate = useCallback(
-    (step: -1 | 1) => {
-      if (!hasMultiple) return;
-      setDirection(step);
-      onChange((activeIndex + step + items.length) % items.length);
-    },
-    [activeIndex, hasMultiple, items.length, onChange]
-  );
-
-  useEffect(() => {
-    const scrollY = window.scrollY;
-    const previousBodyStyles = {
-      overflow: document.body.style.overflow,
-      position: document.body.style.position,
-      top: document.body.style.top,
-      width: document.body.style.width
-    };
-    const previousHtmlOverflow = document.documentElement.style.overflow;
-    const previousScrollBehavior = document.documentElement.style.scrollBehavior;
-    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    const backgroundElements = [
-      document.querySelector<HTMLElement>("header"),
-      document.querySelector<HTMLElement>("main"),
-      document.querySelector<HTMLElement>("[data-site-footer]"),
-      document.querySelector<HTMLElement>("[data-mobile-sticky-cta]")
-    ].filter((element): element is HTMLElement => Boolean(element));
-    const backgroundState = backgroundElements.map((element) => ({
-      element,
-      inert: element.inert,
-      ariaHidden: element.getAttribute("aria-hidden")
-    }));
-
-    document.documentElement.style.overflow = "hidden";
-    document.body.style.overflow = "hidden";
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.width = "100%";
-    backgroundElements.forEach((element) => {
-      element.inert = true;
-      element.setAttribute("aria-hidden", "true");
-    });
-    closeRef.current?.focus();
-
-    return () => {
-      document.documentElement.style.scrollBehavior = "auto";
-      document.documentElement.style.overflow = previousHtmlOverflow;
-      document.body.style.overflow = previousBodyStyles.overflow;
-      document.body.style.position = previousBodyStyles.position;
-      document.body.style.top = previousBodyStyles.top;
-      document.body.style.width = previousBodyStyles.width;
-      backgroundState.forEach(({ element, inert, ariaHidden }) => {
-        element.inert = inert;
-        if (ariaHidden === null) {
-          element.removeAttribute("aria-hidden");
-        } else {
-          element.setAttribute("aria-hidden", ariaHidden);
-        }
-      });
-      previouslyFocused?.focus({ preventScroll: true });
-      window.scrollTo(0, scrollY);
-
-      requestAnimationFrame(() => {
-        window.scrollTo(0, scrollY);
-        requestAnimationFrame(() => {
-          window.scrollTo(0, scrollY);
-          document.documentElement.style.scrollBehavior = previousScrollBehavior;
-        });
-      });
-    };
-  }, []);
-
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
-        return;
-      }
-
-      if (event.key === "ArrowUp") {
-        event.preventDefault();
-        navigate(-1);
-        return;
-      }
-
-      if (event.key === "ArrowDown") {
-        event.preventDefault();
-        navigate(1);
-        return;
-      }
-
-      if (event.key !== "Tab") return;
-      const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
-        "button:not([disabled]), video[controls]"
-      );
-      if (!focusable?.length) return;
-
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [navigate, onClose]);
-
-  const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    if (!hasMultiple || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-    event.preventDefault();
-
-    const now = Date.now();
-    const state = wheelStateRef.current;
-    if (now < state.lockedUntil) return;
-    if (now - state.lastEvent > 180) state.accumulated = 0;
-
-    state.lastEvent = now;
-    state.accumulated += event.deltaY;
-    if (Math.abs(state.accumulated) < 58) return;
-
-    navigate(state.accumulated > 0 ? 1 : -1);
-    state.accumulated = 0;
-    state.lockedUntil = now + 650;
-  };
-
-  const finishGesture = (x: number, y: number) => {
-    const start = gestureStartRef.current;
-    gestureStartRef.current = null;
-    if (!start || !hasMultiple) return;
-
-    const deltaX = x - start.x;
-    const deltaY = y - start.y;
-    if (Math.abs(deltaY) < 56 || Math.abs(deltaY) < Math.abs(deltaX) * 1.25) return;
-    navigate(deltaY < 0 ? 1 : -1);
-  };
-
-  return createPortal(
-    <div
-      data-video-modal
-      className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-espresso/94 p-3 backdrop-blur-md sm:p-6"
-      onWheelCapture={handleWheel}
-      onPointerDownCapture={(event) => {
-        gestureStartRef.current = { x: event.clientX, y: event.clientY };
-      }}
-      onPointerUpCapture={(event) => finishGesture(event.clientX, event.clientY)}
-      onPointerCancelCapture={() => {
-        gestureStartRef.current = null;
-      }}
-      onMouseDown={(event) => {
-        const target = event.target;
-        if (!(target instanceof Element)) return;
-        if (target.closest("[data-video-phone], [data-video-navigation], [data-video-close]")) return;
-        onClose();
-      }}
-    >
-      <div
-        ref={dialogRef}
-        role="dialog"
-        aria-modal="true"
-        aria-label={`Film: ${item.title}`}
-        className="relative flex h-full max-h-[calc(100dvh-1.5rem)] w-full max-w-[min(100%,920px)] flex-col items-center justify-center sm:max-h-[calc(100dvh-3rem)]"
-      >
-        <div className="flex min-h-0 items-center justify-center gap-2.5 sm:gap-4">
-          <div className="flex min-h-0 flex-col items-center">
-            <div className="mb-3 w-full text-center text-cream sm:mb-4" aria-live="polite">
-              <p className="text-[0.68rem] uppercase tracking-[0.17em] text-cream/76">{item.label}</p>
-              <p className="mt-1 font-display text-[1.45rem] leading-none sm:text-[1.7rem]">{item.title}</p>
-            </div>
-
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={item.id}
-                data-video-phone
-                data-video-id={item.id}
-                initial={reduceMotion ? false : { opacity: 0, y: direction * 34, scale: 0.985 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={reduceMotion ? undefined : { opacity: 0, y: direction * -34, scale: 0.985 }}
-                transition={{ duration: reduceMotion ? 0 : 0.34, ease: [0.22, 1, 0.36, 1] }}
-                className="relative aspect-[9/19.5] w-[min(68vw,285px)] shrink-0 rounded-[2.85rem] border border-white/20 bg-[#090806] p-[7px] shadow-[0_34px_90px_rgba(0,0,0,0.58),inset_0_0_0_1px_rgba(255,255,255,0.08)] sm:w-[min(34vw,310px)] sm:rounded-[3.15rem] sm:p-2"
-              >
-                <span className="absolute -left-[3px] top-[24%] h-14 w-[3px] rounded-l-full bg-gradient-to-b from-[#77716b] to-[#26231f]" aria-hidden="true" />
-                <span className="absolute -left-[3px] top-[35%] h-10 w-[3px] rounded-l-full bg-gradient-to-b from-[#77716b] to-[#26231f]" aria-hidden="true" />
-                <span className="absolute -right-[3px] top-[29%] h-20 w-[3px] rounded-r-full bg-gradient-to-b from-[#77716b] to-[#26231f]" aria-hidden="true" />
-                <div className="relative h-full w-full overflow-hidden rounded-[2.42rem] bg-black sm:rounded-[2.68rem]">
-                  <video
-                    key={item.videoUrl}
-                    src={item.videoUrl}
-                    poster={item.posterUrl}
-                    controls
-                    autoPlay
-                    playsInline
-                    preload="metadata"
-                    className="h-full w-full bg-black object-contain"
-                  >
-                    Twoja przeglądarka nie obsługuje odtwarzania filmu.
-                  </video>
-                  <span
-                    className="pointer-events-none absolute left-1/2 top-2.5 z-10 flex h-[25px] w-[82px] -translate-x-1/2 items-center justify-end rounded-full bg-black px-2 shadow-[0_2px_8px_rgba(0,0,0,0.5)] ring-1 ring-white/5 sm:top-3 sm:h-[27px] sm:w-[88px]"
-                    aria-hidden="true"
-                  >
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#171c20] ring-1 ring-[#313942]" />
-                  </span>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            <p className="mt-3 text-center text-[0.68rem] uppercase tracking-[0.12em] text-cream/72 sm:mt-4">
-              Przesuń pionowo lub użyj ↑ ↓
-            </p>
-          </div>
-
-          {hasMultiple ? (
-            <div
-              data-video-navigation
-              className="flex shrink-0 flex-col items-center gap-2"
-              aria-label="Nawigacja pionowa między filmami"
-            >
-              <button
-                type="button"
-                onClick={() => navigate(-1)}
-                aria-label="Poprzedni film"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-cream/28 bg-cream/10 text-cream backdrop-blur-md transition hover:bg-cream hover:text-espresso sm:h-12 sm:w-12"
-              >
-                <ArrowUpIcon />
-              </button>
-              <span className="min-w-10 text-center text-[0.68rem] tracking-[0.12em] text-cream/76">
-                {activeIndex + 1} / {items.length}
-              </span>
-              <button
-                type="button"
-                onClick={() => navigate(1)}
-                aria-label="Następny film"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-cream/28 bg-cream/10 text-cream backdrop-blur-md transition hover:bg-cream hover:text-espresso sm:h-12 sm:w-12"
-              >
-                <ArrowDownIcon />
-              </button>
-            </div>
-          ) : null}
-        </div>
-
-        <button
-          data-video-close
-          ref={closeRef}
-          type="button"
-          onClick={onClose}
-          aria-label="Zamknij film"
-          className="absolute right-0 top-0 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-black/45 text-2xl font-light leading-none text-white backdrop-blur-md transition hover:bg-white hover:text-espresso sm:right-2 sm:top-2"
-        >
-          ×
-        </button>
-      </div>
-    </div>,
-    document.body
-  );
-}
-
 export function VideoShowcase({ items }: VideoShowcaseProps) {
-  const [modalIndex, setModalIndex] = useState<number | null>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [canScroll, setCanScroll] = useState(false);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const reduceMotion = useReducedMotion();
-
-  const closeModal = useCallback(() => setModalIndex(null), []);
-  const changeModalVideo = useCallback((index: number) => {
-    setModalIndex(index);
-    setActiveIndex(index);
-  }, []);
-
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    const update = () => setCanScroll(track.scrollWidth > track.clientWidth + 2);
-    update();
-    const observer = new ResizeObserver(update);
-    observer.observe(track);
-    window.addEventListener("resize", update);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", update);
-    };
-  }, [items.length]);
+  const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState(INITIAL_VIDEO_COUNT);
+  const visibleItems = items.slice(0, visibleCount);
 
   if (!items.length) return null;
 
-  const scrollToVideo = (index: number) => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    const nextIndex = Math.max(0, Math.min(items.length - 1, index));
-    const card = track.children.item(nextIndex);
-    if (!(card instanceof HTMLElement)) return;
-
-    track.scrollTo({
-      left: card.offsetLeft - track.offsetLeft - (track.clientWidth - card.offsetWidth) / 2,
-      behavior: reduceMotion ? "auto" : "smooth"
-    });
-    setActiveIndex(nextIndex);
-  };
-
   return (
-    <section id="wideo" className="overflow-hidden bg-sand/45 px-5 py-16 md:px-10 md:py-20">
+    <section id="wideo" className="bg-sand/45 px-5 py-16 md:px-10 md:py-20">
       <div className="mx-auto max-w-[1320px]" data-scroll-anchor>
-        <motion.div
-          className="flex items-end justify-between gap-5 border-b border-ink/12 pb-8"
-          initial={reduceMotion ? false : { y: 20 }}
-          whileInView={reduceMotion ? undefined : { y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.68, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <div>
-            <p className="eyebrow text-cognac">Wideo</p>
-            <h2 className="section-title mt-4 max-w-[10ch]">W ruchu</h2>
-            <p className="type-body mt-4 max-w-[45ch] text-ink/75">
-              Chcesz dodać krótki film do reportażu? Zapytaj o dostępność i zakres.
-            </p>
-            <Link
-              href={buildContactHref("wideo")}
-              className="type-action text-link mt-4 inline-flex min-h-11 w-fit items-center pb-1 text-ink/72"
-            >
-              Zapytaj o film <span aria-hidden="true" className="ml-2">→</span>
-            </Link>
-          </div>
-          {canScroll ? (
-            <div className="hidden gap-2 sm:flex" aria-label="Sterowanie listą filmów">
-              <button
-                type="button"
-                onClick={() => scrollToVideo(activeIndex - 1)}
-                aria-label="Poprzednie filmy"
-                className="button-icon h-12 w-12 text-xl"
-              >
-                ←
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollToVideo(activeIndex + 1)}
-                aria-label="Następne filmy"
-                className="button-icon h-12 w-12 text-xl"
-              >
-                →
-              </button>
-            </div>
-          ) : null}
-        </motion.div>
+        <div className="border-b border-ink/12 pb-8">
+          <p className="eyebrow text-cognac">Wideo</p>
+          <h2 className="section-title mt-4 max-w-[10ch]">W ruchu</h2>
+          <p className="type-body mt-4 max-w-[45ch] text-ink/75">
+            Chcesz dodać krótki film do reportażu? Zapytaj o dostępność i zakres.
+          </p>
+          <Link
+            href={buildContactHref("wideo")}
+            className="type-action text-link mt-4 inline-flex min-h-11 w-fit items-center pb-1 text-ink/72"
+          >
+            Zapytaj o film <span aria-hidden="true" className="ml-2">→</span>
+          </Link>
+        </div>
 
-        <div
-          ref={trackRef}
-          data-video-carousel
-          className={`no-scrollbar -mx-5 mt-8 grid touch-auto snap-x snap-mandatory grid-flow-col auto-cols-[minmax(255px,78vw)] gap-4 overflow-x-auto overscroll-x-contain px-5 pb-3 sm:-mx-10 sm:auto-cols-[330px] sm:px-10 lg:mx-0 lg:auto-cols-[360px] lg:px-0 ${
-            canScroll ? "justify-start" : "justify-center"
-          }`}
-          onScroll={(event) => {
-            const track = event.currentTarget;
-            const firstCard = track.firstElementChild;
-            if (!(firstCard instanceof HTMLElement)) return;
-            const step = firstCard.offsetWidth + 16;
-            const nextIndex = Math.max(0, Math.min(items.length - 1, Math.round(track.scrollLeft / step)));
-            if (nextIndex !== activeIndex) setActiveIndex(nextIndex);
-          }}
-        >
-          {items.map((item, index) => (
-            <motion.article
-              key={item.id}
-              className="snap-start"
-              initial={reduceMotion ? false : { y: 28, scale: 0.985 }}
-              whileInView={reduceMotion ? undefined : { y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.16 }}
-              transition={{
-                duration: 0.72,
-                delay: Math.min(index * 0.08, 0.24),
-                ease: [0.22, 1, 0.36, 1]
-              }}
-            >
-              <VideoPreview
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+          {visibleItems.map((item, index) => (
+            <article key={item.id} className={index === 0 ? "col-span-2 sm:col-span-1" : undefined}>
+              <VideoCard
                 item={item}
-                paused={modalIndex !== null}
-                onOpen={() => {
-                  setActiveIndex(index);
-                  setModalIndex(index);
-                }}
+                active={activeVideoId === item.id}
+                onOpen={() => setActiveVideoId(item.id)}
+                onClose={() => setActiveVideoId(null)}
               />
-            </motion.article>
+            </article>
           ))}
         </div>
 
-        {items.length > 1 ? (
-          <div className="mt-2 flex justify-center gap-1 sm:hidden" role="group" aria-label="Wybierz film">
-            {items.map((item, index) => (
-              <button
-                key={item.id}
-                type="button"
-                aria-label={`Pokaż film: ${item.title}`}
-                aria-current={activeIndex === index ? "true" : undefined}
-                onClick={() => scrollToVideo(index)}
-                className="flex h-11 w-11 items-center justify-center rounded-full"
-              >
-                <span
-                  className={`block rounded-full transition-all duration-300 ${
-                    activeIndex === index ? "h-2 w-6 bg-espresso" : "h-2 w-2 bg-ink/30"
-                  }`}
-                  aria-hidden="true"
-                />
-              </button>
-            ))}
+        {visibleCount < items.length ? (
+          <div className="mt-8 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setVisibleCount((current) => Math.min(current + INITIAL_VIDEO_COUNT, items.length))}
+              className="type-action button-outline min-h-12 justify-center px-6"
+            >
+              Pokaż kolejne filmy
+            </button>
           </div>
         ) : null}
       </div>
-
-      {modalIndex !== null ? (
-        <VideoModal
-          items={items}
-          activeIndex={modalIndex}
-          onChange={changeModalVideo}
-          onClose={closeModal}
-        />
-      ) : null}
     </section>
   );
 }
