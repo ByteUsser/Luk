@@ -24,7 +24,7 @@ const videos = [
   },
   {
     key: "motoryzacja-lexus",
-    title: "Motoryzacja — Lexus",
+    title: "Motoryzacja",
     label: "Motoryzacja",
     video: "motoryzacja-lexus-full.mp4",
     preview: "motoryzacja-lexus-preview.mp4",
