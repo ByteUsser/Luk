@@ -26,6 +26,11 @@ export type PhotoLightboxSlide = {
   alt: string;
   width?: number;
   height?: number;
+  srcSet?: Array<{
+    src: string;
+    width: number;
+    height: number;
+  }>;
 };
 
 type PhotoLightboxProps = {
@@ -44,15 +49,38 @@ export function PhotoLightbox({ slides, index, onClose, returnFocusRef }: PhotoL
   useEffect(() => {
     if (index < 0) return;
 
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") return;
-      event.preventDefault();
-      onClose();
-      window.requestAnimationFrame(() => returnFocusRef?.current?.focus({ preventScroll: true }));
+    const handleKeyboard = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onClose();
+        window.requestAnimationFrame(() => returnFocusRef?.current?.focus({ preventScroll: true }));
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const lightbox = document.querySelector<HTMLElement>(".photo-lightbox");
+      const focusable = Array.from(
+        lightbox?.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], [tabindex]:not([tabindex="-1"])'
+        ) || []
+      ).filter((element) => element.getClientRects().length > 0);
+
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
 
-    window.addEventListener("keydown", closeOnEscape, true);
-    return () => window.removeEventListener("keydown", closeOnEscape, true);
+    window.addEventListener("keydown", handleKeyboard, true);
+    return () => window.removeEventListener("keydown", handleKeyboard, true);
   }, [index, onClose, returnFocusRef]);
 
   if (index < 0) return null;
@@ -71,11 +99,15 @@ export function PhotoLightbox({ slides, index, onClose, returnFocusRef }: PhotoL
         Next: "Następne zdjęcie",
         "Zoom in": "Powiększ zdjęcie",
         "Zoom out": "Pomniejsz zdjęcie",
+        Slide: "Slajd",
+        Carousel: "Karuzela",
+        Lightbox: "Podgląd zdjęcia",
+        "Photo gallery": "Galeria zdjęć",
         "{index} of {total}": "{index} z {total}"
       }}
       counter={{ separator: " / " }}
       carousel={{
-        preload: 3,
+        preload: 1,
         padding: "4%",
         spacing: "2%",
         imageFit: "contain"

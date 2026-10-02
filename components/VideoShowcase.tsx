@@ -48,6 +48,25 @@ function VideoPreview({
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const reduceMotion = useReducedMotion();
+  const [posterReady, setPosterReady] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setPosterReady(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "600px 0px" }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -85,7 +104,7 @@ function VideoPreview({
       <video
         ref={videoRef}
         src={item.previewUrl}
-        poster={item.posterUrl}
+        poster={posterReady ? item.posterUrl : undefined}
         muted
         loop
         playsInline

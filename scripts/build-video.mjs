@@ -56,24 +56,27 @@ for (const outputPath of [fullPath, previewPath, posterPath]) {
 }
 
 run([
-  "-hide_banner", "-loglevel", "warning", "-n", "-i", inputPath,
+  "-hide_banner", "-loglevel", "warning", "-n", "-noautorotate", "-i", inputPath,
   "-map", "0:v:0", "-map", "0:a?",
+  "-map_metadata", "-1",
   "-vf", "scale='min(1920,iw)':'min(1920,ih)':force_original_aspect_ratio=decrease:force_divisible_by=2",
   "-c:v", "libx264", "-preset", "medium", "-crf", "21", "-pix_fmt", "yuv420p",
   "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart", fullPath
 ]);
 
 run([
-  "-hide_banner", "-loglevel", "warning", "-n", "-ss", String(previewStart), "-i", inputPath,
+  "-hide_banner", "-loglevel", "warning", "-n", "-ss", String(previewStart), "-noautorotate", "-i", inputPath,
   "-t", String(previewDuration),
+  "-map_metadata", "-1",
   "-vf", "scale=540:960:force_original_aspect_ratio=increase,crop=540:960,fps=30",
   "-an", "-c:v", "libx264", "-preset", "medium", "-crf", "24", "-pix_fmt", "yuv420p",
   "-movflags", "+faststart", previewPath
 ]);
 
 run([
-  "-hide_banner", "-loglevel", "warning", "-n", "-ss", String(previewStart), "-i", inputPath,
+  "-hide_banner", "-loglevel", "warning", "-n", "-ss", String(previewStart), "-noautorotate", "-i", inputPath,
   "-frames:v", "1",
+  "-map_metadata", "-1",
   "-vf", "scale=540:960:force_original_aspect_ratio=increase,crop=540:960",
   "-q:v", "3", "-update", "1", posterPath
 ]);

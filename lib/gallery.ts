@@ -1,5 +1,7 @@
 import galleryManifest from "@/content/gallery-manifest.json";
+import { describeGalleryImage } from "@/lib/gallery-image-alt";
 import { GALLERY_CATEGORIES, type GalleryCategory } from "@/lib/gallery-categories";
+import { reorderWeddingGallery } from "@/lib/wedding-gallery-order";
 
 export { GALLERY_CATEGORIES, type GalleryCategory } from "@/lib/gallery-categories";
 
@@ -9,6 +11,7 @@ export type PhotoGalleryItem = {
   fullSrc?: string;
   title: string;
   alt: string;
+  blurDataURL?: string;
   category: GalleryCategory;
   featured: boolean;
   width: number;
@@ -37,13 +40,20 @@ function isGalleryItem(item: unknown): item is PhotoGalleryItem {
   );
 }
 
-export const photoGalleryItems: PhotoGalleryItem[] = rawGalleryManifest
+const normalizedGalleryItems: PhotoGalleryItem[] = rawGalleryManifest
   .filter(isGalleryItem)
   .map((item) => {
     const candidate = item as PhotoGalleryItem & { jpeg?: unknown };
 
     return {
       ...item,
+      alt: describeGalleryImage(item.alt, item.src),
       fullSrc: typeof candidate.jpeg === "string" ? candidate.jpeg : item.src
     };
   });
+
+export const photoGalleryItems = reorderWeddingGallery(
+  normalizedGalleryItems,
+  (item) => item.category,
+  (item) => item.fullSrc || item.src
+);

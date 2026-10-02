@@ -19,14 +19,14 @@ export const LOCATION_LANDINGS: LocationLanding[] = [
     slug: "bochnia",
     name: "Bochnia",
     regionLabel: "powiat bocheński",
-    lead: "Fotografuję portrety, pary i rodzinne uroczystości w Bochni oraz blisko miasta.",
+    lead: "Fotografuję śluby, portrety, pary i rodzinne uroczystości w Bochni oraz blisko miasta.",
     metaDescription: "Fotograf Bochnia: naturalne portrety, sesje par, uroczystości i reportaże. Zobacz zdjęcia, cennik i zapytaj o wolny termin.",
-    serviceSummary: "Portrety, zdjęcia par, uroczystości rodzinne i reportaże.",
+    serviceSummary: "Śluby, portrety, zdjęcia par, uroczystości rodzinne i reportaże.",
     placeSummary: "Miasto, dom albo plener blisko Bochni — wybieramy miejsce, w którym czujesz się swobodnie.",
     travelSummary: "W Bochni i najbliższej okolicy dojazd zazwyczaj jest w cenie.",
     portfolioImage: {
-      src: "/portfolio/gallery/052-lekkosc-w-lawendzie.webp",
-      alt: "Kobieta podczas swobodnej sesji plenerowej w lawendzie — Janiczek Foto"
+      src: "/portfolio/gallery/001-wiosenny-portret.webp",
+      alt: "Naturalny portret kobiety wśród kwitnących drzew — Janiczek Foto"
     },
     nearbySlugs: ["trzciana", "nowy-wisnicz", "zegocina"]
   },

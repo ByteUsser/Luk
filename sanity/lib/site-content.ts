@@ -1,9 +1,12 @@
 import { photoGalleryItems, GALLERY_CATEGORIES, type GalleryCategory, type PhotoGalleryItem } from "@/lib/gallery";
+import { describeGalleryImage } from "@/lib/gallery-image-alt";
+import { reorderWeddingGallery } from "@/lib/wedding-gallery-order";
 import { getSanityClient } from "./client";
 
 type SanityImage = {
   asset?: {
     url?: string;
+    originalFilename?: string;
     metadata?: {
       dimensions?: {
         width?: number;
@@ -73,22 +76,22 @@ export type HomepageVideoItem = {
 };
 
 const siteContentQuery = `*[_type == "siteContent" && _id == "siteContent"][0]{
-  heroImage{..., asset->{url, metadata{dimensions, lqip}}},
+  heroImage{..., asset->{url, originalFilename, metadata{dimensions, lqip}}},
   heroAlt,
   aboutImage{..., asset->{url, metadata{dimensions, lqip}}},
   homepageGallery[]{
     _key, title, alt, category, visible,
-    image{..., asset->{url, metadata{dimensions}}}
+    image{..., asset->{url, originalFilename, metadata{dimensions, lqip}}}
   },
   homepageVideos[]{
     _key, title, label, visible,
     video{asset->{url}},
     preview{asset->{url}},
-    poster{..., asset->{url, metadata{dimensions}}}
+    poster{..., asset->{url, originalFilename, metadata{dimensions}}}
   },
   gallery[]{
     _key, title, alt, category, visible,
-    image{..., asset->{url, metadata{dimensions}}}
+    image{..., asset->{url, originalFilename, metadata{dimensions, lqip}}}
   }
 }`;
 
@@ -132,6 +135,7 @@ const fallbackHomepageVideos: HomepageVideoItem[] = [
 ];
 
 const categorySet = new Set<string>(GALLERY_CATEGORIES);
+const excludedGalleryFilenames = new Set(["DSC01305.jpg"]);
 
 function positionFromImage(image?: SanityImage) {
   const x = image?.hotspot?.x;
@@ -173,7 +177,15 @@ function mapHomepagePhoto(item: ManagedPhoto): HomepageGalleryItem | null {
 
 function mapGalleryPhoto(item: ManagedPhoto, index: number): PhotoGalleryItem | null {
   const src = imageUrl(item.image);
-  if (!src || item.visible === false) return null;
+  if (
+    !src ||
+    item.visible === false ||
+    [...excludedGalleryFilenames].some((filename) =>
+      item.image?.asset?.originalFilename?.includes(filename)
+    )
+  ) {
+    return null;
+  }
 
   const title = item.title?.trim() || "Zdjęcie z portfolio";
   const width = item.image?.asset?.metadata?.dimensions?.width || 1600;
@@ -185,9 +197,10 @@ function mapGalleryPhoto(item: ManagedPhoto, index: number): PhotoGalleryItem | 
     thumb: `${src}${separator}auto=format&w=900&q=74&fit=max`,
     fullSrc: src,
     title,
-    alt: item.alt?.trim() || `${title} — Janiczek Foto`,
+    alt: describeGalleryImage(item.alt?.trim() || `${title} — Janiczek Foto`, item.image?.asset?.originalFilename || src),
     category: validCategory(item.category),
     featured: index < 5,
+    blurDataURL: item.image?.asset?.metadata?.lqip,
     width,
     height
   };
@@ -232,9 +245,9 @@ function fallbackHomepage(): HomepageGalleryItem[] {
     existingPortfolioItems[0],
     {
       title: "Sesja dla par",
-      alt: "Dłonie pary podczas reportażu ślubnego",
+      alt: "Dłonie pary podczas sesji w lawendzie",
       category: "Sesje dla par",
-      publicId: "/portfolio/homepage/session-pair-dsc02546.jpg"
+      publicId: "/portfolio/homepage/couple-lavender-hands-v1.jpg"
     },
     ...existingPortfolioItems.slice(1)
   ].filter((item): item is HomepageGalleryItem => Boolean(item));
@@ -262,9 +275,29 @@ export async function getResolvedSiteContent(): Promise<ResolvedSiteContent> {
   const cmsHomepage = (content?.homepageGallery || [])
     .map(mapHomepagePhoto)
     .filter((item): item is HomepageGalleryItem => Boolean(item));
-  const cmsGallery = (content?.gallery || [])
+  const cmsGallery = reorderWeddingGallery(
+    content?.gallery || [],
+    (item) => validCategory(item.category),
+    (item) => item.image?.asset?.originalFilename
+  )
     .map(mapGalleryPhoto)
     .filter((item): item is PhotoGalleryItem => Boolean(item));
+  const publishedWeddingIds = new Set(
+    (content?.gallery || [])
+      .filter((item) => validCategory(item.category) === "Śluby" && item.visible !== false)
+      .map((item) => item.image?.asset?.originalFilename?.match(/DSC\d+/i)?.[0]?.toLowerCase())
+      .filter((id): id is string => Boolean(id))
+  );
+  const missingLocalWeddingPhotos = photoGalleryItems.filter((item) => {
+    if (item.category !== "Śluby") return false;
+    const id = item.src.match(/DSC\d+/i)?.[0]?.toLowerCase();
+    return id ? !publishedWeddingIds.has(id) : !cmsGallery.some((photo) => photo.src === item.src);
+  });
+  const galleryWithLocalWeddingPhotos = reorderWeddingGallery(
+    [...cmsGallery, ...missingLocalWeddingPhotos],
+    (item) => item.category,
+    (item) => item.src
+  );
   const cmsVideos = (content?.homepageVideos || [])
     .map(mapHomepageVideo)
     .filter((item): item is HomepageVideoItem => Boolean(item));
@@ -293,6 +326,6 @@ export async function getResolvedSiteContent(): Promise<ResolvedSiteContent> {
     },
     homepageGallery: !useLocalPhotoPreview && cmsHomepage.length ? cmsHomepage.slice(0, 5) : fallbackHomepage(),
     homepageVideos: !useLocalPhotoPreview && cmsVideos.length ? cmsVideos : fallbackHomepageVideos,
-    gallery: !useLocalPhotoPreview && cmsGallery.length ? cmsGallery : photoGalleryItems
+    gallery: !useLocalPhotoPreview && cmsGallery.length ? galleryWithLocalWeddingPhotos : photoGalleryItems
   };
 }

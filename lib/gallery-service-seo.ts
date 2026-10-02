@@ -3,8 +3,10 @@ import type { GalleryCategorySlug } from "@/lib/gallery-categories";
 export type GalleryServiceSeo = {
   source: string;
   serviceType: string;
+  eyebrow?: string;
   heading: string;
   summary: string;
+  ctaText?: string;
   facts: [
     { label: string; value: string },
     { label: string; value: string },
@@ -47,10 +49,27 @@ export const GALLERY_SERVICE_SEO: Partial<Record<GalleryCategorySlug, GallerySer
       { question: "Kiedy jest najlepsze światło?", answer: "Najczęściej rano lub przed zachodem. Dokładną godzinę dobieramy do miejsca i aktualnej pory roku." }
     ]
   },
+  sluby: {
+    source: "galeria-sluby",
+    serviceType: "Fotografia ślubna i weselna",
+    eyebrow: "Przed ślubem",
+    heading: "Reportaż ślubny w Bochni i okolicy",
+    summary: "W galerii zobaczysz prawdziwą historię dnia: przygotowania, ceremonię, bliskich, portrety i przyjęcie. Podczas ślubu szukam naturalnych momentów, nie zatrzymując wydarzeń dla zdjęcia.",
+    ctaText: "Planujecie ślub? Napiszcie, a omówimy termin i plan dnia.",
+    facts: [
+      { label: "Zakres", value: "od przygotowań po przyjęcie, według ustalonego planu" },
+      { label: "Styl", value: "naturalny reportaż i portrety pary" },
+      { label: "Miejsce", value: "Bochnia, okolice i dalsze lokalizacje po ustaleniu dojazdu" }
+    ],
+    questions: [
+      { question: "Czy możemy ustalić własny zakres reportażu?", answer: "Tak. Przed ślubem omawiamy harmonogram i wybieramy momenty, które chcecie mieć na zdjęciach. Na tej podstawie przygotowuję wycenę." },
+      { question: "Czy robisz też zdjęcia rodzinne i portrety pary?", answer: "Tak. W planie dnia możemy znaleźć czas na zdjęcia z bliskimi oraz krótką sesję we dwoje, bez długiego odrywania Was od gości." }
+    ]
+  },
   uroczystosci: {
     source: "galeria-uroczystosci",
     serviceType: "Fotografia uroczystości rodzinnych",
-    heading: "Fotograf na uroczystość w Bochni i okolicy",
+    heading: "Fotograf na chrzest i komunię w Bochni",
     summary: "Najważniejsze momenty fotografuję dyskretnie, bez zatrzymywania naturalnego przebiegu dnia.",
     facts: [
       { label: "Zakres", value: "ceremonia, portrety lub przyjęcie" },

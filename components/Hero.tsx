@@ -33,7 +33,7 @@ export function Hero({ imagePublicId, imageAlt, imagePosition, imageBlurDataURL 
         </h1>
 
         <p className="type-body mt-4 max-w-[43ch] text-ink/78 md:mt-6">
-          Portrety, pary, uroczystości i eventy — spokojnie, bez sztywnego pozowania.
+          Śluby, portrety, pary, uroczystości i eventy — spokojnie, bez sztywnego pozowania.
         </p>
 
         <div className="mt-5 flex flex-col gap-3 min-[390px]:flex-row md:mt-7">

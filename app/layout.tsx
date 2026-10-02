@@ -46,7 +46,7 @@ export const metadata: Metadata = {
         url: SITE_CONFIG.ogImage,
         width: 1200,
         height: 630,
-        alt: `${SITE_CONFIG.name} - portfolio fotograficzne`
+        alt: SITE_CONFIG.ogImageAlt
       }
     ]
   },

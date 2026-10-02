@@ -10,6 +10,8 @@ out
 .env*
 *.tsbuildinfo
 .DS_Store
+.playwright-cli
+output
 
 # Lokalne źródła i oryginały nie są potrzebne do działania strony.
 content/gallery-source

@@ -46,21 +46,18 @@ function hasValidPhoneNumber(phone: string): boolean {
 const quickTopics = [
   {
     label: "Portret",
-    icon: "portrait",
     message: `Interesuje mnie sesja portretowa.
 Miejsce:
 Termin:`
   },
   {
     label: "Para",
-    icon: "couple",
     message: `Interesuje mnie sesja dla pary.
 Miejsce:
 Termin:`
   },
   {
     label: "Ślub / uroczystość",
-    icon: "celebration",
     message: `Szukam fotografa na ślub lub uroczystość.
 Rodzaj wydarzenia:
 Miejsce:
@@ -68,7 +65,6 @@ Data:`
   },
   {
     label: "Event",
-    icon: "business",
     message: `Potrzebuję zdjęć z eventu lub dla firmy.
 Zakres:
 Miejsce:
@@ -323,7 +319,7 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
         <MotionReveal className="max-w-[460px]">
           <span className="eyebrow text-[#b89d7a]">Kontakt</span>
           <HeadingTag className="section-title mt-5 max-w-[13ch] text-cream">
-            Zapytaj o termin i otrzymaj wycenę
+            Zapytaj o termin
           </HeadingTag>
           <p className="type-body mt-5 max-w-[38ch] text-cream/78">
             Napisz, czego potrzebujesz. Odpowiem z wyceną.
@@ -365,90 +361,6 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
               {prefillNotice} Dopisz szczegóły albo napisz po swojemu.
             </p>
           ) : null}
-
-          <fieldset>
-            <legend className="type-meta mb-3 text-cream/74">
-              Wybierz temat <span className="normal-case tracking-normal text-cream/56">(opcjonalnie)</span>
-            </legend>
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-              {quickTopics.map((topic) => (
-                <button
-                  key={topic.label}
-                  type="button"
-                  aria-pressed={activeTopic === topic.label}
-                  onClick={() => {
-                    setFormState((prev) => {
-                      const nextTemplate = applyLocationToContactMessage(
-                        topic.message,
-                        locationContextRef.current
-                      );
-                      const activeTopicTemplate = quickTopics.find(
-                        (item) => item.label === activeTopic
-                      )?.message;
-                      const activeTemplate = activeTopicTemplate
-                        ? applyLocationToContactMessage(
-                            activeTopicTemplate,
-                            locationContextRef.current
-                          ).trim()
-                        : undefined;
-                      const currentMessage = prev.message.trim();
-                      const untouchedPrefill = prefillMessageRef.current;
-
-                      if (
-                        !currentMessage ||
-                        currentMessage === activeTemplate ||
-                        (untouchedPrefill && currentMessage === untouchedPrefill)
-                      ) {
-                        return { ...prev, message: nextTemplate };
-                      }
-
-                      if (activeTemplate && currentMessage.startsWith(activeTemplate)) {
-                        const ownText = currentMessage.slice(activeTemplate.length).trim();
-                        return {
-                          ...prev,
-                          message: ownText
-                            ? `${nextTemplate.trim()}\n\n${ownText}`
-                            : nextTemplate
-                        };
-                      }
-
-                      return {
-                        ...prev,
-                        message: `${nextTemplate.trim()}\n\n${prev.message}`
-                      };
-                    });
-                    setActiveTopic(topic.label);
-                    trackMarketingEvent("select_topic", { topic: topic.label });
-                    if (fieldErrors.message) {
-                      setFieldErrors((current) => ({ ...current, message: undefined }));
-                    }
-                    if (window.matchMedia("(max-width: 639px)").matches) {
-                      window.requestAnimationFrame(() => nameInputRef.current?.focus());
-                    }
-                  }}
-                  className={`type-action group flex min-h-[88px] flex-col items-center justify-center gap-2 rounded-2xl border px-2 py-2.5 text-center transition ${
-                    activeTopic === topic.label
-                      ? "border-[#dfccb3] bg-cream/[0.12] text-cream shadow-[0_12px_28px_rgba(0,0,0,0.18)]"
-                      : "border-transparent bg-transparent text-cream/68 hover:border-cream/10 hover:bg-cream/[0.04] hover:text-[#dfccb3]"
-                  }`}
-                >
-                  <span
-                    className={`flex h-10 w-10 items-center justify-center rounded-full border transition ${
-                      activeTopic === topic.label
-                        ? "border-[#c8ad8d] bg-[#c8ad8d] text-espresso"
-                        : "border-cream/20 text-[#c8ad8d] group-hover:border-[#c8ad8d]/60"
-                    }`}
-                  >
-                    <ContactIcon name={topic.icon} className="h-[20px] w-[20px]" />
-                  </span>
-                  <span>{topic.label}</span>
-                </button>
-              ))}
-            </div>
-            <p className="sr-only" aria-live="polite">
-              {activeTopic ? `Wybrano temat: ${activeTopic}. Szablon wiadomości został uzupełniony.` : ""}
-            </p>
-          </fieldset>
 
           <label className="hidden" aria-hidden="true">
             <span className="sr-only">Website</span>
@@ -543,6 +455,76 @@ export function Contact({ headingLevel = "h2", allowQueryPrefill = false }: Cont
                 </p>
               ) : null}
           </label>
+
+          <fieldset>
+            <legend className="type-meta mb-3 text-cream/74">
+              Wybierz temat <span className="normal-case tracking-normal text-cream/56">(opcjonalnie)</span>
+            </legend>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              {quickTopics.map((topic) => (
+                <button
+                  key={topic.label}
+                  type="button"
+                  aria-pressed={activeTopic === topic.label}
+                  onClick={() => {
+                    setFormState((prev) => {
+                      const nextTemplate = applyLocationToContactMessage(
+                        topic.message,
+                        locationContextRef.current
+                      );
+                      const activeTopicTemplate = quickTopics.find(
+                        (item) => item.label === activeTopic
+                      )?.message;
+                      const activeTemplate = activeTopicTemplate
+                        ? applyLocationToContactMessage(
+                            activeTopicTemplate,
+                            locationContextRef.current
+                          ).trim()
+                        : undefined;
+                      const currentMessage = prev.message.trim();
+                      const untouchedPrefill = prefillMessageRef.current;
+
+                      if (
+                        !currentMessage ||
+                        currentMessage === activeTemplate ||
+                        (untouchedPrefill && currentMessage === untouchedPrefill)
+                      ) {
+                        return { ...prev, message: nextTemplate };
+                      }
+
+                      if (activeTemplate && currentMessage.startsWith(activeTemplate)) {
+                        const ownText = currentMessage.slice(activeTemplate.length).trim();
+                        return {
+                          ...prev,
+                          message: ownText ? `${nextTemplate.trim()}\n\n${ownText}` : nextTemplate
+                        };
+                      }
+
+                      return {
+                        ...prev,
+                        message: `${nextTemplate.trim()}\n\n${prev.message}`
+                      };
+                    });
+                    setActiveTopic(topic.label);
+                    trackMarketingEvent("select_topic", { topic: topic.label });
+                    if (fieldErrors.message) {
+                      setFieldErrors((current) => ({ ...current, message: undefined }));
+                    }
+                  }}
+                  className={`type-action flex min-h-11 items-center justify-center rounded-full border px-2 py-2 text-center transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#dfccb3] ${
+                    activeTopic === topic.label
+                      ? "border-[#dfccb3] bg-cream/[0.12] text-cream"
+                      : "border-cream/24 text-cream/78 hover:border-[#dfccb3] hover:text-cream"
+                  }`}
+                >
+                  {topic.label}
+                </button>
+              ))}
+            </div>
+            <p className="sr-only" aria-live="polite">
+              {activeTopic ? `Wybrano temat: ${activeTopic}. Szablon wiadomości został uzupełniony.` : ""}
+            </p>
+          </fieldset>
 
           <label className="block">
             <span className="type-meta mb-2 block text-cream/80">Wiadomość *</span>

@@ -10,6 +10,19 @@ type PortfolioNavigatorProps = {
   items: PhotoGalleryItem[];
 };
 
+const preferredCoverTitles: Partial<Record<PhotoGalleryItem["category"], string>> = {
+  Portrety: "Wiosenny portret"
+};
+
+function findCategoryCover(items: PhotoGalleryItem[], category: PhotoGalleryItem["category"]) {
+  const preferredTitle = preferredCoverTitles[category];
+
+  return (
+    items.find((item) => item.category === category && item.title === preferredTitle) ||
+    items.find((item) => item.category === category)
+  );
+}
+
 export function PortfolioNavigator({ items }: PortfolioNavigatorProps) {
   const serviceCategories = GALLERY_CATEGORY_DEFINITIONS.filter(
     (category) => category.portfolioGroup === "services"
@@ -22,25 +35,38 @@ export function PortfolioNavigator({ items }: PortfolioNavigatorProps) {
 
   return (
     <section className="mx-auto max-w-[1500px]" aria-labelledby="portfolio-heading">
-      <header className="max-w-[42rem] border-b border-ink/12 pb-8">
+      <header className="max-w-[42rem] border-b border-ink/10 pb-8">
         <h1 id="portfolio-heading" className="section-title">
           Portfolio
         </h1>
-        <p className="type-body mt-5 text-ink/74">
+        <p className="type-body mt-5 text-ink/75">
           Wybierz rodzaj zdjęć, który chcesz obejrzeć.
         </p>
       </header>
 
+      <nav className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-1 lg:hidden" aria-label="Szybki wybór portfolio">
+        <span className="type-meta basis-full text-cognac sm:basis-auto">Od razu zobacz</span>
+        {serviceCategories.map((category) => (
+          <Link
+            key={category.slug}
+            href={galleryCategoryHref(category.slug)}
+            className="type-action inline-flex min-h-11 items-center border-b border-ink/30 text-ink transition-colors hover:border-cognac hover:text-cognac focus-visible:outline-2 focus-visible:outline-offset-2"
+          >
+            {category.label}
+          </Link>
+        ))}
+      </nav>
+
       <div className="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-4">
         {serviceCategories.map((category, index) => {
-          const cover = items.find((item) => item.category === category.name);
+          const cover = findCategoryCover(items, category.name);
 
           return (
             <Link
               key={category.slug}
               href={galleryCategoryHref(category.slug)}
               aria-label={`Zobacz portfolio: ${category.label}`}
-              className="group relative min-h-64 overflow-hidden rounded-xl bg-espresso sm:min-h-80 sm:rounded-[1rem]"
+              className="group relative min-h-64 overflow-hidden rounded-xl bg-sand sm:min-h-80 sm:rounded-[1rem]"
             >
               {cover ? (
                 <Image
@@ -51,10 +77,12 @@ export function PortfolioNavigator({ items }: PortfolioNavigatorProps) {
                   sizes="(max-width: 640px) 100vw, 50vw"
                   loading={index < 2 ? "eager" : "lazy"}
                   fetchPriority={index < 2 ? "high" : "auto"}
+                  placeholder={cover.blurDataURL ? "blur" : "empty"}
+                  blurDataURL={cover.blurDataURL}
                   className="absolute inset-0 h-full w-full object-cover transition duration-700 ease-[var(--ease-editorial)] group-hover:scale-[1.025]"
                 />
               ) : null}
-              <span className="absolute inset-0 bg-gradient-to-t from-espresso/76 via-espresso/12 to-transparent" />
+              <span className="absolute inset-0 bg-gradient-to-t from-espresso/75 via-espresso/10 to-transparent" />
               <span className="type-section absolute inset-x-5 bottom-5 text-cream sm:inset-x-7 sm:bottom-6">
                 {category.label}
                 <span className="ml-3 inline-block text-[0.75em] transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
@@ -67,18 +95,18 @@ export function PortfolioNavigator({ items }: PortfolioNavigatorProps) {
       </div>
 
       {personalCategories.length > 0 ? (
-        <nav className="mt-10 border-t border-ink/12 pt-6" aria-label="Projekty własne">
-          <p className="type-meta text-ink/52">Projekty własne</p>
+        <nav className="mt-10 border-t border-ink/10 pt-6" aria-label="Projekty własne">
+          <p className="type-meta text-ink/70">Projekty własne</p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 sm:gap-4">
             {personalCategories.map((category) => {
-              const cover = items.find((item) => item.category === category.name);
+              const cover = findCategoryCover(items, category.name);
 
               return (
                 <Link
                   key={category.slug}
                   href={galleryCategoryHref(category.slug)}
                   aria-label={`Zobacz portfolio: ${category.label}`}
-                  className="group relative min-h-48 overflow-hidden rounded-xl bg-espresso sm:min-h-56 sm:rounded-[1rem]"
+                  className="group relative min-h-48 overflow-hidden rounded-xl bg-sand sm:min-h-56 sm:rounded-[1rem]"
                 >
                   {cover ? (
                     <Image
@@ -88,10 +116,12 @@ export function PortfolioNavigator({ items }: PortfolioNavigatorProps) {
                       height={cover.height}
                       sizes="(max-width: 640px) 100vw, 50vw"
                       loading="lazy"
+                      placeholder={cover.blurDataURL ? "blur" : "empty"}
+                      blurDataURL={cover.blurDataURL}
                       className="absolute inset-0 h-full w-full object-cover transition duration-700 ease-[var(--ease-editorial)] group-hover:scale-[1.025]"
                     />
                   ) : null}
-                  <span className="absolute inset-0 bg-gradient-to-t from-espresso/76 via-espresso/12 to-transparent" />
+                  <span className="absolute inset-0 bg-gradient-to-t from-espresso/75 via-espresso/10 to-transparent" />
                   <span className="type-card absolute inset-x-5 bottom-5 text-cream sm:inset-x-6 sm:bottom-6">
                     {category.label}
                     <span className="ml-3 inline-block text-[0.75em] transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">

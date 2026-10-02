@@ -61,7 +61,7 @@ export function LocationSearch() {
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            className="h-14 w-full rounded-full border border-ink/16 bg-cream px-5 text-[1rem] text-ink outline-none transition-colors placeholder:text-ink/42 focus:border-cognac"
+            className="h-14 w-full rounded-full border border-ink/16 bg-cream px-5 text-[1rem] text-ink outline-none transition-colors placeholder:text-ink/66 focus:border-cognac"
             placeholder="Np. Bochnia, Kraków, Tarnów..."
             type="search"
           />

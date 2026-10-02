@@ -7,6 +7,30 @@ const client = getCliClient({ apiVersion: "2026-07-01" });
 
 const videos = [
   {
+    key: "slub-santorini-zachod-slonca",
+    title: "Ślub na Santorini",
+    label: "Ślub za granicą",
+    video: "slub-santorini-zachod-slonca-full.mp4",
+    preview: "slub-santorini-zachod-slonca-preview.mp4",
+    poster: "slub-santorini-zachod-slonca-poster.jpg"
+  },
+  {
+    key: "sesja-slubna-santorini",
+    title: "Sesja ślubna na Santorini",
+    label: "Sesja dla par",
+    video: "sesja-slubna-santorini-with-music-web.mp4",
+    preview: "sesja-slubna-santorini-preview.mp4",
+    poster: "sesja-slubna-santorini-poster.jpg"
+  },
+  {
+    key: "motoryzacja-lexus",
+    title: "Motoryzacja — Lexus",
+    label: "Motoryzacja",
+    video: "motoryzacja-lexus-full.mp4",
+    preview: "motoryzacja-lexus-preview.mp4",
+    poster: "motoryzacja-lexus-poster.jpg"
+  },
+  {
     key: "fotoksiazka",
     title: "Fotoksiążka",
     label: "Po sesji",
@@ -18,7 +42,7 @@ const videos = [
     key: "event",
     title: "Na parkiecie",
     label: "Reportaż",
-    video: "event-full.mp4",
+    video: "event-full-with-music.mp4",
     preview: "event-preview.mp4",
     poster: "event-poster.jpg"
   },
@@ -26,7 +50,7 @@ const videos = [
     key: "sesja-plenerowa",
     title: "Sesja plenerowa",
     label: "Backstage",
-    video: "sesja-plenerowa-full.mp4",
+    video: "sesja-plenerowa-full-with-music.mp4",
     preview: "sesja-plenerowa-preview.mp4",
     poster: "sesja-plenerowa-poster.jpg"
   }

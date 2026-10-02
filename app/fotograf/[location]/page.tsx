@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
           url: SITE_CONFIG.ogImage,
           width: 1200,
           height: 630,
-          alt: `${title} | ${SITE_CONFIG.name}`
+          alt: SITE_CONFIG.ogImageAlt
         }
       ]
     },
@@ -193,7 +193,6 @@ export default async function PhotographerLocationPage({ params }: LocationPageP
                 quality={72}
                 sizes="(max-width: 1023px) 92vw, 52vw"
                 className="object-cover"
-                unoptimized
                 placeholder="blur"
                 blurDataURL={portfolioImage.blurDataURL}
               />

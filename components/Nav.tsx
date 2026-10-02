@@ -259,6 +259,7 @@ export function Nav() {
 
       <aside
         id={mobileMenuId}
+        data-mobile-menu-panel
         ref={panelRef}
         role="dialog"
         aria-modal="true"

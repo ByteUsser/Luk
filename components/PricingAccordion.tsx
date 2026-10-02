@@ -12,6 +12,7 @@ export type PricingAccordionItem = {
   facts: readonly string[];
   source: string;
   icon: PricingIconName;
+  portfolioHref?: string;
   label?: string;
   ctaLabel?: string;
 };
@@ -96,12 +97,19 @@ export function PricingAccordion({ items }: PricingAccordionProps) {
                       ))}
                     </ul>
 
-                    <Link
-                      href={`/kontakt?source=${item.source}#formularz-kontaktowy`}
-                      className="button-primary mt-6 min-h-12 px-5 text-[0.76rem] uppercase tracking-[0.11em]"
-                    >
-                      {item.ctaLabel ?? "Zapytaj o termin i wycenę"}
-                    </Link>
+                    <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
+                      <Link
+                        href={`/kontakt?source=${item.source}#formularz-kontaktowy`}
+                        className="button-primary min-h-12 px-5 text-[0.76rem] uppercase tracking-[0.11em]"
+                      >
+                        {item.ctaLabel ?? "Zapytaj o termin i wycenę"}
+                      </Link>
+                      {item.portfolioHref ? (
+                        <Link href={item.portfolioHref} className="type-action text-link inline-flex min-h-11 items-center text-cognac">
+                          Zobacz zdjęcia <span className="ml-2" aria-hidden="true">→</span>
+                        </Link>
+                      ) : null}
+                    </div>
                   </div>
                 </div>
               </div>

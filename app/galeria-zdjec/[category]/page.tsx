@@ -10,6 +10,7 @@ import {
 } from "@/lib/gallery-categories";
 import { SITE_CONFIG, SITE_ENTITY_IDS } from "@/lib/site-config";
 import { GALLERY_SERVICE_SEO } from "@/lib/gallery-service-seo";
+import { GALLERY_SOCIAL_IMAGES } from "@/lib/gallery-social-images";
 import { getResolvedSiteContent } from "@/sanity/lib/site-content";
 
 type Params = {
@@ -34,6 +35,8 @@ export async function generateMetadata({ params }: GalleryCategoryPageProps): Pr
 
   const path = galleryCategoryHref(category.slug);
   const title = category.metaTitle;
+  const socialImage = GALLERY_SOCIAL_IMAGES[category.slug];
+  const socialImageUrl = `${path}/opengraph-image`;
 
   return {
     title,
@@ -43,20 +46,13 @@ export async function generateMetadata({ params }: GalleryCategoryPageProps): Pr
       url: `${SITE_CONFIG.url}${path}`,
       title: `${title} | ${SITE_CONFIG.name}`,
       description: category.description,
-      images: [
-        {
-          url: SITE_CONFIG.ogImage,
-          width: 1200,
-          height: 630,
-          alt: `${category.heading} | ${SITE_CONFIG.name}`
-        }
-      ]
+      images: [{ url: socialImageUrl, width: 1200, height: 630, alt: socialImage.alt }]
     },
     twitter: {
       card: "summary_large_image",
       title: `${title} | ${SITE_CONFIG.name}`,
       description: category.description,
-      images: [SITE_CONFIG.ogImage]
+      images: [socialImageUrl]
     }
   };
 }

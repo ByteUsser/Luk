@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PricingAccordion } from "@/components/PricingAccordion";
 import { PublicPageShell } from "@/components/PublicPageShell";
+import { SERVICE_STARTING_PRICES } from "@/lib/service-prices";
 import { SITE_CONFIG } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -28,42 +29,47 @@ export const metadata: Metadata = {
 const pricingItems = [
   {
     name: "Sesja portretowa",
-    price: "od 300 zł",
+    price: SERVICE_STARTING_PRICES.Portrety,
     summary: "Zdjęcia dla jednej osoby: prywatnie, zawodowo lub do własnej marki.",
     facts: ["wybór miejsca", "wskazówki podczas zdjęć", "gotowe pliki w galerii online"],
     icon: "portrait",
+    portfolioHref: "/galeria-zdjec/portrety",
     source: "cennik-portret"
   },
   {
     name: "Sesja dla par",
-    price: "od 350 zł",
+    price: SERVICE_STARTING_PRICES["Sesje dla par"],
     summary: "Wspólna sesja w plenerze, mieście albo w domu.",
     facts: ["wybór miejsca", "wskazówki podczas zdjęć", "gotowe pliki w galerii online"],
     icon: "couple",
+    portfolioHref: "/galeria-zdjec/sesje-dla-par",
     source: "cennik-para"
   },
   {
     name: "Komunia / chrzest",
-    price: "od 550 zł",
+    price: SERVICE_STARTING_PRICES.Uroczystości,
     summary: "Ceremonia, zdjęcia rodzinne, przyjęcie albo krótki plener.",
     facts: ["plan przed wydarzeniem", "ceremonia i zdjęcia rodzinne", "pliki pełne i do internetu"],
     icon: "sacrament",
+    portfolioHref: "/galeria-zdjec/uroczystosci",
     source: "cennik-komunia-chrzest"
   },
   {
     name: "Ślub i wesele",
-    price: "od 2 900 zł",
+    price: SERVICE_STARTING_PRICES.Śluby,
     summary: "Zakres reportażu ustalamy na podstawie planu dnia.",
     facts: ["ustalenie harmonogramu", "reportaż i portrety pary", "gotowe pliki w galerii online"],
     icon: "wedding",
+    portfolioHref: "/galeria-zdjec/sluby",
     source: "cennik-slub"
   },
   {
     name: "Event / reportaż",
-    price: "od 600 zł",
+    price: SERVICE_STARTING_PRICES.Eventy,
     summary: "Reportaż z wydarzenia i materiały do strony lub social mediów.",
     facts: ["ustalenie zakresu", "praca według harmonogramu", "pliki pełne i do internetu"],
     icon: "event",
+    portfolioHref: "/galeria-zdjec/eventy",
     source: "cennik-event"
   }
 ] as const;
@@ -192,8 +198,10 @@ export default function PricingPage() {
             </div>
           </header>
 
+          <PricingAccordion items={[...pricingItems, documentPricingItem, printPricingItem]} />
+
           <section
-            className="mt-5 grid gap-3 rounded-[1.2rem] border border-ink/10 bg-surface px-5 py-5 text-[0.88rem] leading-relaxed text-ink/76 shadow-[0_10px_28px_rgba(36,31,27,0.04)] sm:grid-cols-3 sm:items-center sm:px-6"
+            className="mt-6 grid gap-3 rounded-[1.2rem] border border-ink/10 bg-surface px-5 py-5 text-[0.88rem] leading-relaxed text-ink/76 shadow-[0_10px_28px_rgba(36,31,27,0.04)] sm:grid-cols-3 sm:items-center sm:px-6"
             aria-label="Informacje przed wysłaniem zapytania"
           >
             <p><span className="text-cognac" aria-hidden="true">—</span> Wycena bez zobowiązań</p>
@@ -208,15 +216,14 @@ export default function PricingPage() {
             </Link>
           </section>
 
-          <PricingAccordion items={[...pricingItems, documentPricingItem, printPricingItem]} />
-
           <section className="mt-10 border-t border-ink/12 pt-8">
             <h2 className="font-display text-[2.2rem] leading-none">FAQ</h2>
             <div className="mt-5 space-y-3">
               {pricingFaq.map((item) => (
-                <details key={item.question} className="border-b border-ink/12 py-4">
-                  <summary className="flex min-h-11 cursor-pointer items-center text-[0.96rem] leading-relaxed text-ink">
-                    {item.question}
+                <details key={item.question} className="group border-b border-ink/12 py-4">
+                  <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-[0.96rem] leading-relaxed text-ink marker:hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cognac">
+                    <span>{item.question}</span>
+                    <span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/18 text-xl leading-none text-cognac transition-transform group-open:rotate-45">+</span>
                   </summary>
                   <p className="mt-3 max-w-[70ch] text-[0.94rem] leading-relaxed text-ink/76">{item.answer}</p>
                 </details>

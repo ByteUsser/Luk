@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "gallery:build": "node scripts/build-gallery.mjs",
     "gallery:check": "node scripts/check-gallery-resolution.mjs",
     "video:build": "node scripts/build-video.mjs",

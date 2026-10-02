@@ -56,7 +56,6 @@ body::before {
   opacity: 0.035;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
-  animation: grain-shift 9s steps(10) infinite;
 }
 
 body::after {
@@ -68,30 +67,26 @@ body::after {
   background: linear-gradient(135deg, rgba(111, 118, 96, 0.08), transparent 34%, rgba(138, 98, 69, 0.08));
 }
 
-body[data-mobile-menu-open="true"] [data-mobile-sticky-cta] {
+body[data-mobile-menu-open="true"] [data-mobile-sticky-cta],
+body[data-wedding-story-visible] [data-mobile-sticky-cta],
+body.yarl__no_scroll [data-mobile-sticky-cta] {
   pointer-events: none;
   opacity: 0;
   transform: translateY(0.75rem);
 }
 
-@keyframes grain-shift {
-  0% {
-    transform: translate(0, 0);
+.story-caption {
+  animation: story-caption-in 480ms var(--ease-editorial) both;
+}
+
+@keyframes story-caption-in {
+  from {
+    opacity: 0.45;
+    transform: translateY(12px);
   }
-  20% {
-    transform: translate(-2%, 1%);
-  }
-  40% {
-    transform: translate(1%, -2%);
-  }
-  60% {
-    transform: translate(-1%, 2%);
-  }
-  80% {
-    transform: translate(2%, -1%);
-  }
-  100% {
-    transform: translate(0, 0);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -200,10 +195,10 @@ select {
 .type-meta {
   font-family: var(--font-jost), sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.72rem;
+  letter-spacing: 0.105em;
+  font-size: 0.76rem;
   line-height: 1.25;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .hero-title,
@@ -712,12 +707,24 @@ select {
     scroll-behavior: auto;
   }
 
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  .story-caption {
+    animation: none;
+  }
+
+  .pricing-details-content,
+  [data-mobile-menu-panel] {
+    transition: none !important;
+  }
+
+  [data-mobile-sticky-cta] {
+    transition: opacity 150ms ease;
+    transform: none !important;
+  }
+
+  [class*="group-hover:scale"],
+  [class*="group-hover:translate"],
+  [class*="active:scale"] {
+    transform: none !important;
   }
 }
 

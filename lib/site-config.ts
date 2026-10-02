@@ -3,12 +3,12 @@ export const SITE_CONFIG = {
   owner: "Janiczek Łukasz",
   domain: "janiczekfoto.pl",
   url: "https://janiczekfoto.pl",
-  updatedAt: "2026-08-12",
   city: "Bochnia",
   email: "janiczek.office@gmail.com",
   phone: "+48733416675",
   phoneDisplay: "733 416 675",
-  ogImage: "/og/cover-final-1200x630.jpg",
+  ogImage: "/og/wedding-reportage-1200x630.jpg",
+  ogImageAlt: "Para młoda na tle morza o zachodzie słońca - Janiczek Foto",
   social: {
     instagram: "https://www.instagram.com/janiczekfoto/",
     facebook: "https://www.facebook.com/profile.php?id=61586472251565"

@@ -27,6 +27,18 @@ na stronie jako samodzielny plik audio.
 - Na karcie utworu nie było oznaczenia `Content ID Registered` w dniu
   weryfikacji.
 
+## Film „Sesja ślubna na Santorini”
+
+- Utwór: `Mirrors`
+- Autor: `A Person Unknown`
+- Źródło: Biblioteka audio YouTube — <https://www.youtube.com/audiolibrary>
+- Pobrany plik: `Mirrors - A Person Unknown.mp3`
+- SHA-256: `8fb6794990b5abc84950361a9083c62f7d6a98dc61503f28684c2b962546eeeb`
+- Użyty fragment: od 0:00 do 0:50,618.
+- Plik został pobrany 26 września 2026 r. Typ licencji i ewentualny wymóg
+  przypisania należy zachować zgodnie z informacją widoczną przy utworze w
+  Bibliotece audio YouTube.
+
 ## Warunki
 
 - Podsumowanie licencji: <https://pixabay.com/service/license-summary/>

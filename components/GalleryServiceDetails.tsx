@@ -11,7 +11,7 @@ export function GalleryServiceDetails({ content }: GalleryServiceDetailsProps) {
     <section className="mx-auto mt-12 max-w-[1280px] border-t border-ink/12 pt-9" aria-labelledby="service-details-heading">
       <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
         <div>
-          <p className="eyebrow text-cognac">Przed sesją</p>
+          <p className="eyebrow text-cognac">{content.eyebrow ?? "Przed zdjęciami"}</p>
           <h2 id="service-details-heading" className="type-section mt-3 max-w-[16ch]">
             {content.heading}
           </h2>
@@ -30,7 +30,7 @@ export function GalleryServiceDetails({ content }: GalleryServiceDetailsProps) {
 
       <details className="group mt-5 rounded-[1rem] border border-ink/10 bg-surface px-5 md:px-6">
         <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-5 py-4 [&::-webkit-details-marker]:hidden">
-          <span className="type-card">Jak wygląda sesja?</span>
+          <span className="type-card">Jak wygląda współpraca?</span>
           <span className="text-[1.2rem] leading-none text-cognac transition group-open:rotate-45" aria-hidden="true">+</span>
         </summary>
         <div className="border-t border-ink/10 pb-6 pt-5">
@@ -50,7 +50,7 @@ export function GalleryServiceDetails({ content }: GalleryServiceDetailsProps) {
 
       <div className="flex flex-col gap-4 pt-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="type-body max-w-[48ch] text-ink/64">
-          Masz już pomysł? Napisz, a dopasujemy miejsce i termin.
+          {content.ctaText ?? "Masz już pomysł? Napisz, a dopasujemy miejsce i termin."}
         </p>
         <div className="flex flex-wrap gap-3 sm:justify-end">
           <Link

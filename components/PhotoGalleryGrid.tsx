@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
 import { useMemo, useRef, useState } from "react";
 import { MotionReveal } from "@/components/MotionReveal";
 import { PhotoLightbox, preparePhotoLightbox } from "@/components/PhotoLightbox";
@@ -24,6 +23,29 @@ type PhotoGalleryGridProps = {
   availableCategories?: GalleryCategory[];
 };
 
+const INITIAL_GALLERY_SIZE = 24;
+const LIGHTBOX_WIDTHS = [640, 1080, 1280, 1920] as const;
+
+function optimizedLightboxSrc(src: string, width: number) {
+  return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=82`;
+}
+
+function buildLightboxSlide(item: PhotoGalleryItem) {
+  const source = item.fullSrc || item.src;
+
+  return {
+    src: optimizedLightboxSrc(source, LIGHTBOX_WIDTHS.at(-1)!),
+    alt: item.alt,
+    width: item.width,
+    height: item.height,
+    srcSet: LIGHTBOX_WIDTHS.map((width) => ({
+      src: optimizedLightboxSrc(source, width),
+      width,
+      height: Math.round((width * item.height) / item.width)
+    }))
+  };
+}
+
 export function PhotoGalleryGrid({
   items,
   activeCategory,
@@ -35,21 +57,17 @@ export function PhotoGalleryGrid({
   availableCategories
 }: PhotoGalleryGridProps) {
   const [lightboxIndex, setLightboxIndex] = useState(-1);
+  const [showAll, setShowAll] = useState(false);
   const lightboxTriggerRef = useRef<HTMLButtonElement | null>(null);
-  const reduceMotion = useReducedMotion();
+
+  const hasMoreItems = items.length > INITIAL_GALLERY_SIZE;
+  const visibleItems = showAll || !hasMoreItems ? items : items.slice(0, INITIAL_GALLERY_SIZE);
 
   const slides = useMemo(
-    () =>
-      items.map((item) => ({
-        src: item.fullSrc || item.src,
-        alt: item.alt,
-        width: item.width,
-        height: item.height
-      })),
+    () => items.map(buildLightboxSlide),
     [items]
   );
 
-  const visibleItems = items;
   const categorySet = new Set<GalleryCategory>(availableCategories || items.map((item) => item.category));
   if (activeCategory) {
     categorySet.add(activeCategory);
@@ -67,11 +85,8 @@ export function PhotoGalleryGrid({
 
   return (
     <section className="mx-auto max-w-[1500px]">
-      <motion.div
+      <div
         className="flex flex-col gap-6 border-b border-ink/12 pb-8 sm:flex-row sm:items-end sm:justify-between"
-        initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
       >
         <div>
           <p className="eyebrow text-cognac">{eyebrow}</p>
@@ -96,7 +111,7 @@ export function PhotoGalleryGrid({
             Zapytaj o termin
           </Link>
         </div>
-      </motion.div>
+      </div>
 
       <nav className="mt-5 border-b border-ink/12 pb-5" aria-label="Kategorie portfolio">
         <div className="flex items-center justify-between gap-4">
@@ -106,10 +121,10 @@ export function PhotoGalleryGrid({
           <Link
             href="/galeria-zdjec"
             aria-current={activeCategory ? undefined : "page"}
-            className={`type-action inline-flex min-h-11 items-center border-b transition ${
+            className={`type-action inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full border px-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cognac ${
               activeCategory
-                ? "border-transparent text-ink/62 hover:border-sage hover:text-sageDark"
-                : "border-cognac text-cognac"
+                ? "border-cognac bg-cognac/10 text-espresso hover:bg-cognac hover:text-cream"
+                : "border-espresso bg-espresso text-cream"
             }`}
           >
             Całe portfolio
@@ -142,7 +157,7 @@ export function PhotoGalleryGrid({
 
         {personalCategories.length > 0 ? (
           <div className="mt-4 border-t border-ink/10 pt-4">
-            <p id="portfolio-personal-label" className="type-meta text-ink/48">
+            <p id="portfolio-personal-label" className="type-meta text-ink/68">
               Projekty własne
             </p>
             <div
@@ -160,7 +175,7 @@ export function PhotoGalleryGrid({
                     className={`type-action inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full border px-4 transition ${
                       isActive
                         ? "border-espresso bg-espresso text-cream"
-                        : "border-ink/12 bg-surface/55 text-ink/58 hover:border-sage hover:text-sageDark"
+                        : "border-ink/12 bg-surface/55 text-ink/68 hover:border-sage hover:text-sageDark"
                     }`}
                   >
                     {category.label}
@@ -172,18 +187,18 @@ export function PhotoGalleryGrid({
         ) : null}
       </nav>
 
-      <div className="mt-8 grid grid-cols-2 gap-2 sm:gap-4 lg:block lg:columns-3 2xl:columns-4">
+      <div className="mt-8 columns-1 gap-4 sm:columns-2 lg:columns-3 2xl:columns-4">
         {visibleItems.map((item, globalIndex) => {
-          const isInitialMobileRow = globalIndex < 2;
+          const isPrimaryImage = globalIndex === 0;
 
           return (
             <article
               key={`${item.src}-${item.category}`}
-              className="min-w-0 lg:mb-4 lg:break-inside-avoid"
+              className="mb-4 min-w-0 break-inside-avoid"
             >
               <button
                 type="button"
-                aria-label={`Otwórz zdjęcie: ${item.alt}`}
+                aria-label={`Otwórz zdjęcie ${globalIndex + 1} z ${items.length}: ${item.alt}`}
                 className="group block w-full overflow-hidden rounded-xl bg-sand shadow-[0_12px_30px_rgba(42,36,32,0.08)] transition-transform active:scale-[0.985] sm:rounded-[1.1rem]"
                 onClick={(event) => {
                   lightboxTriggerRef.current = event.currentTarget;
@@ -191,26 +206,40 @@ export function PhotoGalleryGrid({
                   setLightboxIndex(globalIndex);
                 }}
               >
-                <span className="relative block aspect-[4/5] overflow-hidden lg:aspect-auto">
+                <span className="relative block overflow-hidden">
                   <Image
                     src={item.src}
                     alt={item.alt}
                     width={item.width}
                     height={item.height}
-                    sizes="(max-width: 640px) 46vw, (max-width: 1024px) 46vw, (max-width: 1536px) 31vw, 23vw"
-                    loading={isInitialMobileRow ? "eager" : "lazy"}
-                    fetchPriority={isInitialMobileRow ? "high" : "auto"}
+                    sizes="(max-width: 639px) 100vw, (max-width: 1023px) 46vw, (max-width: 1535px) 31vw, 23vw"
+                    loading={isPrimaryImage ? "eager" : "lazy"}
+                    fetchPriority={isPrimaryImage ? "high" : "auto"}
                     decoding="async"
                     quality={82}
-                    className="h-full w-full object-cover transition duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[1.025] group-hover:saturate-[1.04] lg:h-auto"
+                    placeholder={item.blurDataURL ? "blur" : "empty"}
+                    blurDataURL={item.blurDataURL}
+                    className="h-auto w-full object-cover transition duration-[900ms] ease-[var(--ease-editorial)] group-hover:scale-[1.025] group-hover:saturate-[1.04]"
                   />
-                  <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-espresso/44 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-espresso/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 </span>
               </button>
             </article>
           );
         })}
       </div>
+
+      {hasMoreItems && !showAll ? (
+        <div className="mt-7 flex justify-center">
+          <button
+            type="button"
+            className="type-action button-outline min-h-12 justify-center px-6"
+            onClick={() => setShowAll(true)}
+          >
+            Pokaż wszystkie zdjęcia ({items.length})
+          </button>
+        </div>
+      ) : null}
 
       {items.length === 0 ? (
         <div className="mt-8 rounded-[1.2rem] border border-ink/12 bg-surface p-6 md:p-8">

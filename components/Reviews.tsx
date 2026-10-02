@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
 import { SITE_CONFIG } from "@/lib/site-config";
 
 const reviews = [
@@ -23,17 +22,10 @@ const reviews = [
 ] as const;
 
 export function Reviews() {
-  const reduceMotion = useReducedMotion();
-
   return (
     <section className="bg-sand/45 px-5 py-16 md:px-10 md:py-20" aria-labelledby="reviews-heading">
       <div className="mx-auto grid max-w-[1180px] gap-7 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.68, ease: [0.22, 1, 0.36, 1] }}
-        >
+        <div>
           <h2 id="reviews-heading" className="type-section mt-4 max-w-[10ch]">
             Wasze opinie
           </h2>
@@ -49,15 +41,9 @@ export function Reviews() {
           >
             Wszystkie opinie <span className="ml-2" aria-hidden="true">→</span>
           </Link>
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="grid gap-3 sm:grid-cols-3"
-          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.22 }}
-          transition={{ duration: 0.68, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-        >
+        <div className="grid gap-3 sm:grid-cols-3">
           {reviews.map((review) => (
             <figure key={review.name} className="flex min-h-[225px] flex-col rounded-[1.1rem] border border-ink/12 bg-surface p-5 shadow-[0_14px_34px_rgba(36,31,27,0.07)]">
               <div className="flex items-center justify-between gap-4">
@@ -72,7 +58,7 @@ export function Reviews() {
               </figcaption>
             </figure>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

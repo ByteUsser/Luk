@@ -32,12 +32,12 @@ export const GALLERY_CATEGORY_DEFINITIONS = [
     label: "Śluby",
     slug: "sluby",
     eyebrow: "Reportaż pełen emocji",
-    heading: "Śluby",
+    heading: "Fotograf ślubny w Bochni",
     portfolioGroup: "services",
     metaTitle: "Fotograf ślubny Bochnia",
     description:
       "Reportaże ślubne w Bochni i okolicy — od przygotowań po parkiet, z uwagą na ludzi, światło i momenty, których nie da się powtórzyć.",
-    intro: "Naturalny reportaż ślubny — ważne momenty, bliscy i atmosfera całego dnia.",
+    intro: "Zobacz pełny reportaż ślubny: przygotowania, ceremonię, bliskich i atmosferę przyjęcia. Fotografuję śluby w Bochni i okolicy.",
     emptyMessage:
       "Ta część portfolio czeka na pierwszą publikację. Zdjęcia przypisane w Sanity do kategorii Śluby pojawią się tutaj automatycznie."
   },
@@ -45,13 +45,13 @@ export const GALLERY_CATEGORY_DEFINITIONS = [
     name: "Uroczystości",
     label: "Uroczystości",
     slug: "uroczystosci",
-    eyebrow: "Ślub, chrzest i komunia",
+    eyebrow: "Chrzest, komunia i rodzina",
     heading: "Uroczystości",
     portfolioGroup: "services",
-    metaTitle: "Fotografia uroczystości Bochnia",
+    metaTitle: "Fotograf na chrzest i komunię Bochnia",
     description:
-      "Śluby, chrzty, komunie i rodzinne uroczystości w Bochni i okolicy — ceremonia, bliscy oraz detale, które tworzą pełną historię dnia.",
-    intro: "Śluby, chrzty, komunie i rodzinne uroczystości fotografowane naturalnie w Bochni i okolicy.",
+      "Chrzty, komunie i rodzinne uroczystości w Bochni i okolicy - ceremonia, bliscy oraz detale, które tworzą pełną historię dnia.",
+    intro: "Chrzty, komunie i rodzinne uroczystości fotografowane naturalnie w Bochni i okolicy.",
     emptyMessage:
       "Ta część portfolio czeka na pierwszą publikację. Zdjęcia przypisane w Sanity do kategorii Uroczystości pojawią się tutaj automatycznie."
   },

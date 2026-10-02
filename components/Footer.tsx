@@ -70,7 +70,7 @@ export function Footer() {
           ))}
         </nav>
 
-        <div className="type-body mt-4 flex flex-col border-t border-ink/10 pt-3 text-ink/48 sm:mt-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="type-body mt-4 flex flex-col border-t border-ink/10 pt-3 text-ink/68 sm:mt-5 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} {SITE_CONFIG.name}. Wszelkie prawa zastrzeżone.
           </p>
