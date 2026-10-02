@@ -167,10 +167,7 @@ function VideoCard({
       />
       <span className="absolute inset-0 bg-gradient-to-t from-espresso/82 via-espresso/5 to-espresso/12" />
       <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 text-cream sm:p-5 md:p-6">
-        <span>
-          <span className="type-meta block text-cream/72">{item.label}</span>
-          <span className="type-card mt-1.5 block text-cream">{item.title}</span>
-        </span>
+        <span className="type-card block text-cream">{item.title}</span>
         <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-cream/48 bg-cream/14 text-cream backdrop-blur-sm transition duration-500 group-hover:scale-105 group-hover:bg-cream group-hover:text-espresso">
           <PlayIcon />
         </span>
