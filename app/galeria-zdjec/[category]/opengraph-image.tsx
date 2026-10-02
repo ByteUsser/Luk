@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { notFound } from "next/navigation";
-import { findGalleryCategoryBySlug } from "@/lib/gallery-categories";
+import { findGalleryCategoryBySlug, type GalleryCategorySlug } from "@/lib/gallery-categories";
 import { GALLERY_SOCIAL_IMAGES } from "@/lib/gallery-social-images";
 
 export const runtime = "nodejs";
@@ -12,13 +12,33 @@ export const alt = "Zdjęcie z portfolio Janiczek Foto";
 
 type Props = { params: Promise<{ category: string }> };
 
+// Keep file paths literal so Vercel bundles only these images, not the entire gallery.
+function readSocialPhoto(category: GalleryCategorySlug) {
+  switch (category) {
+    case "portrety":
+      return readFile(join(process.cwd(), "public", "portfolio", "gallery", "001-wiosenny-portret.jpg"));
+    case "sesje-dla-par":
+      return readFile(join(process.cwd(), "public", "portfolio", "gallery", "051-bliskosc-w-lawendzie.jpg"));
+    case "sluby":
+      return readFile(join(process.cwd(), "public", "og", "wedding-reportage-1200x630.jpg"));
+    case "uroczystosci":
+      return readFile(join(process.cwd(), "public", "og", "cover-1200x630.jpg"));
+    case "eventy":
+      return readFile(join(process.cwd(), "public", "portfolio", "gallery", "003-parkiet-i-energia.jpg"));
+    case "motoryzacja":
+      return readFile(join(process.cwd(), "public", "portfolio", "gallery", "009-samochod-przed-domem.jpg"));
+    case "podroze":
+      return readFile(join(process.cwd(), "public", "portfolio", "gallery", "005-nadmorski-widok.jpg"));
+  }
+}
+
 export default async function Image({ params }: Props) {
   const { category } = await params;
   const categoryDefinition = findGalleryCategoryBySlug(category);
   if (!categoryDefinition) notFound();
 
   const config = GALLERY_SOCIAL_IMAGES[categoryDefinition.slug];
-  const photoData = await readFile(join(process.cwd(), "public", config.photo));
+  const photoData = await readSocialPhoto(categoryDefinition.slug);
   const photoSrc = `data:image/jpeg;base64,${photoData.toString("base64")}`;
   const logoData = config.branded
     ? null
