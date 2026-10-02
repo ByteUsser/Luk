@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { PhotoGalleryItem } from "@/lib/gallery";
+import { PhotoGalleryGrid } from "@/components/PhotoGalleryGrid";
 import {
   GALLERY_CATEGORY_DEFINITIONS,
   galleryCategoryHref
@@ -23,6 +24,33 @@ function findCategoryCover(items: PhotoGalleryItem[], category: PhotoGalleryItem
   );
 }
 
+const overviewCategoryOrder: PhotoGalleryItem["category"][] = [
+  "Śluby",
+  "Portrety",
+  "Sesje dla par",
+  "Uroczystości",
+  "Eventy",
+  "Motoryzacja",
+  "Podróże"
+];
+
+function interleaveCategories(items: PhotoGalleryItem[]) {
+  const groups = overviewCategoryOrder.map((category) =>
+    items.filter((item) => item.category === category)
+  );
+  const result: PhotoGalleryItem[] = [];
+
+  const maxGroupLength = Math.max(0, ...groups.map((group) => group.length));
+  for (let index = 0; index < maxGroupLength; index++) {
+    for (const group of groups) {
+      if (group[index]) result.push(group[index]);
+    }
+  }
+
+  const included = new Set(result);
+  return [...result, ...items.filter((item) => !included.has(item))];
+}
+
 export function PortfolioNavigator({ items }: PortfolioNavigatorProps) {
   const serviceCategories = GALLERY_CATEGORY_DEFINITIONS.filter(
     (category) => category.portfolioGroup === "services"
@@ -32,30 +60,28 @@ export function PortfolioNavigator({ items }: PortfolioNavigatorProps) {
       category.portfolioGroup === "personal" &&
       items.some((item) => item.category === category.name)
   );
+  const overviewItems = interleaveCategories(items);
 
   return (
     <section className="mx-auto max-w-[1500px]" aria-labelledby="portfolio-heading">
-      <header className="max-w-[42rem] border-b border-ink/10 pb-8">
-        <h1 id="portfolio-heading" className="section-title">
-          Portfolio
-        </h1>
-        <p className="type-body mt-5 text-ink/75">
-          Wybierz rodzaj zdjęć, który chcesz obejrzeć.
-        </p>
-      </header>
-
-      <nav className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-1 lg:hidden" aria-label="Szybki wybór portfolio">
-        <span className="type-meta basis-full text-cognac sm:basis-auto">Od razu zobacz</span>
-        {serviceCategories.map((category) => (
-          <Link
-            key={category.slug}
-            href={galleryCategoryHref(category.slug)}
-            className="type-action inline-flex min-h-11 items-center border-b border-ink/30 text-ink transition-colors hover:border-cognac hover:text-cognac focus-visible:outline-2 focus-visible:outline-offset-2"
+      <header className="flex flex-col gap-6 border-b border-ink/10 pb-8 sm:flex-row sm:items-end sm:justify-between">
+        <div className="max-w-[42rem]">
+          <h1 id="portfolio-heading" className="section-title">
+            Portfolio
+          </h1>
+          <p className="type-body mt-5 text-ink/75">
+            Wybierz kategorię albo obejrzyj wszystkie zdjęcia.
+          </p>
+        </div>
+        {items.length > 0 ? (
+          <a
+            href="#wszystkie-zdjecia"
+            className="type-action button-primary min-h-12 w-full justify-center px-6 sm:w-auto"
           >
-            {category.label}
-          </Link>
-        ))}
-      </nav>
+            Przeglądaj wszystkie zdjęcia
+          </a>
+        ) : null}
+      </header>
 
       <div className="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-4">
         {serviceCategories.map((category, index) => {
@@ -133,6 +159,10 @@ export function PortfolioNavigator({ items }: PortfolioNavigatorProps) {
             })}
           </div>
         </nav>
+      ) : null}
+
+      {overviewItems.length > 0 ? (
+        <PhotoGalleryGrid items={overviewItems} presentation="overview" />
       ) : null}
     </section>
   );

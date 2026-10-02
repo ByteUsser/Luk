@@ -21,9 +21,12 @@ type PhotoGalleryGridProps = {
   emptyMessage?: string;
   contactSource?: string;
   availableCategories?: GalleryCategory[];
+  presentation?: "category" | "overview";
 };
 
 const INITIAL_GALLERY_SIZE = 24;
+const INITIAL_OVERVIEW_SIZE = 12;
+const OVERVIEW_BATCH_SIZE = 24;
 const LIGHTBOX_WIDTHS = [640, 1080, 1280, 1920] as const;
 
 function optimizedLightboxSrc(src: string, width: number) {
@@ -54,14 +57,18 @@ export function PhotoGalleryGrid({
   description,
   emptyMessage = "Ta część portfolio czeka na pierwsze zdjęcia.",
   contactSource = "galeria",
-  availableCategories
+  availableCategories,
+  presentation = "category"
 }: PhotoGalleryGridProps) {
+  const isOverview = presentation === "overview";
   const [lightboxIndex, setLightboxIndex] = useState(-1);
-  const [showAll, setShowAll] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(
+    isOverview ? INITIAL_OVERVIEW_SIZE : INITIAL_GALLERY_SIZE
+  );
   const lightboxTriggerRef = useRef<HTMLButtonElement | null>(null);
 
-  const hasMoreItems = items.length > INITIAL_GALLERY_SIZE;
-  const visibleItems = showAll || !hasMoreItems ? items : items.slice(0, INITIAL_GALLERY_SIZE);
+  const hasMoreItems = items.length > visibleCount;
+  const visibleItems = hasMoreItems ? items.slice(0, visibleCount) : items;
 
   const slides = useMemo(
     () => items.map(buildLightboxSlide),
@@ -84,7 +91,22 @@ export function PhotoGalleryGrid({
   );
 
   return (
-    <section className="mx-auto max-w-[1500px]">
+    <section
+      id={isOverview ? "wszystkie-zdjecia" : undefined}
+      aria-labelledby={isOverview ? "wszystkie-zdjecia-heading" : undefined}
+      className={`mx-auto max-w-[1500px] ${isOverview ? "scroll-mt-28 border-t border-ink/10 pt-12 md:pt-16" : ""}`}
+    >
+      {isOverview ? (
+        <div className="max-w-[42rem]">
+          <h2 id="wszystkie-zdjecia-heading" className="section-title">
+            Wszystkie zdjęcia
+          </h2>
+          <p className="type-body mt-5 text-ink/75">
+            Różne historie w jednym miejscu. Otwórz zdjęcie, by zobaczyć je w całości.
+          </p>
+        </div>
+      ) : (
+        <>
       <div
         className="flex flex-col gap-6 border-b border-ink/12 pb-8 sm:flex-row sm:items-end sm:justify-between"
       >
@@ -186,10 +208,12 @@ export function PhotoGalleryGrid({
           </div>
         ) : null}
       </nav>
+        </>
+      )}
 
       <div className="mt-8 columns-1 gap-4 sm:columns-2 lg:columns-3 2xl:columns-4">
         {visibleItems.map((item, globalIndex) => {
-          const isPrimaryImage = globalIndex === 0;
+          const isPrimaryImage = !isOverview && globalIndex === 0;
 
           return (
             <article
@@ -229,14 +253,23 @@ export function PhotoGalleryGrid({
         })}
       </div>
 
-      {hasMoreItems && !showAll ? (
-        <div className="mt-7 flex justify-center">
+      {hasMoreItems ? (
+        <div className="mt-7 flex flex-col items-center gap-3">
+          {isOverview ? (
+            <p className="type-meta text-ink/70" aria-live="polite">
+              Pokazano {visibleItems.length} z {items.length} zdjęć
+            </p>
+          ) : null}
           <button
             type="button"
             className="type-action button-outline min-h-12 justify-center px-6"
-            onClick={() => setShowAll(true)}
+            onClick={() =>
+              setVisibleCount((current) =>
+                isOverview ? Math.min(items.length, current + OVERVIEW_BATCH_SIZE) : items.length
+              )
+            }
           >
-            Pokaż wszystkie zdjęcia ({items.length})
+            {isOverview ? "Pokaż kolejne zdjęcia" : `Pokaż wszystkie zdjęcia (${items.length})`}
           </button>
         </div>
       ) : null}
@@ -250,6 +283,7 @@ export function PhotoGalleryGrid({
         </div>
       ) : null}
 
+      {!isOverview ? (
       <MotionReveal className="mt-12">
         <div className="rounded-[1.15rem] bg-espresso px-5 py-8 text-cream md:flex md:items-center md:justify-between md:gap-8 md:px-8">
           <div>
@@ -272,6 +306,7 @@ export function PhotoGalleryGrid({
           </div>
         </div>
       </MotionReveal>
+      ) : null}
 
       <PhotoLightbox
         slides={slides}
