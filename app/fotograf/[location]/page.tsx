@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PublicPageShell } from "@/components/PublicPageShell";
+import { BochniaOffer } from "@/components/BochniaOffer";
 import { cloudinaryAsset } from "@/lib/cloudinary";
 import { buildContactHref } from "@/lib/contact-prefill";
 import { LOCATION_LANDINGS, findLocationBySlug, isSearchIndexableLocation } from "@/lib/location-pages";
@@ -214,6 +215,8 @@ export default async function PhotographerLocationPage({ params }: LocationPageP
               </div>
             ))}
           </section>
+
+          {location.slug === "bochnia" ? <BochniaOffer /> : null}
 
           <section className="space-y-4">
             <h2 className="font-display text-[2rem] leading-none">Inne lokalizacje</h2>

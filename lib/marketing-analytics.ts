@@ -2,9 +2,10 @@
 
 import { track } from "@vercel/analytics";
 
-type MarketingEvent =
+export type MarketingEvent =
   | "click_contact"
   | "click_gallery"
+  | "click_pricing"
   | "form_start"
   | "form_submit_success"
   | "google_reviews_click"
