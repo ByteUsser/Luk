@@ -4,6 +4,30 @@ Konwersją jest prawdziwe zapytanie otrzymane z formularza. Vercel Web Analytics
 służy do oceny ruchu i zachowania na stronach; płatne Custom Events nie są
 wymagane.
 
+## Zdarzenia po poprawce pomiaru z 13 października 2026
+
+Status: kod przygotowany lokalnie; publikacja i odbiór zdarzeń w panelu nie
+zostały jeszcze potwierdzone. Dostępność Custom Events zależy od planu Vercel.
+Nie należy kupować płatnego planu tylko dla tych zdarzeń.
+
+- `click_gallery`: wejścia do całej galerii oraz galerii poszczególnych usług;
+  wcześniej klasyfikator pomijał linki np. do `/galeria-zdjec/sluby`.
+- `click_pricing`: kliknięcia do `/cennik`.
+- `click_contact`: przejścia do kontaktu oraz sekcji kontaktowej strony głównej.
+- `phone_click`: kliknięcie numeru; nie jest potwierdzoną rozmową ani zleceniem.
+- `form_submit_success`: istniejące zdarzenie po poprawnej odpowiedzi formularza;
+  kwalifikację rzeczywistego zapytania trzeba potwierdzić w skrzynce.
+
+Zdarzenia linków zawierają ścieżkę strony (`path`), a dla wewnętrznych przejść
+także docelową ścieżkę (`destination`). Nie zawierają parametrów URL, numerów
+telefonów ani treści formularzy. Linki zewnętrzne nie są liczone jako przejścia
+do oferty tylko dlatego, że mają podobną ścieżkę.
+
+Przy porównaniach oznaczyć dzień publikacji poprawki: szersze liczenie galerii
+może zwiększyć liczbę zdarzeń bez rzeczywistego wzrostu ruchu. Nie porównywać
+tych liczb wprost ze starym zakresem pomiaru. Jeśli panel nie udostępnia
+zdarzeń, podstawą pozostają odsłony stron i rzeczywiste wiadomości `[LEAD]`.
+
 ## Stałe linki
 
 Używaj wyłącznie domeny produkcyjnej. Dzięki temu ruch z podglądów Vercela nie
